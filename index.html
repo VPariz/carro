@@ -3,16 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Catálogo & Simulador Automotivo RJ | Garagem Apertada, Híbridos & Uber Black 2027+</title>
+  <title>Catálogo & Simulador Automotivo RJ 2027 | Garagem 3D, Híbridos & Uber Black</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220%22%3E<text y=%2226%22 font-size=%2224%22>🚗</text></svg>">
   <style>
     :root {
-      --bg: #0b1120;
-      --card-bg: #152033;
-      --card-inner: #1c2b44;
-      --border: #283a58;
+      --bg: #080c16;
+      --card-bg: #111827;
+      --card-inner: #1a2438;
+      --border: #24324a;
+      --border-focus: #38bdf8;
       --text: #f1f5f9;
       --text-muted: #94a3b8;
+      --text-dim: #64748b;
       --accent: #38bdf8;
       --accent-hover: #0284c7;
       --green: #22c55e;
@@ -30,95 +32,131 @@
       -webkit-tap-highlight-color: transparent;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       background-color: var(--bg);
       color: var(--text);
       line-height: 1.5;
-      padding: 16px;
+      padding: 0;
+      margin: 0;
       transition: all 0.3s ease;
     }
 
     /* MODO EMULAÇÃO CELULAR (quando ativado no computador) */
     body.mobile-simulation-mode {
-      background-color: #030712;
+      background-color: #02040a;
       display: flex;
       justify-content: center;
-      padding: 20px 10px;
+      padding: 24px 10px;
     }
 
-    body.mobile-simulation-mode .container {
+    body.mobile-simulation-mode .page-wrapper {
       max-width: 430px;
       width: 100%;
       border: 3px solid #334155;
       border-radius: 36px;
-      padding: 18px 14px;
+      padding: 16px 14px 70px;
       background: var(--bg);
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.05);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255, 255, 255, 0.05);
       position: relative;
     }
 
-    .container {
-      max-width: 1320px;
-      margin: 0 auto;
+    body.mobile-simulation-mode .sticky-desktop-nav,
+    body.mobile-simulation-mode .desktop-dock {
+      display: none !important;
     }
 
-    /* BARRA SUPERIOR DE MODOS E COMPARTILHAMENTO */
-    .top-control-bar {
+    .page-wrapper {
+      max-width: 1380px;
+      margin: 0 auto;
+      padding: 0 20px 80px;
+    }
+
+    /* NAVBAR FIXA FLUTUANTE DE DESKTOP */
+    .sticky-desktop-nav {
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      background: rgba(8, 12, 22, 0.88);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 20px;
+      margin-bottom: 24px;
+    }
+
+    .nav-inner {
+      max-width: 1380px;
+      margin: 0 auto;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 16px;
       flex-wrap: wrap;
-      gap: 12px;
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 10px 16px;
-      margin-bottom: 20px;
     }
 
-    .device-switcher {
-      display: inline-flex;
-      background: rgba(15, 23, 42, 0.8);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 3px;
-      gap: 4px;
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: #fff;
     }
 
-    .switch-btn {
+    .nav-brand .badge-city {
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      font-size: 0.72rem;
+      padding: 2px 8px;
+      border-radius: 999px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .nav-tab-btn {
       background: transparent;
-      border: none;
+      border: 1px solid transparent;
       color: var(--text-muted);
-      padding: 6px 14px;
-      border-radius: 7px;
-      font-size: 0.82rem;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 0.8rem;
       font-weight: 600;
       cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      transition: all 0.2s;
+      gap: 5px;
     }
 
-    .switch-btn.active {
-      background: var(--accent);
-      color: #0f172a;
-      box-shadow: 0 2px 8px rgba(56, 189, 248, 0.35);
+    .nav-tab-btn:hover, .nav-tab-btn.active {
+      background: var(--card-inner);
+      color: #fff;
+      border-color: var(--border);
     }
 
-    .top-actions {
+    .nav-actions {
       display: flex;
       gap: 8px;
-      flex-wrap: wrap;
+      align-items: center;
     }
 
     .btn-action {
       background: rgba(56, 189, 248, 0.12);
       border: 1px solid var(--accent);
       color: #fff;
-      padding: 7px 13px;
+      padding: 6px 12px;
       border-radius: 8px;
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       font-weight: 600;
       cursor: pointer;
       display: inline-flex;
@@ -129,7 +167,7 @@
 
     .btn-action:hover {
       background: var(--accent);
-      color: #0f172a;
+      color: #080c16;
     }
 
     .btn-action.green {
@@ -140,114 +178,210 @@
 
     .btn-action.green:hover {
       background: var(--green);
-      color: #0f172a;
+      color: #080c16;
     }
 
     .btn-action.excel {
-      background: rgba(16, 185, 129, 0.2);
+      background: rgba(16, 185, 129, 0.18);
       border-color: #10b981;
       color: #6ee7b7;
     }
 
-    /* HEADER */
-    header {
-      margin-bottom: 22px;
-      padding-bottom: 16px;
-      border-bottom: 1px solid var(--border);
+    .btn-action.excel:hover {
+      background: #10b981;
+      color: #080c16;
     }
 
-    h1 {
-      font-size: 1.65rem;
-      font-weight: 800;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .badge-rj {
-      background: rgba(56, 189, 248, 0.15);
-      color: var(--accent);
-      border: 1px solid var(--accent);
-      font-size: 0.76rem;
-      padding: 3px 10px;
-      border-radius: 999px;
-      font-weight: 600;
-    }
-
-    p.subtitle {
-      color: var(--text-muted);
-      font-size: 0.88rem;
-      margin-top: 6px;
-    }
-
-    /* BARRA DE FONTES */
-    .sources-bar {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 10px 14px;
-      margin-bottom: 22px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-      font-size: 0.8rem;
-    }
-
-    .sources-bar .lbl {
+    .btn-action.switcher {
+      background: rgba(148, 163, 184, 0.12);
+      border-color: #475569;
       color: #cbd5e1;
-      font-weight: 700;
     }
 
-    .source-link {
-      background: rgba(56, 189, 248, 0.08);
-      border: 1px solid rgba(56, 189, 248, 0.3);
-      color: var(--accent);
-      text-decoration: none;
-      padding: 4px 10px;
-      border-radius: 6px;
-      font-size: 0.76rem;
-      font-weight: 600;
-      transition: all 0.2s;
+    .btn-action.switcher:hover {
+      background: #475569;
+      color: #fff;
     }
 
-    .source-link:hover {
-      background: var(--accent);
-      color: #0f172a;
+    /* SEÇÕES PRINCIPAIS */
+    section {
+      margin-bottom: 34px;
     }
 
-    /* SEÇÕES E CARDS */
     .section-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 14px;
       flex-wrap: wrap;
-      gap: 10px;
+      gap: 12px;
     }
 
     .section-title {
-      font-size: 1.15rem;
-      font-weight: 700;
+      font-size: 1.25rem;
+      font-weight: 800;
       color: #fff;
       display: flex;
       align-items: center;
       gap: 8px;
     }
 
-    /* VITRINE DE CARROS (SHOWROOM COM FOTOS) */
-    .showroom-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 16px;
-      margin-bottom: 26px;
+    .section-subtitle {
+      color: var(--text-muted);
+      font-size: 0.84rem;
+      margin-top: 4px;
     }
 
-    .car-showroom-card {
+    /* BARRA DE CONTROLE DA VITRINE (PC & MOBILE) */
+    .showroom-control-bar {
       background: var(--card-bg);
-      border: 2px solid var(--border);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px 16px;
+      margin-bottom: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .control-row-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .filters-group {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .filter-chip {
+      background: var(--card-inner);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .filter-chip.active, .filter-chip:hover {
+      background: var(--accent);
+      color: #080c16;
+      border-color: var(--accent);
+    }
+
+    .btn-add-coringa {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.25), rgba(217, 119, 6, 0.25));
+      border: 1px solid var(--orange);
+      color: #fcd34d;
+      padding: 6px 13px;
+      border-radius: 8px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-add-coringa:hover {
+      background: var(--orange);
+      color: #080c16;
+    }
+
+    .control-row-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      padding-top: 10px;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .search-box-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-grow: 1;
+      max-width: 420px;
+    }
+
+    .search-input {
+      background: var(--card-inner);
+      border: 1px solid var(--border);
+      color: #fff;
+      padding: 7px 12px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      width: 100%;
+      outline: none;
+    }
+
+    .search-input:focus {
+      border-color: var(--accent);
+    }
+
+    .sort-and-view {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .sort-select {
+      background: var(--card-inner);
+      border: 1px solid var(--border);
+      color: #fff;
+      padding: 7px 10px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .view-toggle-group {
+      display: inline-flex;
+      background: var(--card-inner);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 2px;
+      gap: 2px;
+    }
+
+    .view-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .view-btn.active {
+      background: rgba(56, 189, 248, 0.2);
+      color: var(--accent);
+    }
+
+    /* GRID DE CARDS DA VITRINE */
+    .showroom-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 18px;
+    }
+
+    .car-card {
+      background: var(--card-bg);
+      border: 1.5px solid var(--border);
       border-radius: 16px;
       overflow: hidden;
       cursor: pointer;
@@ -257,23 +391,23 @@
       position: relative;
     }
 
-    .car-showroom-card:hover {
+    .car-card:hover {
       border-color: var(--accent);
       transform: translateY(-4px);
-      box-shadow: 0 14px 28px rgba(0, 0, 0, 0.45);
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.55), 0 0 20px rgba(56, 189, 248, 0.15);
     }
 
-    .car-showroom-card.active {
+    .car-card.active {
       border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.4), 0 10px 24px rgba(0, 0, 0, 0.5);
-      background: #172740;
+      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.4), 0 14px 28px rgba(0, 0, 0, 0.6);
+      background: #141e30;
     }
 
     .card-photo-wrapper {
       position: relative;
       width: 100%;
-      height: 165px;
-      background: #0f172a;
+      height: 175px;
+      background: #060911;
       overflow: hidden;
     }
 
@@ -284,8 +418,8 @@
       transition: transform 0.4s ease;
     }
 
-    .car-showroom-card:hover .card-photo-wrapper img {
-      transform: scale(1.05);
+    .car-card:hover .card-photo-wrapper img {
+      transform: scale(1.06);
     }
 
     .card-tag {
@@ -300,28 +434,18 @@
       letter-spacing: 0.03em;
     }
 
-    .tag-hybrid {
-      background: rgba(34, 197, 94, 0.9);
-      color: #0f172a;
-    }
-
-    .tag-flex {
-      background: rgba(56, 189, 248, 0.85);
-      color: #0f172a;
-    }
-
-    .tag-phev {
-      background: rgba(168, 85, 247, 0.9);
-      color: #fff;
-    }
+    .tag-hybrid { background: rgba(34, 197, 94, 0.9); color: #080c16; }
+    .tag-flex { background: rgba(56, 189, 248, 0.85); color: #080c16; }
+    .tag-phev { background: rgba(168, 85, 247, 0.9); color: #fff; }
+    .tag-coringa { background: linear-gradient(135deg, #f59e0b, #d97706); color: #000; font-weight: 800; }
 
     .card-brand-pill {
       position: absolute;
       bottom: 10px;
       left: 10px;
-      background: rgba(15, 23, 42, 0.85);
+      background: rgba(8, 12, 22, 0.88);
       color: #fff;
-      padding: 3px 8px;
+      padding: 3px 9px;
       border-radius: 6px;
       font-size: 0.72rem;
       font-weight: 700;
@@ -346,13 +470,13 @@
     }
 
     .car-card-name {
-      font-size: 0.98rem;
-      font-weight: 700;
+      font-size: 1rem;
+      font-weight: 800;
       color: #fff;
     }
 
     .car-card-price {
-      font-size: 0.92rem;
+      font-size: 0.95rem;
       font-weight: 800;
       color: var(--accent);
       white-space: nowrap;
@@ -363,12 +487,11 @@
       grid-template-columns: 1fr 1fr;
       gap: 6px;
       font-size: 0.73rem;
-      color: var(--text-muted);
     }
 
     .metric-pill {
-      background: rgba(15, 23, 42, 0.6);
-      padding: 4px 6px;
+      background: rgba(8, 12, 22, 0.65);
+      padding: 5px 7px;
       border-radius: 6px;
       border: 1px solid rgba(255, 255, 255, 0.05);
       display: flex;
@@ -376,7 +499,7 @@
     }
 
     .metric-pill .lbl {
-      font-size: 0.66rem;
+      font-size: 0.64rem;
       color: #64748b;
       text-transform: uppercase;
       font-weight: 600;
@@ -397,108 +520,173 @@
       font-size: 0.74rem;
     }
 
-    .owner-stars {
-      color: #fbbf24;
-      font-weight: 700;
+    .btn-del-coringa {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(239, 68, 68, 0.85);
+      border: none;
+      color: #fff;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      font-size: 0.75rem;
+      font-weight: bold;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
     }
 
-    /* CARD DO CARRO SELECIONADO & SIMULADOR */
+    /* MODO LISTA COMPACTA DE SHOWROOM (OPÇÃO PARA DESKTOP) */
+    .showroom-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .list-row-item {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .list-row-item:hover, .list-row-item.active {
+      background: #141e30;
+      border-color: var(--accent);
+      transform: translateX(4px);
+    }
+
+    .list-thumb {
+      width: 65px;
+      height: 42px;
+      border-radius: 6px;
+      object-fit: cover;
+      background: #000;
+      flex-shrink: 0;
+    }
+
+    /* DASHBOARD 2 COLUNAS DE ALTO PADRÃO NO PC */
     .dashboard-grid {
       display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      gap: 20px;
-      margin-bottom: 26px;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      align-items: stretch;
     }
 
     .panel-card {
       background: var(--card-bg);
       border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 20px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
-    }
-
-    .selected-car-banner {
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
       display: flex;
-      gap: 16px;
-      background: var(--card-inner);
-      border: 1px solid var(--border);
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    /* BANNER HERO DO CARRO SELECIONADO */
+    .selected-hero-banner {
+      position: relative;
       border-radius: 14px;
-      padding: 14px;
-      margin-bottom: 18px;
-      align-items: center;
+      overflow: hidden;
+      margin-bottom: 20px;
+      background: #060911;
+      border: 1px solid var(--border);
     }
 
-    .banner-photo {
-      width: 130px;
-      height: 85px;
-      border-radius: 10px;
+    .hero-banner-img {
+      width: 100%;
+      height: 220px;
       object-fit: cover;
-      background: #0f172a;
-      flex-shrink: 0;
+      display: block;
     }
 
-    .banner-details {
+    .hero-banner-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 16px;
+      background: linear-gradient(to top, rgba(8, 12, 22, 0.95) 0%, rgba(8, 12, 22, 0.6) 65%, transparent 100%);
       display: flex;
       flex-direction: column;
       gap: 4px;
-      flex-grow: 1;
     }
 
-    .banner-title {
-      font-size: 1.25rem;
+    .hero-title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 10px;
+    }
+
+    .hero-car-title {
+      font-size: 1.35rem;
       font-weight: 800;
       color: #fff;
     }
 
-    .banner-subtitle {
-      font-size: 0.8rem;
-      color: var(--text-muted);
+    .hero-car-price {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--accent);
     }
 
-    .dim-badge-row {
+    .chips-row {
       display: flex;
       gap: 6px;
       flex-wrap: wrap;
       margin-top: 4px;
     }
 
-    .dim-chip {
-      background: rgba(56, 189, 248, 0.12);
-      border: 1px solid rgba(56, 189, 248, 0.3);
-      color: #e0f2fe;
-      font-size: 0.74rem;
-      padding: 2px 7px;
-      border-radius: 6px;
+    .chip-badge {
+      font-size: 0.72rem;
       font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 6px;
+      border: 1px solid transparent;
     }
 
-    /* INPUTS E FORMULÁRIOS */
+    .chip-dim { background: rgba(56, 189, 248, 0.15); border-color: rgba(56, 189, 248, 0.3); color: #bae6fd; }
+    .chip-black { background: rgba(34, 197, 94, 0.15); border-color: rgba(34, 197, 94, 0.3); color: #86efac; }
+    .chip-e30 { background: rgba(245, 158, 11, 0.15); border-color: rgba(245, 158, 11, 0.3); color: #fde68a; }
+
+    /* FORMULÁRIO DE CUSTOS */
+    .form-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
     .form-group {
-      margin-bottom: 15px;
+      margin-bottom: 12px;
     }
 
     label {
       display: block;
-      font-size: 0.82rem;
+      font-size: 0.78rem;
       font-weight: 600;
       color: var(--text-muted);
-      margin-bottom: 6px;
-    }
-
-    .input-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
+      margin-bottom: 5px;
     }
 
     input[type="number"], select {
       background: var(--card-inner);
       border: 1px solid var(--border);
       color: #fff;
-      padding: 9px 12px;
+      padding: 8px 12px;
       border-radius: 8px;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       font-weight: 600;
       width: 100%;
       outline: none;
@@ -525,14 +713,13 @@
     }
 
     .range-val-badge {
-      min-width: 55px;
+      min-width: 60px;
       text-align: right;
       font-weight: 700;
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       color: var(--accent);
     }
 
-    /* TOGGLE RADIO BUTTONS */
     .toggle-group {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -542,9 +729,9 @@
     .toggle-btn {
       background: var(--card-inner);
       border: 1px solid var(--border);
-      padding: 9px 12px;
+      padding: 8px 12px;
       border-radius: 8px;
-      font-size: 0.82rem;
+      font-size: 0.78rem;
       font-weight: 600;
       color: var(--text-muted);
       cursor: pointer;
@@ -558,196 +745,270 @@
       color: #fff;
     }
 
-    /* RESULTADOS DE CUSTO */
-    .cost-summary-box {
-      background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.9) 100%);
+    /* GRADE FINANCEIRA 2X2 DE CUSTOS */
+    .cost-grid-2x2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .cost-card-mini {
+      background: var(--card-inner);
       border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 16px;
-      margin-top: 18px;
+      border-radius: 10px;
+      padding: 10px 12px;
     }
 
-    .cost-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      margin-bottom: 12px;
-    }
-
-    .cost-title {
-      font-size: 0.85rem;
-      color: var(--text-muted);
+    .cost-card-mini .title {
+      font-size: 0.7rem;
+      color: #94a3b8;
+      text-transform: uppercase;
       font-weight: 600;
     }
 
-    .cost-big-number {
-      font-size: 1.8rem;
+    .cost-card-mini .value {
+      font-size: 1.15rem;
       font-weight: 800;
+      color: #fff;
+      margin-top: 2px;
+    }
+
+    .cost-total-banner {
+      background: linear-gradient(135deg, rgba(34, 197, 94, 0.15) 0%, rgba(16, 185, 129, 0.05) 100%);
+      border: 1px solid var(--green);
+      border-radius: 12px;
+      padding: 14px 18px;
+      margin-top: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .cost-total-banner .total-val {
+      font-size: 1.85rem;
+      font-weight: 900;
       color: #4ade80;
     }
 
-    .cost-breakdown-row {
-      display: flex;
-      justify-content: space-between;
-      padding: 6px 0;
-      font-size: 0.82rem;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-      color: #cbd5e1;
-    }
-
-    /* TESTE DE GARAGEM */
-    .garage-box {
-      background: var(--card-inner);
+    /* PAINEL DA GARAGEM 3D */
+    .garage-3d-wrapper {
+      position: relative;
+      width: 100%;
+      height: 380px;
+      background: radial-gradient(circle at 50% 30%, #11203d 0%, #040813 90%);
       border: 1px solid var(--border);
       border-radius: 14px;
-      padding: 16px;
-      margin-top: 18px;
+      overflow: hidden;
+      margin-top: 12px;
+      margin-bottom: 12px;
+      touch-action: none;
+    }
+
+    #garage-canvas-3d {
+      width: 100%;
+      height: 100%;
+      display: block;
+      cursor: grab;
+    }
+
+    #garage-canvas-3d:active {
+      cursor: grabbing;
+    }
+
+    .canvas-hint {
+      position: absolute;
+      bottom: 10px;
+      right: 12px;
+      font-size: 0.72rem;
+      color: var(--accent);
+      background: rgba(8, 12, 22, 0.8);
+      padding: 4px 10px;
+      border-radius: 6px;
+      pointer-events: none;
+      backdrop-filter: blur(4px);
+    }
+
+    .view-angles-bar {
+      display: flex;
+      gap: 6px;
+      margin-top: 6px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .angle-btn {
+      background: var(--card-inner);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.74rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .angle-btn:hover, .angle-btn.active {
+      background: var(--accent);
+      color: #080c16;
+      border-color: var(--accent);
+      font-weight: 700;
     }
 
     .garage-result-badge {
-      padding: 12px;
+      padding: 12px 14px;
       border-radius: 10px;
-      margin-top: 12px;
+      margin-top: 10px;
       font-size: 0.84rem;
-      line-height: 1.4;
+      line-height: 1.45;
+    }
+
+    .res-ok { background: rgba(34, 197, 94, 0.15); border: 1px solid #22c55e; color: #86efac; }
+    .res-warn { background: rgba(245, 158, 11, 0.15); border: 1px solid #f59e0b; color: #fde68a; }
+    .res-danger { background: rgba(239, 68, 68, 0.15); border: 1px solid #ef4444; color: #fca5a5; }
+
+    /* SEÇÃO DE TECNOLOGIA & MIMOS */
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 16px;
+      margin-top: 14px;
+    }
+
+    .tech-item {
+      background: var(--card-inner);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .tech-item-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--accent);
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 6px;
     }
 
-    .res-ok {
-      background: rgba(34, 197, 94, 0.15);
-      border: 1px solid #22c55e;
-      color: #86efac;
-    }
-
-    .res-warn {
-      background: rgba(245, 158, 11, 0.15);
-      border: 1px solid #f59e0b;
-      color: #fde68a;
-    }
-
-    .res-danger {
-      background: rgba(239, 68, 68, 0.15);
-      border: 1px solid #ef4444;
-      color: #fca5a5;
+    .tech-item-desc {
+      font-size: 0.82rem;
+      color: #cbd5e1;
+      line-height: 1.5;
     }
 
     /* COMPARADOR LADO A LADO */
-    .comparator-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 20px;
-      margin-bottom: 26px;
-    }
-
-    .comp-selectors {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      margin-bottom: 16px;
-    }
-
     .comp-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 14px;
+      gap: 20px;
+      margin-top: 14px;
     }
 
     .comp-side-box {
       background: var(--card-inner);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 14px;
+      border-radius: 14px;
+      padding: 18px;
     }
 
     .comp-img {
       width: 100%;
-      height: 120px;
-      border-radius: 8px;
-      object-fit: cover;
-      margin-bottom: 8px;
-    }
-
-    .cdi-verdict-box {
-      background: rgba(168, 85, 247, 0.12);
-      border: 1px solid var(--purple);
+      height: 140px;
       border-radius: 10px;
-      padding: 12px;
-      margin-top: 14px;
-      font-size: 0.84rem;
-      color: #e9d5ff;
+      object-fit: cover;
+      margin-bottom: 12px;
     }
 
-    /* TABELA GERAL / PLANILHA */
-    .table-section {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 20px;
-      margin-bottom: 26px;
-    }
-
-    .table-toolbar {
+    /* DOCK FLUTUANTE DE DESKTOP (BOTTOM BAR) */
+    .desktop-dock {
+      position: fixed;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 990;
+      background: rgba(17, 24, 39, 0.92);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--accent);
+      border-radius: 999px;
+      padding: 8px 20px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.8), 0 0 25px rgba(56, 189, 248, 0.25);
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-bottom: 14px;
+      gap: 16px;
+      max-width: 900px;
+      width: 90%;
+      justify-content: space-between;
     }
 
-    .filters-row {
+    .dock-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      overflow: hidden;
+    }
+
+    .dock-thumb {
+      width: 44px;
+      height: 30px;
+      border-radius: 6px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .dock-text {
+      display: flex;
+      flex-direction: column;
+      white-space: nowrap;
+    }
+
+    .dock-title {
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .dock-sub {
+      font-size: 0.72rem;
+      color: var(--accent);
+    }
+
+    .dock-actions {
       display: flex;
       gap: 8px;
-      flex-wrap: wrap;
+      flex-shrink: 0;
     }
 
-    .filter-chip {
-      background: var(--card-inner);
-      border: 1px solid var(--border);
-      color: var(--text-muted);
-      padding: 5px 12px;
-      border-radius: 8px;
-      font-size: 0.76rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .filter-chip.active {
-      background: var(--accent);
-      color: #0f172a;
-      border-color: var(--accent);
-    }
-
+    /* TABELA GERAL */
     .table-wrapper {
       overflow-x: auto;
-      border-radius: 10px;
+      border-radius: 12px;
       border: 1px solid var(--border);
+      margin-top: 14px;
     }
 
     table.data-table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 0.8rem;
+      font-size: 0.82rem;
       text-align: left;
     }
 
     table.data-table th {
-      background: #0f172a;
+      background: #060911;
       color: #94a3b8;
       padding: 12px 10px;
       font-size: 0.72rem;
       text-transform: uppercase;
-      letter-spacing: 0.04em;
       border-bottom: 2px solid var(--border);
       white-space: nowrap;
     }
 
     table.data-table td {
-      padding: 10px 10px;
+      padding: 10px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.05);
       white-space: nowrap;
     }
@@ -756,81 +1017,7 @@
       background: rgba(56, 189, 248, 0.05);
     }
 
-    /* FOOTER */
-    footer {
-      text-align: center;
-      padding: 24px 0 16px;
-      color: var(--text-muted);
-      font-size: 0.8rem;
-      border-top: 1px solid var(--border);
-      margin-top: 30px;
-    }
-
-    /* RESPONSIVIDADE NATIVA PARA CELULAR (<= 820px) */
-    @media (max-width: 820px) {
-      body {
-        padding: 10px;
-      }
-      .top-control-bar {
-        flex-direction: column;
-        align-items: stretch;
-      }
-      .device-switcher {
-        justify-content: center;
-      }
-      .top-actions {
-        justify-content: center;
-      }
-      .dashboard-grid {
-        grid-template-columns: 1fr;
-      }
-      .selected-car-banner {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      .banner-photo {
-        width: 100%;
-        height: 150px;
-      }
-      .comp-selectors {
-        grid-template-columns: 1fr;
-      }
-      .comp-grid {
-        grid-template-columns: 1fr;
-      }
-      .showroom-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    /* ESTILO DE IMPRESSÃO / PDF */
-    @media print {
-      body {
-        background: #fff !important;
-        color: #000 !important;
-        padding: 0;
-      }
-      .top-control-bar, .showroom-grid, .btn-action, input[type="range"] {
-        display: none !important;
-      }
-      .panel-card, .comparator-card, .table-section {
-        background: #fff !important;
-        border: 1px solid #ccc !important;
-        color: #000 !important;
-        break-inside: avoid;
-        box-shadow: none !important;
-        margin-bottom: 15px;
-      }
-      table.data-table th {
-        background: #eee !important;
-        color: #000 !important;
-      }
-      table.data-table td {
-        color: #000 !important;
-      }
-    }
-
-    /* MODAL DO CARRO CORINGA */
+    /* MODAL */
     .modal-backdrop {
       display: none;
       position: fixed;
@@ -838,8 +1025,8 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.75);
-      backdrop-filter: blur(5px);
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(6px);
       z-index: 9999;
       justify-content: center;
       align-items: center;
@@ -860,545 +1047,355 @@
       overflow-y: auto;
       padding: 24px;
       box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
-      position: relative;
     }
 
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 16px;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 12px;
+    /* RESPONSIVIDADE NATIVA MOBILE (<= 860px) */
+    @media (max-width: 860px) {
+      .nav-links { display: none; }
+      .dashboard-grid { grid-template-columns: 1fr; }
+      .comp-grid { grid-template-columns: 1fr; }
+      .desktop-dock { display: none !important; }
+      .form-grid-2 { grid-template-columns: 1fr; }
+      .showroom-grid { grid-template-columns: 1fr; }
+      .garage-3d-wrapper { height: 270px; }
     }
-
-    .modal-title {
-      font-size: 1.15rem;
-      font-weight: 800;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .btn-close-modal {
-      background: none;
-      border: none;
-      color: var(--text-muted);
-      font-size: 1.5rem;
-      cursor: pointer;
-      line-height: 1;
-    }
-
-    .form-grid-2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-
-    .tag-coringa {
-      background: linear-gradient(135deg, #f59e0b, #d97706);
-      color: #000 !important;
-      font-weight: 800 !important;
-    }
-
-    .btn-add-coringa {
-      background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(217, 119, 6, 0.2));
-      border: 1px solid var(--orange);
-      color: #fcd34d;
-      padding: 6px 14px;
-      border-radius: 8px;
-      font-size: 0.8rem;
-      font-weight: 700;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      transition: all 0.2s;
-    }
-
-    .btn-add-coringa:hover {
-      background: var(--orange);
-      color: #000;
-    }
-
-    .btn-del-coringa {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      background: rgba(239, 68, 68, 0.85);
-      border: none;
-      color: #fff;
-      border-radius: 50%;
-      width: 24px;
-      height: 24px;
-      font-size: 0.75rem;
-      font-weight: bold;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 10;
-    }
-
-
-    /* VISUALIZADOR 3D DA GARAGEM */
-    .garage-3d-wrapper {
-      position: relative;
-      width: 100%;
-      height: 280px;
-      background: radial-gradient(circle at 50% 30%, #172554 0%, #030712 90%);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      overflow: hidden;
-      margin-top: 14px;
-      touch-action: none;
-    }
-
-    #garage-canvas-3d {
-      width: 100%;
-      height: 100%;
-      display: block;
-      cursor: grab;
-    }
-
-    #garage-canvas-3d:active {
-      cursor: grabbing;
-    }
-
-    .canvas-hint {
-      position: absolute;
-      bottom: 8px;
-      right: 12px;
-      font-size: 0.72rem;
-      color: var(--accent);
-      background: rgba(15, 23, 42, 0.75);
-      padding: 3px 8px;
-      border-radius: 6px;
-      pointer-events: none;
-    }
-
-    .view-angles-bar {
-      display: flex;
-      gap: 6px;
-      margin-top: 8px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    .angle-btn {
-      background: rgba(15, 23, 42, 0.7);
-      border: 1px solid var(--border);
-      color: var(--text-muted);
-      padding: 4px 10px;
-      border-radius: 6px;
-      font-size: 0.72rem;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .angle-btn:hover, .angle-btn.active {
-      background: var(--accent);
-      color: #0f172a;
-      border-color: var(--accent);
-    }
-
-    /* PRESETS RÁPIDOS CORINGA */
-    .preset-pill-group {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-      margin-bottom: 12px;
-    }
-
-    .preset-pill {
-      background: var(--card-inner);
-      border: 1px solid var(--border);
-      color: var(--text-muted);
-      padding: 4px 10px;
-      border-radius: 6px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .preset-pill:hover, .preset-pill.active {
-      background: rgba(56, 189, 248, 0.15);
-      border-color: var(--accent);
-      color: #fff;
-    }
-
-    /* ABA DE TECNOLOGIA & MIMOS */
-    .tech-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 20px;
-      margin-bottom: 26px;
-    }
-
-    .tech-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 14px;
-      margin-top: 14px;
-    }
-
-    .tech-item {
-      background: var(--card-inner);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 14px;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .tech-item-title {
-      font-size: 0.85rem;
-      font-weight: 700;
-      color: var(--accent);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .tech-item-desc {
-      font-size: 0.8rem;
-      color: #cbd5e1;
-      line-height: 1.45;
-    }
-
-    /* SLIDER DE PREÇO NO TOPO */
-    .price-filter-box {
-      background: var(--card-inner);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 8px 14px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-bottom: 14px;
-    }
-
-    .price-filter-box label {
-      margin: 0;
-      font-size: 0.8rem;
-      white-space: nowrap;
-    }
-
   </style>
 </head>
 <body>
 
-<div class="container" id="app-container">
-
-  <!-- BARRA DE CONTROLE: ALTERNADOR CELULAR/DESKTOP + EXPORTAÇÕES -->
-  <div class="top-control-bar">
-    <div class="device-switcher">
-      <button class="switch-btn active" id="btn-desktop-mode" onclick="setDeviceMode('desktop')">
-        🖥️ Visão Computador
-      </button>
-      <button class="switch-btn" id="btn-mobile-mode" onclick="setDeviceMode('mobile')">
-        📱 Visão Celular
-      </button>
+<!-- NAVBAR FIXA SUPERIOR -->
+<nav class="sticky-desktop-nav">
+  <div class="nav-inner">
+    <div class="nav-brand">
+      <span>🚗 CarHunter RJ</span>
+      <span class="badge-city">Uber Black 2027+</span>
     </div>
 
-    <div class="top-actions">
-      <button class="btn-action excel" onclick="downloadCsv()">
-        📥 Baixar Planilha (Excel / Sheets)
-      </button>
-      <button class="btn-action green" onclick="copyWhatsappSummary()">
-        📲 Copiar p/ WhatsApp
-      </button>
-      <button class="btn-action" onclick="window.print()">
-        🖨️ Salvar PDF
-      </button>
+    <div class="nav-links">
+      <a href="#showroom-section" class="nav-tab-btn active">Vitrine (21)</a>
+      <a href="#dashboard-section" class="nav-tab-btn">Simulador RJ</a>
+      <a href="#dashboard-section" class="nav-tab-btn">Garagem 3D</a>
+      <a href="#tech-section" class="nav-tab-btn">Mimos & Tech</a>
+      <a href="#comparator-section" class="nav-tab-btn">Comparador CDI</a>
+      <a href="#table-section" class="nav-tab-btn">Planilha</a>
+    </div>
+
+    <div class="nav-actions">
+      <button class="btn-action excel" onclick="downloadCsv()">📥 Excel</button>
+      <button class="btn-action green" onclick="copyWhatsappSummary()">📲 WhatsApp</button>
+      <button class="btn-action switcher" id="btn-toggle-device" onclick="toggleDeviceSimulation()">📱 Celular</button>
     </div>
   </div>
+</nav>
+
+<div class="page-wrapper" id="app-container">
 
   <!-- CABEÇALHO -->
-  <header>
-    <h1>
-      Catálogo & Simulador Automotivo: Rio de Janeiro
-      <span class="badge-rj">Uber Black RJ 2027+</span>
+  <header style="margin-bottom: 20px;">
+    <h1 style="font-size: 1.6rem; font-weight: 800; color: #fff;">
+      Dossiê Automotivo Rio de Janeiro: Uso Pessoal & Uber Black 2027+
     </h1>
-    <p class="subtitle">
-      21 Modelos 100% Automáticos • Fotos Reais • Dimensões para Garagem Apertada • Benefício Fiscal IPVA RJ (4% vs 1,5%) • Custo Total de Uso (TCO)
+    <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 4px;">
+      21 Modelos Automáticos Analisados • Modelagem 3D para Garagem Apertada • IPVA SEFAZ-RJ (4% Flex vs 1,5% Híbrido) • Blindagem contra Gasolina E30/E35
     </p>
   </header>
 
-  <!-- FONTES DE DADOS -->
-  <div class="sources-bar">
-    <span class="lbl">🔗 Fontes Oficiais:</span>
-    <a class="source-link" href="https://veiculos.fipe.org.br/" target="_blank" rel="noopener">Tabela FIPE</a>
-    <a class="source-link" href="https://www.webmotors.com.br/carros/rj" target="_blank" rel="noopener">Webmotors RJ</a>
-    <a class="source-link" href="https://www.olx.com.br/autos-e-pecas/carros-vans-e-utilitarios/estado-rj" target="_blank" rel="noopener">OLX RJ</a>
-    <a class="source-link" href="https://lista.mercadolivre.com.br/veiculos/carros-caminhonetes-em-rio-de-janeiro/" target="_blank" rel="noopener">Mercado Livre RJ</a>
-    <a class="source-link" href="https://www.gov.br/inmetro/pt-br/assuntos/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotores-pbev" target="_blank" rel="noopener">INMETRO Consumo</a>
-    <a class="source-link" href="https://portal.fazenda.rj.gov.br/ipva/" target="_blank" rel="noopener">SEFAZ-RJ (1,5% Híbrido)</a>
-  </div>
-
-  <!-- VITRINE COM FOTOS DOS 18 CARROS (SHOWROOM) -->
-  <div class="section-header">
-    <div class="section-title">
-      🚗 1. Escolha um Carro na Vitrine (Clique para Simular)
+  <!-- SEÇÃO 1: VITRINE DE MODELOS (SHOWROOM) -->
+  <section id="showroom-section">
+    <div class="section-header">
+      <div>
+        <div class="section-title">
+          🚗 1. Vitrine de Modelos (<span id="total-cars-count">21</span> Carros)
+        </div>
+        <div class="section-subtitle">
+          Clique em qualquer modelo para carregar no Simulador de Custos e no Visualizador 3D da Garagem:
+        </div>
+      </div>
     </div>
-    <div class="filters-row">
-      <button class="filter-chip active" onclick="filterShowroom('all', this)">Todos (<span id="total-cars-count">21</span>)</button>
-      <button class="btn-add-coringa" onclick="openCoringaModal()">
-        ➕ Adicionar Carro Coringa
-      </button>
-      <button class="filter-chip" onclick="filterShowroom('tight', this)">📐 Garagem Estreita (Larg ≤ 1,78m)</button>
-      <button class="filter-chip" onclick="filterShowroom('hybrid', this)">⚡ Híbridos (IPVA 1,5%)</button>
-      <button class="filter-chip" onclick="filterShowroom('flex', this)">⛽ Flex Tradicionais</button>
-    </div>
-  </div>
 
-  <!-- SLIDER DE FAIXA DE PREÇO (ORÇAMENTO ABERTO) -->
-  <div class="price-filter-box">
-    <label>💰 <strong>Filtrar por Preço Máximo:</strong></label>
-    <div class="range-wrap" style="flex-grow: 1; max-width: 450px;">
-      <input type="range" id="filter-max-price" min="70000" max="210000" step="5000" value="210000" oninput="updatePriceFilter(this.value)">
-      <span class="range-val-badge" id="lbl-max-price" style="min-width: 140px;">Orçamento Aberto</span>
-    </div>
-    <span style="font-size: 0.75rem; color: var(--text-muted);">(Exibindo modelos até o valor selecionado)</span>
-
-
-  <div class="showroom-grid" id="showroom-container">
-    <!-- Gerado dinamicamente com fotos locais -->
-  </div>
-
-  <!-- DASHBOARD PRINCIPAL: DETALHE DO CARRO + SIMULADOR + TESTE DE GARAGEM -->
-  <div class="dashboard-grid">
-
-    <!-- COLUNA DA ESQUERDA: CUSTOS & DADOS NO RJ -->
-    <div class="panel-card">
-      <div class="section-title" style="margin-bottom: 14px;">
-        📊 2. Simulador de Custos Reais no RJ
+    <!-- CONTROLES INTELIGENTES DA VITRINE -->
+    <div class="showroom-control-bar">
+      <div class="control-row-top">
+        <div class="filters-group">
+          <button class="filter-chip active" onclick="filterShowroom('all', this)">Todos (<span id="count-all">21</span>)</button>
+          <button class="filter-chip" onclick="filterShowroom('tight', this)">📐 Garagem Estreita (≤ 1,78m)</button>
+          <button class="filter-chip" onclick="filterShowroom('hybrid', this)">⚡ Híbridos (IPVA 1,5%)</button>
+          <button class="filter-chip" onclick="filterShowroom('flex', this)">⛽ Flex Nacionais</button>
+          <button class="btn-add-coringa" onclick="openCoringaModal()">➕ Adicionar Coringa</button>
+        </div>
       </div>
 
-      <!-- BANNER DO CARRO SELECIONADO -->
-      <div class="selected-car-banner">
-        <img id="banner-img" class="banner-photo" src="fotos/corolla_cross_hybrid.jpg" alt="Carro Selecionado" onerror="this.src='https://images.unsplash.com/photo-1549399542-7e3f8b79c341?w=400'">
-        <div class="banner-details">
-          <div class="banner-title" id="banner-title">Toyota Corolla Cross HEV</div>
-          <div class="banner-subtitle" id="banner-type">1.8 Híbrido Pleno Flex • Câmbio e-CVT</div>
-          <div class="dim-badge-row">
-            <span class="dim-chip" id="banner-dims">📐 4,46 × 1,82 × 1,62 m</span>
-            <span class="dim-chip" id="banner-turn">🔄 Giro 10,4 m</span>
-            <span class="dim-chip" id="banner-trunk">🧳 440 L</span>
-            <span class="dim-chip" id="banner-ipva-rate">⚡ IPVA RJ 1,5%</span>
+      <div class="control-row-bottom">
+        <div class="search-box-wrap">
+          <input type="text" id="search-input" class="search-input" placeholder="🔍 Buscar por modelo, marca, motor... (ex: Corolla, Turbo, Híbrido)" oninput="handleSearch(this.value)">
+        </div>
+
+        <div class="sort-and-view">
+          <select id="sort-select" class="sort-select" onchange="handleSort(this.value)">
+            <option value="default">Ordenar: Recomendados</option>
+            <option value="price-asc">Menor Preço ➔ Maior Preço</option>
+            <option value="width-asc">Mais Estreito (Melhor Garagem)</option>
+            <option value="kml-desc">Mais Econômico no RJ</option>
+            <option value="score-desc">Maior Nota dos Donos</option>
+          </select>
+
+          <div class="view-toggle-group">
+            <button class="view-btn active" id="btn-view-cards" onclick="setViewMode('cards')">🖼️ Cards</button>
+            <button class="view-btn" id="btn-view-list" onclick="setViewMode('list')">📑 Lista</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTAINER DA VITRINE (CARDS OU LISTA) -->
+    <div class="showroom-grid" id="showroom-container"></div>
+  </section>
+
+  <!-- SEÇÃO 2: DASHBOARD 2 COLUNAS (SIMULADOR DE CUSTOS RJ + GARAGEM 3D) -->
+  <section id="dashboard-section">
+    <div class="section-header">
+      <div>
+        <div class="section-title">
+          📊 2. Simulador de Custos Reais no RJ & Garagem 3D
+        </div>
+        <div class="section-subtitle">
+          Painel dinâmico atualizado em tempo real para o veículo selecionado:
+        </div>
+      </div>
+    </div>
+
+    <div class="dashboard-grid">
+
+      <!-- COLUNA ESQUERDA: CARRO SELECIONADO & CUSTOS -->
+      <div class="panel-card">
+        <div>
+          <!-- HERO DO CARRO SELECIONADO -->
+          <div class="selected-hero-banner">
+            <img id="hero-img" class="hero-banner-img" src="fotos/corolla_20_flex.jpg" alt="Carro Selecionado">
+            <div class="hero-banner-overlay">
+              <div class="hero-title-row">
+                <span class="hero-car-title" id="hero-title">Toyota Corolla 2.0 Dynamic Force Flex</span>
+                <span class="hero-car-price" id="hero-price">R$ 122.000</span>
+              </div>
+              <div style="font-size: 0.8rem; color: #cbd5e1;" id="hero-type">2.0 Flex 177cv • Direct Shift CVT (1ª marcha mecânica)</div>
+              <div class="chips-row">
+                <span class="chip-badge chip-dim" id="hero-dim">📐 4,63 × 1,78 × 1,45 m</span>
+                <span class="chip-badge chip-black" id="hero-black">⏳ Black até 2032+ (6 anos+)</span>
+                <span class="chip-badge chip-e30" id="hero-e30">🛡️ Imune ao E30/E35 (Flex)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- INPUTS FINANCEIROS -->
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label>Preço de Compra (R$):</label>
+              <input type="number" id="input-price" value="122000" step="1000" oninput="recalcAll()">
+            </div>
+            <div class="form-group">
+              <label>Consumo com Ar no RJ (km/L):</label>
+              <input type="number" id="input-kml" value="11.6" step="0.1" oninput="recalcAll()">
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label>Uso Mensal Estimado:</label>
+              <div class="range-wrap">
+                <input type="range" id="input-km-month" min="300" max="3500" step="50" value="1000" oninput="updateKmLabel(this.value)">
+                <span class="range-val-badge" id="lbl-km-month">1.000 km</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Gasolina RJ (R$/L):</label>
+              <input type="number" id="input-fuel-price" value="5.99" step="0.05" oninput="recalcAll()">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Tipo de Seguro:</label>
+            <div class="toggle-group">
+              <button class="toggle-btn active" id="btn-seg-part" onclick="setSeguroType('particular')">Uso Pessoal</button>
+              <button class="toggle-btn" id="btn-seg-app" onclick="setSeguroType('app')">Com Cobertura Uber/APP</button>
+            </div>
+          </div>
+
+          <!-- GRADE FINANCEIRA 2X2 -->
+          <div class="cost-grid-2x2">
+            <div class="cost-card-mini">
+              <div class="title">IPVA SEFAZ-RJ (Mês)</div>
+              <div class="value" id="res-val-ipva">R$ 407</div>
+            </div>
+            <div class="cost-card-mini">
+              <div class="title">Combustível (Mês)</div>
+              <div class="value" id="res-val-fuel">R$ 516</div>
+            </div>
+            <div class="cost-card-mini">
+              <div class="title">Seguro + DETRAN</div>
+              <div class="value" id="res-val-ins">R$ 381</div>
+            </div>
+            <div class="cost-card-mini">
+              <div class="title">Manutenção Preventiva</div>
+              <div class="value" id="res-val-maint">R$ 203</div>
+            </div>
+          </div>
+
+          <!-- BANNER DO TOTAL -->
+          <div class="cost-total-banner">
+            <div>
+              <div style="font-size: 0.76rem; color: #86efac; font-weight: 700; text-transform: uppercase;">Custo Mensal Total Estimado</div>
+              <div style="font-size: 0.75rem; color: #cbd5e1;">(IPVA + Combustível + Seguro + Oficina)</div>
+            </div>
+            <div class="total-val" id="res-monthly-total">R$ 1.507</div>
+          </div>
+
+          <!-- SLIDER EVENTUAL DE UBER BLACK -->
+          <div style="background: rgba(168, 85, 247, 0.1); border: 1px solid rgba(168, 85, 247, 0.35); border-radius: 12px; padding: 12px; margin-top: 14px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <span style="font-size: 0.82rem; font-weight: 700; color: #e9d5ff;">🚗 Renda Extra Opcional (Uber Black RJ)</span>
+              <span id="lbl-uber-hours" style="font-size: 0.85rem; font-weight: 800; color: #a855f7;">6 horas / mês</span>
+            </div>
+            <div class="range-wrap">
+              <input type="range" id="input-uber-hours" min="0" max="30" step="2" value="6" oninput="updateUberHours(this.value)">
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px; font-size: 0.78rem; padding-top: 6px; border-top: 1px solid rgba(255,255,255,0.08);">
+              <span>Lucro Líquido Estimado:</span>
+              <strong id="res-uber-profit" style="color: #4ade80; font-size: 0.95rem;">+ R$ 390 / mês</strong>
+            </div>
+            <div id="res-uber-impact" style="font-size: 0.72rem; color: #d8b4fe; margin-top: 4px;">
+              💡 6h pagam ~26% de todo o custo mensal do carro!
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- INPUTS DE CUSTO -->
-      <div class="form-group">
-        <label>Preço de Compra Estimado (R$):</label>
-        <input type="number" id="input-price" value="142000" step="1000" oninput="recalcAll()">
+      <!-- COLUNA DIREITA: TESTE DA SUA GARAGEM APERTADA EM 3D -->
+      <div class="panel-card">
+        <div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <span style="font-size: 0.95rem; font-weight: 800; color: #fff;">📐 Teste da Vaga (3D Interativo)</span>
+            <span style="font-size: 0.75rem; color: var(--accent); font-weight: 700;" id="res-garage-car-name">Toyota Corolla 2.0 Flex</span>
+          </div>
+
+          <!-- PRESETS DE VAGA -->
+          <div class="preset-pill-group">
+            <button class="preset-pill active" onclick="applyGaragePreset(2.35, 4.80, 2.20, this)">🏢 Padrão RJ (2,35 × 4,80m)</button>
+            <button class="preset-pill" onclick="applyGaragePreset(2.20, 4.50, 2.05, this)">⚠️ Muito Estreita (2,20 × 4,50m)</button>
+            <button class="preset-pill" onclick="applyGaragePreset(2.60, 5.20, 2.50, this)">🏰 Ampla / Casa (2,60 × 5,20m)</button>
+          </div>
+
+          <!-- SLIDERS DA GARAGEM -->
+          <div class="form-grid-2" style="margin-top: 10px;">
+            <div class="form-group">
+              <label>Largura da Vaga (m):</label>
+              <div class="range-wrap">
+                <input type="range" id="input-garage-w" min="2.00" max="3.50" step="0.05" value="2.35" oninput="updateGarageW(this.value)">
+                <span class="range-val-badge" id="lbl-garage-w">2,35 m</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Comprimento da Vaga (m):</label>
+              <div class="range-wrap">
+                <input type="range" id="input-garage-l" min="4.00" max="6.00" step="0.05" value="4.80" oninput="updateGarageL(this.value)">
+                <span class="range-val-badge" id="lbl-garage-l">4,80 m</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Altura do Teto / Tubulação (m):</label>
+            <div class="range-wrap">
+              <input type="range" id="input-garage-h" min="1.80" max="2.80" step="0.05" value="2.20" oninput="updateGarageH(this.value)">
+              <span class="range-val-badge" id="lbl-garage-h">2,20 m</span>
+            </div>
+          </div>
+
+          <!-- CANVAS 3D INTERATIVO (AMPLIADO NO PC) -->
+          <div class="garage-3d-wrapper">
+            <canvas id="garage-canvas-3d"></canvas>
+            <span class="canvas-hint">🖐️ Arraste para girar a vaga em 3D</span>
+          </div>
+
+          <div class="view-angles-bar">
+            <button class="angle-btn active" onclick="set3dAngle('iso')">Perspectiva 3D</button>
+            <button class="angle-btn" onclick="set3dAngle('top')">Vista Superior (Planta)</button>
+            <button class="angle-btn" onclick="set3dAngle('front')">Vista Frontal (Portas)</button>
+            <button class="angle-btn" onclick="set3dAngle('side')">Vista Lateral (Comprimento)</button>
+          </div>
+
+          <!-- RESULTADO DA GARAGEM -->
+          <div id="garage-feedback" class="garage-result-badge res-ok"></div>
+
+          <div style="margin-top: 10px; font-size: 0.78rem; color: #cbd5e1; display: flex; flex-direction: column; gap: 3px;">
+            <div>• <strong>Espaço para a porta do motorista:</strong> <span id="calc-door-space">~55 cm livres</span></div>
+            <div>• <strong>Sobra no comprimento:</strong> <span id="calc-len-space">~17 cm livres do portão</span></div>
+            <div>• <strong>Altura da tampa do porta-malas aberta:</strong> <span id="calc-trunk-space">~40 cm livres do teto</span></div>
+          </div>
+        </div>
       </div>
 
-      <div class="form-group">
-        <label>Uso Mensal Estimado:</label>
-        <div class="range-wrap">
-          <input type="range" id="input-km-month" min="300" max="3500" step="50" value="1000" oninput="updateKmLabel(this.value)">
-          <span class="range-val-badge" id="lbl-km-month">1.000 km</span>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label>Consumo Médio com Ar-Condicionado Ligado no RJ (km/L):</label>
-        <input type="number" id="input-kml" value="15.5" step="0.1" oninput="recalcAll()">
-      </div>
-
-      <div class="form-group">
-        <label>Preço da Gasolina no RJ (R$/litro):</label>
-        <input type="number" id="input-fuel-price" value="5.99" step="0.05" oninput="recalcAll()">
-      </div>
-
-      <div class="form-group">
-        <label>Tipo de Seguro:</label>
-        <div class="toggle-group">
-          <button class="toggle-btn active" id="btn-seg-part" onclick="setSeguroType('particular')">Uso Pessoal</button>
-          <button class="toggle-btn" id="btn-seg-app" onclick="setSeguroType('app')">Com Cobertura Uber/APP</button>
-        </div>
-      </div>
-
-      <!-- RESULTADO DO CUSTO -->
-      <div class="cost-summary-box">
-        <div class="cost-header">
-          <span class="cost-title">CUSTO MENSAL TOTAL ESTIMADO</span>
-          <span class="cost-big-number" id="res-monthly-total">R$ 1.182</span>
-        </div>
-        <div class="cost-breakdown-row">
-          <span>IPVA RJ mensalizado:</span>
-          <strong id="res-monthly-ipva">R$ 178</strong>
-        </div>
-        <div class="cost-breakdown-row">
-          <span>Combustível mensal:</span>
-          <strong id="res-monthly-fuel">R$ 386</strong>
-        </div>
-        <div class="cost-breakdown-row">
-          <span>Seguro + Taxa DETRAN-RJ:</span>
-          <strong id="res-monthly-ins">R$ 380</strong>
-        </div>
-        <div class="cost-breakdown-row">
-          <span>Manutenção preventiva mensal:</span>
-          <strong id="res-monthly-maint">R$ 238</strong>
-        </div>
-      
-      <!-- SIMULADOR DE PLANTÃO EVENTUAL UBER BLACK (POUCAS HORAS) -->
-      <div style="background: rgba(168, 85, 247, 0.1); border: 1px solid rgba(168, 85, 247, 0.35); border-radius: 12px; padding: 12px; margin-top: 14px;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-          <span style="font-size: 0.82rem; font-weight: 700; color: #e9d5ff;">🚗 Renda Extra Opcional (Uber Black RJ)</span>
-          <span id="lbl-uber-hours" style="font-size: 0.85rem; font-weight: 800; color: #a855f7;">6 horas / mês</span>
-        </div>
-        <p style="font-size: 0.75rem; color: #cbd5e1; margin-bottom: 8px;">
-          Rode apenas algumas horas livres (ex: volta do trabalho ou 1 noite no fim de semana):
-        </p>
-        <div class="range-wrap">
-          <input type="range" id="input-uber-hours" min="0" max="30" step="2" value="6" oninput="updateUberHours(this.value)">
-        </div>
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px; font-size: 0.78rem; padding-top: 6px; border-top: 1px solid rgba(255,255,255,0.08);">
-          <span>Lucro Líquido Estimado:</span>
-          <strong id="res-uber-profit" style="color: #4ade80; font-size: 0.95rem;">+ R$ 390 / mês</strong>
-        </div>
-        <div id="res-uber-impact" style="font-size: 0.72rem; color: #d8b4fe; margin-top: 4px;">
-          💡 6h pagam ~33% de todo o custo mensal do carro!
-        </div>
-      </div>
-</div>
     </div>
+  </section>
 
-    <!-- COLUNA DA DIREITA: TESTE DA SUA GARAGEM APERTADA -->
-    <div class="panel-card">
-      <div class="section-title" style="margin-bottom: 14px;">
-        📐 3. Teste da Sua Garagem Apertada (Comp. × Larg. × Alt.)
-      </div>
-
-      <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 14px;">
-        Ajuste as medidas da sua vaga e veja se o carro entra e permite abrir a porta sem bater na parede ou coluna.
-      </p>
-
-      <div class="form-group">
-        <label>Largura da Vaga (m):</label>
-        <div class="range-wrap">
-          <input type="range" id="input-garage-w" min="2.00" max="3.50" step="0.05" value="2.35" oninput="updateGarageW(this.value)">
-          <span class="range-val-badge" id="lbl-garage-w">2,35 m</span>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label>Comprimento da Vaga (m):</label>
-        <div class="range-wrap">
-          <input type="range" id="input-garage-l" min="4.00" max="6.00" step="0.05" value="4.80" oninput="updateGarageL(this.value)">
-          <span class="range-val-badge" id="lbl-garage-l">4,80 m</span>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label>Altura do Teto / Tubulação da Garagem (m):</label>
-        <div class="range-wrap">
-          <input type="range" id="input-garage-h" min="1.80" max="2.80" step="0.05" value="2.20" oninput="updateGarageH(this.value)">
-          <span class="range-val-badge" id="lbl-garage-h">2,20 m</span>
-        </div>
-      </div>
-
-      <!-- PRESETS CORINGA DE VAGA -->
-      <div style="margin-bottom: 8px;">
-        <span style="font-size: 0.74rem; color: var(--text-muted); font-weight: 600;">Presets Rápidos de Garagem:</span>
-        <div class="preset-pill-group" style="margin-top: 4px;">
-          <button class="preset-pill active" onclick="applyGaragePreset(2.35, 4.80, 2.20, this)">🏢 Padrão RJ (2,35 × 4,80m)</button>
-          <button class="preset-pill" onclick="applyGaragePreset(2.20, 4.50, 2.05, this)">⚠️ Muito Estreita (2,20 × 4,50m)</button>
-          <button class="preset-pill" onclick="applyGaragePreset(2.60, 5.20, 2.50, this)">🏰 Ampla / Casa (2,60 × 5,20m)</button>
-        </div>
-      </div>
-
-      <!-- VISUALIZADOR 3D INTERATIVO -->
-      <div class="garage-3d-wrapper">
-        <canvas id="garage-canvas-3d"></canvas>
-        <span class="canvas-hint">🖐️ Arraste para girar a vaga em 3D</span>
-      </div>
-
-      <div class="view-angles-bar">
-        <button class="angle-btn active" onclick="set3dAngle('iso')">Perspectiva 3D</button>
-        <button class="angle-btn" onclick="set3dAngle('top')">Vista de Cima (Planta)</button>
-        <button class="angle-btn" onclick="set3dAngle('front')">Vista Frontal (Portas)</button>
-        <button class="angle-btn" onclick="set3dAngle('side')">Vista Lateral (Comprimento)</button>
-      </div>
-
-      <div class="garage-box">
-        <div style="font-size: 0.82rem; font-weight: 700; color: #fff; margin-bottom: 8px;">
-          Resultado para <span id="res-garage-car-name" style="color: var(--accent);">Toyota Corolla Cross HEV</span>:
-        </div>
-        
-        <div id="garage-feedback" class="garage-result-badge res-ok">
-          <!-- Calculado via JS -->
-        </div>
-
-        <div style="margin-top: 12px; font-size: 0.78rem; color: #cbd5e1; display: flex; flex-direction: column; gap: 4px;">
-          <div>• <strong>Espaço para abrir a porta do motorista:</strong> <span id="calc-door-space">~53 cm</span></div>
-          <div>• <strong>Folga no comprimento:</strong> <span id="calc-len-space">~34 cm livres</span></div>
-          <div>• <strong>Folga da tampa do porta-malas aberta:</strong> <span id="calc-trunk-space">~12 cm livres do teto</span></div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-
-  <!-- SEÇÃO DE TECNOLOGIA, PAINEL & MIMOS DO CARRO SELECIONADO -->
-  <div class="tech-card">
-    <div class="section-title">
-      ✨ 4. Tecnologia a Bordo, Câmeras & Mimos (<span id="tech-car-name">Toyota Corolla Cross HEV</span>)
-    </div>
-    <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 4px;">
-      Diferenciais de conforto, instrumentos, visualização 360°, climatização (coolers/refrigeração) e recursos para o calor do Rio:
-    </p>
-
-    <div class="tech-grid" id="tech-details-container">
-      <!-- Preenchido dinamicamente via JS -->
-    </div>
-  </div>
-
-  <!-- COMPARADOR LADO A LADO COM CUSTO DE OPORTUNIDADE CDI -->
-  <div class="comparator-card">
-    <div class="section-title" style="margin-bottom: 14px;">
-      ⚖️ 5. Comparador Lado a Lado & Custo de Oportunidade CDI
-    </div>
-
-    <div class="comp-selectors">
+  <!-- SEÇÃO 3: TECNOLOGIA & MIMOS -->
+  <section id="tech-section">
+    <div class="section-header">
       <div>
-        <label>Carro A:</label>
-        <select id="select-comp-a" onchange="renderComparator()"></select>
+        <div class="section-title">
+          ✨ 3. Tecnologia a Bordo, Câmeras & Mimos (<span id="tech-car-name">Toyota Corolla 2.0 Flex</span>)
+        </div>
+        <div class="section-subtitle">
+          Recursos de conforto, painéis digitais, câmeras 360°, climatização (coolers) e auxílios de condução:
+        </div>
       </div>
+    </div>
+
+    <div class="tech-grid" id="tech-details-container"></div>
+  </section>
+
+  <!-- SEÇÃO 4: COMPARADOR LADO A LADO COM CDI -->
+  <section id="comparator-section">
+    <div class="section-header">
       <div>
-        <label>Carro B:</label>
-        <select id="select-comp-b" onchange="renderComparator()"></select>
+        <div class="section-title">
+          ⚖️ 4. Comparador Lado a Lado & Custo de Oportunidade CDI
+        </div>
+        <div class="section-subtitle">
+          Compare 2 carros frente a frente e veja se a economia tributária e de combustível supera o investimento no CDI (0,8% a.m.):
+        </div>
       </div>
     </div>
 
-    <div class="comp-grid" id="comparator-output">
-      <!-- Gerado via JS -->
-    </div>
-
-    <div class="cdi-verdict-box" id="cdi-verdict">
-      <!-- Calculo de CDI gerado via JS -->
-    </div>
-  </div>
-
-  <!-- TABELA GERAL COMPARATIVA (VISÃO PLANILHA) -->
-  <div class="table-section">
-    <div class="table-toolbar">
-      <div class="section-title">
-        📊 6. Planilha Comparativa Geral (18 Modelos)
+    <div class="panel-card" style="padding: 20px;">
+      <div class="form-grid-2">
+        <div>
+          <label>Carro A:</label>
+          <select id="select-comp-a" onchange="renderComparator()"></select>
+        </div>
+        <div>
+          <label>Carro B:</label>
+          <select id="select-comp-b" onchange="renderComparator()"></select>
+        </div>
       </div>
-      <button class="btn-action excel" onclick="downloadCsv()">
-        📥 Baixar Planilha Completa (Excel .CSV)
-      </button>
+
+      <div class="comp-grid" id="comparator-output"></div>
+
+      <div style="background: rgba(168, 85, 247, 0.12); border: 1px solid var(--purple); border-radius: 12px; padding: 14px; margin-top: 16px; font-size: 0.84rem; color: #e9d5ff;" id="cdi-verdict"></div>
+    </div>
+  </section>
+
+  <!-- SEÇÃO 5: PLANILHA GERAL -->
+  <section id="table-section">
+    <div class="section-header">
+      <div>
+        <div class="section-title">
+          📋 5. Planilha Comparativa Geral (21 Modelos)
+        </div>
+        <div class="section-subtitle">
+          Visão em tabela completa com exportação instantânea para Excel:
+        </div>
+      </div>
+      <button class="btn-action excel" onclick="downloadCsv()">📥 Baixar Planilha Completa (Excel .CSV)</button>
     </div>
 
     <div class="table-wrapper">
@@ -1408,1140 +1405,629 @@
             <th>Modelo</th>
             <th>Categoria</th>
             <th>Preço FIPE</th>
-            <th>Dimensões 3D (C × L × A)</th>
+            <th>Dimensões (C × L × A)</th>
             <th>Giro</th>
             <th>Mala</th>
-            <th>Consumo Cidade</th>
+            <th>Consumo RJ</th>
             <th>IPVA RJ</th>
-            <th>Nota Donos</th>
+            <th>Longevidade Black</th>
+            <th>Nota</th>
             <th>Ação</th>
           </tr>
         </thead>
-        <tbody id="table-body">
-          <!-- Preenchido via JS -->
-        </tbody>
+        <tbody id="table-body"></tbody>
       </table>
     </div>
-  </div>
+  </section>
 
-  <footer>
-    <p>Projeto de Apoio à Decisão de Compra de Carro no Rio de Janeiro • Uber Black & 99Plus 2027+</p>
-    <p style="margin-top: 4px; font-size: 0.75rem; color: #64748b;">
-      Dados baseados em FIPE, SEFAZ-RJ (Resolução nº 56/2023), PBEV INMETRO e regulamento oficial Uber Black Brasil.
-    </p>
+  <footer style="text-align: center; padding: 30px 0 10px; color: var(--text-dim); font-size: 0.78rem; border-top: 1px solid var(--border);">
+    <p>Projeto de Decisão Automotiva Rio de Janeiro • Dados baseados em FIPE, SEFAZ-RJ, PBEV INMETRO e Uber Black RJ Oficial.</p>
   </footer>
 
 </div>
 
+<!-- DOCK FLUTUANTE DE DESKTOP (BARRA INFERIOR MODERNA) -->
+<div class="desktop-dock" id="desktop-dock">
+  <div class="dock-left">
+    <img id="dock-img" class="dock-thumb" src="fotos/corolla_20_flex.jpg" alt="Carro">
+    <div class="dock-text">
+      <span class="dock-title" id="dock-title">Toyota Corolla 2.0 Dynamic Force</span>
+      <span class="dock-sub" id="dock-sub">R$ 122.000 • Custo RJ: R$ 1.507/mês • 4,63 × 1,78m</span>
+    </div>
+  </div>
+  <div class="dock-actions">
+    <button class="btn-action" style="padding: 4px 10px; font-size: 0.75rem;" onclick="scrollToSection('dashboard-section')">📐 Ver Garagem 3D</button>
+    <button class="btn-action" style="padding: 4px 10px; font-size: 0.75rem;" onclick="scrollToSection('tech-section')">✨ Ver Mimos</button>
+    <button class="btn-action green" style="padding: 4px 10px; font-size: 0.75rem;" onclick="copyWhatsappSummary()">📲 WhatsApp</button>
+  </div>
+</div>
+
+<!-- MODAL PARA ADICIONAR CARRO CORINGA -->
+<div class="modal-backdrop" id="modal-coringa">
+  <div class="modal-card">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; border-bottom: 1px solid var(--border); padding-bottom: 10px;">
+      <span style="font-size: 1.1rem; font-weight: 800; color: #fff;">🃏 Adicionar Carro Coringa</span>
+      <button style="background: none; border: none; color: var(--text-muted); font-size: 1.4rem; cursor: pointer;" onclick="closeCoringaModal()">&times;</button>
+    </div>
+    <form id="form-coringa" onsubmit="saveCoringaCar(event)">
+      <div class="form-grid-2">
+        <div class="form-group"><label>Marca:</label><input type="text" id="coringa-brand" placeholder="Ex: Toyota" required></div>
+        <div class="form-group"><label>Modelo:</label><input type="text" id="coringa-name" placeholder="Ex: Yaris Sedã" required></div>
+      </div>
+      <div class="form-grid-2">
+        <div class="form-group">
+          <label>Categoria:</label>
+          <select id="coringa-cat" required>
+            <option value="flex">Flex Tradicional (IPVA RJ 4%)</option>
+            <option value="hybrid">Híbrido Pleno (IPVA RJ 1,5%)</option>
+            <option value="phev">Híbrido Plug-in (IPVA RJ 1,5%)</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Preço (R$):</label><input type="number" id="coringa-price" placeholder="Ex: 85000" step="1000" required></div>
+      </div>
+      <div class="form-grid-2">
+        <div class="form-group"><label>Comprimento (m):</label><input type="number" id="coringa-length" placeholder="Ex: 4.42" step="0.01" required></div>
+        <div class="form-group"><label>Largura (m):</label><input type="number" id="coringa-width" placeholder="Ex: 1.73" step="0.01" required></div>
+      </div>
+      <div class="form-grid-2">
+        <div class="form-group"><label>Altura (m):</label><input type="number" id="coringa-height" placeholder="Ex: 1.49" step="0.01" value="1.50" required></div>
+        <div class="form-group"><label>Consumo RJ (km/L):</label><input type="number" id="coringa-kml" placeholder="Ex: 12.2" step="0.1" required></div>
+      </div>
+      <div class="form-grid-2">
+        <div class="form-group"><label>Giro (m):</label><input type="number" id="coringa-turn" value="10.6" step="0.1"></div>
+        <div class="form-group"><label>Porta-Malas (L):</label><input type="number" id="coringa-trunk" value="400"></div>
+      </div>
+      <div class="form-group">
+        <label>URL da Foto (Opcional):</label>
+        <input type="url" id="coringa-photo" placeholder="https://exemplo.com/foto.jpg">
+      </div>
+      <div style="display: flex; gap: 10px; margin-top: 14px;">
+        <button type="submit" class="btn-action green" style="flex-grow: 1; justify-content: center; padding: 10px;">💾 Salvar no Navegador</button>
+        <button type="button" class="btn-action" onclick="closeCoringaModal()">Cancelar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
 <script>
-  
-  // PERSISTÊNCIA E CARRO CORINGA (localStorage)
-  function loadCustomCars() {
-    try {
-      const saved = localStorage.getItem('custom_cars_rj');
-      if (saved) {
-        const customList = JSON.parse(saved);
-        customList.forEach(c => {
-          if (!cars.some(existing => existing.id === c.id)) {
-            cars.push(c);
-          }
-        });
-      }
-    } catch (e) {
-      console.warn("Erro ao carregar carros personalizados:", e);
-    }
-  }
-
-  function openCoringaModal() {
-    document.getElementById('modal-coringa').classList.add('active');
-  }
-
-  function closeCoringaModal() {
-    document.getElementById('modal-coringa').classList.remove('active');
-    document.getElementById('form-coringa').reset();
-  }
-
-  function saveCoringaCar(e) {
-    e.preventDefault();
-    const brand = document.getElementById('coringa-brand').value.trim();
-    const name = document.getElementById('coringa-name').value.trim();
-    const cat = document.getElementById('coringa-cat').value;
-    const price = parseFloat(document.getElementById('coringa-price').value);
-    const length = parseFloat(document.getElementById('coringa-length').value);
-    const width = parseFloat(document.getElementById('coringa-width').value);
-    const height = parseFloat(document.getElementById('coringa-height').value) || 1.50;
-    const kml = parseFloat(document.getElementById('coringa-kml').value);
-    const turn = parseFloat(document.getElementById('coringa-turn').value) || 10.6;
-    const trunk = parseInt(document.getElementById('coringa-trunk').value) || 400;
-    let photo = document.getElementById('coringa-photo').value.trim();
-    const desc = document.getElementById('coringa-desc').value.trim() || 'Carro personalizado adicionado para comparação.';
-
-    if (!photo) {
-      photo = 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?w=600';
-    }
-
-    const uniqueId = 'coringa_' + Date.now();
-    const ipvaRate = (cat === 'hybrid' || cat === 'phev') ? 1.5 : 4.0;
-
-    const newCar = {
-      id: uniqueId,
-      isCustom: true,
-      brand: brand,
-      name: name,
-      type: `${cat.toUpperCase()} / Personalizado`,
-      cat: cat,
-      photo: photo,
-      fipe: price,
-      ipvaRate: ipvaRate,
-      kml: kml,
-      length: length,
-      width: width,
-      mirrors: width + 0.22,
-      height: height,
-      turn: turn,
-      trunk: trunk,
-      trunkH: height + 0.50,
-      score: "Custom",
-      uber: "Coringa",
-      tags: ["coringa"],
-      desc: desc
-    };
-
-    cars.unshift(newCar); // Adiciona no início da lista
-
-    // Salva no localStorage
-    try {
-      const customCars = cars.filter(c => c.isCustom);
-      localStorage.setItem('custom_cars_rj', JSON.stringify(customCars));
-    } catch (err) {
-      console.warn("Erro ao salvar no localStorage", err);
-    }
-
-    closeCoringaModal();
-    updateTotalCount();
-    loadCustomCars();
-    updateTotalCount();
-    renderShowroom(cars);
-    populateComparatorSelects();
-    renderTable(cars);
-    selectCar(uniqueId);
-
-    // Rola suave até o card do carro
-    setTimeout(() => {
-      window.scrollTo({ top: 380, behavior: 'smooth' });
-    }, 100);
-
-    alert(`🃏 Carro "${brand} ${name}" adicionado com sucesso! Ele já foi selecionado para simular custos e comparar.`);
-  }
-
-  function deleteCoringaCar(e, id) {
-    e.stopPropagation();
-    if (!confirm("Deseja realmente remover este carro personalizado?")) return;
-
-    const idx = cars.findIndex(c => c.id === id);
-    if (idx !== -1) {
-      cars.splice(idx, 1);
-      try {
-        const customCars = cars.filter(c => c.isCustom);
-        localStorage.setItem('custom_cars_rj', JSON.stringify(customCars));
-      } catch (err) {}
-      updateTotalCount();
-      loadCustomCars();
-    updateTotalCount();
-    renderShowroom(cars);
-      populateComparatorSelects();
-      renderTable(cars);
-      selectCar('corolla_cross_hybrid');
-    }
-  }
-
-  function updateTotalCount() {
-    const el = document.getElementById('total-cars-count');
-    if (el) el.innerText = cars.length;
-  }
-
-  // DADOS COMPLETOS DOS 18 VEÍCULOS
+  // DATASET DE 21 CARROS
   const cars = [
-    {
-      id: "corolla_20_flex",
-      brand: "Toyota",
-      name: "Corolla 2.0 Dynamic Force Flex",
-      type: "2.0 Flex 177cv / Direct Shift CVT",
-      cat: "flex",
-      photo: "fotos/corolla_20_flex.jpg",
-      fipe: 122000,
-      ipvaRate: 4.0,
-      kml: 11.6,
-      length: 4.63,
-      width: 1.78,
-      mirrors: 2.00,
-      height: 1.45,
-      turn: 10.4,
-      trunk: 470,
-      trunkH: 1.80,
-      score: "9.4",
-      uber: "Até 2032+ (6 anos+)",
-      uberStatus: "valid-long",
-      fuelImmunity: "immune",
-      tags: ["garagem", "tanque"],
-      desc: "Tanque de guerra mecânico: 177cv aspirado, 1ª marcha por engrenagem física, imune ao E30/E35 e liquidez recorde no RJ."
-    },
-    {
-      id: "taos",
-      brand: "Volkswagen",
-      name: "Taos 250 TSI 1.4T AT6",
-      type: "1.4 TSI Flex 150cv / AT6 Aisin",
-      cat: "flex",
-      photo: "fotos/taos.jpg",
-      fipe: 132000,
-      ipvaRate: 4.0,
-      kml: 10.9,
-      length: 4.46,
-      width: 1.84,
-      mirrors: 2.08,
-      height: 1.63,
-      turn: 11.5,
-      trunk: 498,
-      trunkH: 2.09,
-      score: "9.1",
-      uber: "Até 2031+ (5 anos+)",
-      uberStatus: "valid-long",
-      fuelImmunity: "immune",
-      tags: ["espaco"],
-      desc: "Porta-malas gigante de 498L em apenas 4,46m de comprimento (mesmo tamanho do Corolla Cross). Suspensão Multilink."
-    },
-    {
-      id: "song_plus",
-      brand: "BYD",
-      name: "Song Plus DM-i PHEV",
-      type: "Híbrido Plug-in PHEV / EHS",
-      cat: "phev",
-      photo: "fotos/song_plus.jpg",
-      fipe: 185000,
-      ipvaRate: 1.5,
-      kml: 17.0,
-      length: 4.71,
-      width: 1.89,
-      mirrors: 2.12,
-      height: 1.68,
-      turn: 11.1,
-      trunk: 574,
-      trunkH: 2.14,
-      score: "9.3",
-      uber: "Até 2033+ (7 anos+)",
-      uberStatus: "valid-long",
-      fuelImmunity: "hybrid",
-      tags: ["luxo"],
-      desc: "SUV Plug-in mais vendido do Brasil. Economia brutal de IPVA 1,5% no RJ, porta-malas de 574L e acabamento de luxo."
-    },
-    {
-      id: "kicks",
-      brand: "Nissan",
-      name: "Kicks 1.6 CVT",
-      type: "Flex / Câmbio CVT",
-      cat: "flex",
-      photo: "fotos/kicks.jpg",
-      fipe: 78000,
-      ipvaRate: 4.0,
-      kml: 11.4,
-      length: 4.31,
-      width: 1.76,
-      mirrors: 1.96,
-      height: 1.59,
-      turn: 10.2,
-      trunk: 432,
-      trunkH: 2.05,
-      score: "8.6",
-      uber: "2018+",
-      tags: ["garagem", "barato"],
-      desc: "Manutenção barata, suspensão macia para asfalto do RJ, câmera 360°, porta-malas grande."
-    },
-    {
-      id: "tcross",
-      brand: "Volkswagen",
-      name: "T-Cross 200 TSI AT6",
-      type: "1.0 Turbo / AT6",
-      cat: "flex",
-      photo: "fotos/tcross.jpg",
-      fipe: 89000,
-      ipvaRate: 4.0,
-      kml: 12.0,
-      length: 4.19,
-      width: 1.76,
-      mirrors: 1.98,
-      height: 1.56,
-      turn: 10.6,
-      trunk: 373,
-      trunkH: 2.04,
-      score: "8.7",
-      uber: "2020+",
-      tags: ["garagem"],
-      desc: "Entre-eixos de SUV médio (2,65m) em carroceria curta (4,19m). Excelente para garagens apertadas."
-    },
-    {
-      id: "city_sedan",
-      brand: "Honda",
-      name: "City Sedã 1.5 CVT",
-      type: "1.5 Flex / Câmbio CVT",
-      cat: "flex",
-      photo: "fotos/city_sedan.jpg",
-      fipe: 102000,
-      ipvaRate: 4.0,
-      kml: 13.1,
-      length: 4.54,
-      width: 1.74,
-      mirrors: 1.94,
-      height: 1.47,
-      turn: 10.6,
-      trunk: 519,
-      trunkH: 1.78,
-      score: "9.1",
-      uber: "2023+",
-      tags: ["garagem"],
-      desc: "O mais estreito da categoria (1,74m), porta-malas imenso de 519L e baixo para tetos de garagem."
-    },
-    {
-      id: "city_hatch",
-      brand: "Honda",
-      name: "City Hatch 1.5 CVT",
-      type: "1.5 Flex / Câmbio CVT",
-      cat: "flex",
-      photo: "fotos/city_hatch.jpg",
-      fipe: 101000,
-      ipvaRate: 4.0,
-      kml: 13.3,
-      length: 4.34,
-      width: 1.74,
-      mirrors: 1.94,
-      height: 1.49,
-      turn: 10.6,
-      trunk: 268,
-      trunkH: 1.98,
-      score: "9.0",
-      uber: "2023+",
-      tags: ["garagem"],
-      desc: "Extremamente estreito (1,74m) e modular com Magic Seat, ágil para o trânsito do RJ."
-    },
-    {
-      id: "hrv_g1",
-      brand: "Honda",
-      name: "HR-V 1.8 CVT (G1)",
-      type: "1.8 Flex / Câmbio CVT",
-      cat: "flex",
-      photo: "fotos/hrv_g1.jpg",
-      fipe: 89000,
-      ipvaRate: 4.0,
-      kml: 11.0,
-      length: 4.32,
-      width: 1.77,
-      mirrors: 1.99,
-      height: 1.58,
-      turn: 10.6,
-      trunk: 437,
-      trunkH: 2.06,
-      score: "8.9",
-      uber: "2018+",
-      tags: ["garagem", "barato"],
-      desc: "Liquidez máxima no RJ, robustez mecânica consagrada e ótimo porta-malas."
-    },
-    {
-      id: "hrv_g2",
-      brand: "Honda",
-      name: "New HR-V 1.5 G2",
-      type: "1.5 Flex DI / CVT",
-      cat: "flex",
-      photo: "fotos/hrv_g2.jpg",
-      fipe: 132000,
-      ipvaRate: 4.0,
-      kml: 12.7,
-      length: 4.33,
-      width: 1.79,
-      mirrors: 2.01,
-      height: 1.59,
-      turn: 10.6,
-      trunk: 354,
-      trunkH: 2.05,
-      score: "9.2",
-      uber: "2023+",
-      tags: [],
-      desc: "Design moderno, pacote Honda Sensing completo e acabamento refinado."
-    },
-    {
-      id: "renegade",
-      brand: "Jeep",
-      name: "Renegade 1.3T T270",
-      type: "1.3 Turbo 185cv / AT6",
-      cat: "flex",
-      photo: "fotos/renegade.jpg",
-      fipe: 99000,
-      ipvaRate: 4.0,
-      kml: 11.0,
-      length: 4.26,
-      width: 1.81,
-      mirrors: 2.04,
-      height: 1.70,
-      turn: 10.8,
-      trunk: 320,
-      trunkH: 2.12,
-      score: "8.3",
-      uber: "2022+",
-      tags: [],
-      desc: "Motor forte de 185cv e suspensão independente nas 4 rodas para buracos do RJ."
-    },
-    {
-      id: "peugeot_2008",
-      brand: "Peugeot",
-      name: "Novo 2008 1.0T T200",
-      type: "1.0 Turbo 130cv / CVT",
-      cat: "flex",
-      photo: "fotos/peugeot_2008.jpg",
-      fipe: 128000,
-      ipvaRate: 4.0,
-      kml: 12.3,
-      length: 4.30,
-      width: 1.77,
-      mirrors: 1.98,
-      height: 1.54,
-      turn: 10.4,
-      trunk: 419,
-      trunkH: 2.03,
-      score: "8.9",
-      uber: "2025+",
-      tags: ["garagem"],
-      desc: "Corpo estreito (1,77m), raio de giro curto (10,4m) e mecânica Turbo 200 Fiat/Stellantis."
-    },
-    {
-      id: "creta",
-      brand: "Hyundai",
-      name: "Creta 1.0 TGDI AT6",
-      type: "1.0 Turbo / AT6",
-      cat: "flex",
-      photo: "fotos/creta.jpg",
-      fipe: 114000,
-      ipvaRate: 4.0,
-      kml: 11.6,
-      length: 4.30,
-      width: 1.79,
-      mirrors: 2.01,
-      height: 1.62,
-      turn: 10.6,
-      trunk: 422,
-      trunkH: 2.06,
-      score: "8.7",
-      uber: "2022+",
-      tags: [],
-      desc: "5 anos de garantia de fábrica, interior espaçoso e suspensão muito confortável."
-    },
-    {
-      id: "sentra",
-      brand: "Nissan",
-      name: "Sentra 2.0 CVT",
-      type: "2.0 Gasolina / CVT",
-      cat: "flex",
-      photo: "fotos/sentra.jpg",
-      fipe: 134000,
-      ipvaRate: 4.0,
-      kml: 11.0,
-      length: 4.64,
-      width: 1.81,
-      mirrors: 2.03,
-      height: 1.45,
-      turn: 10.8,
-      trunk: 466,
-      trunkH: 1.80,
-      score: "9.2",
-      uber: "2023+",
-      tags: [],
-      desc: "Bancos Gravidade Zero ultra-confortáveis, silêncio a bordo e perfil baixo de 1,45m."
-    },
-    {
-      id: "corolla_altis_hybrid",
-      brand: "Toyota",
-      name: "Corolla Altis Hybrid",
-      type: "1.8 Híbrido Flex / e-CVT",
-      cat: "hybrid",
-      photo: "fotos/corolla_altis_hybrid.jpg",
-      fipe: 135000,
-      ipvaRate: 1.5,
-      kml: 17.9,
-      length: 4.63,
-      width: 1.78,
-      mirrors: 2.00,
-      height: 1.45,
-      turn: 10.4,
-      trunk: 470,
-      trunkH: 1.80,
-      score: "9.3",
-      uber: "2020+",
-      tags: ["garagem"],
-      desc: "17,9 km/L na cidade, IPVA 1,5% no RJ (economiza R$ 3.375/ano) e largura estreita de 1,78m."
-    },
-    {
-      id: "corolla_cross_hybrid",
-      brand: "Toyota",
-      name: "Corolla Cross HEV",
-      type: "1.8 Híbrido Flex / e-CVT",
-      cat: "hybrid",
-      photo: "fotos/corolla_cross_hybrid.jpg",
-      fipe: 142000,
-      ipvaRate: 1.5,
-      kml: 17.0,
-      length: 4.46,
-      width: 1.82,
-      mirrors: 2.04,
-      height: 1.62,
-      turn: 10.4,
-      trunk: 440,
-      trunkH: 2.08,
-      score: "9.1",
-      uber: "2022+",
-      tags: [],
-      desc: "O SUV mais desejado no Uber Black RJ, IPVA 1,5% e valor de revenda imediato."
-    },
-    {
-      id: "stonic",
-      brand: "Kia",
-      name: "Stonic 1.0T MHEV",
-      type: "1.0 Turbo MHEV 48V / DCT7",
-      cat: "hybrid",
-      photo: "fotos/stonic.jpg",
-      fipe: 105000,
-      ipvaRate: 1.5,
-      kml: 13.7,
-      length: 4.14,
-      width: 1.76,
-      mirrors: 1.96,
-      height: 1.52,
-      turn: 10.2,
-      trunk: 325,
-      trunkH: 1.98,
-      score: "8.7",
-      uber: "2022+",
-      tags: ["garagem"],
-      desc: "O mais compacto e ágil de manobrar (4,14m), IPVA 1,5% de apenas R$ 1.575/ano."
-    },
-    {
-      id: "tiggo_5x",
-      brand: "CAOA Chery",
-      name: "Tiggo 5x Hybrid",
-      type: "1.5 Turbo MHEV 48V / CVT",
-      cat: "hybrid",
-      photo: "fotos/tiggo_5x.jpg",
-      fipe: 115000,
-      ipvaRate: 1.5,
-      kml: 11.5,
-      length: 4.34,
-      width: 1.83,
-      mirrors: 2.05,
-      height: 1.64,
-      turn: 11.0,
-      trunk: 340,
-      trunkH: 2.06,
-      score: "8.5",
-      uber: "2023+",
-      tags: [],
-      desc: "Teto panorâmico, câmeras 360°, interior refinado e benefício do IPVA de 1,5%."
-    },
-    {
-      id: "tiggo_7",
-      brand: "CAOA Chery",
-      name: "Tiggo 7 Hybrid",
-      type: "1.5 Turbo MHEV 48V / CVT",
-      cat: "hybrid",
-      photo: "fotos/tiggo_7.jpg",
-      fipe: 139000,
-      ipvaRate: 1.5,
-      kml: 11.6,
-      length: 4.50,
-      width: 1.84,
-      mirrors: 2.07,
-      height: 1.67,
-      turn: 11.2,
-      trunk: 475,
-      trunkH: 2.10,
-      score: "8.8",
-      uber: "2023+",
-      tags: [],
-      desc: "Porte de SUV médio, porta-malas grande de 475L e pacote completo de equipamentos."
-    },
-    {
-      id: "byd_king",
-      brand: "BYD",
-      name: "BYD King DM-i PHEV",
-      type: "Plug-in Híbrido PHEV / EHS",
-      cat: "phev",
-      photo: "fotos/byd_king.jpg",
-      fipe: 168000,
-      ipvaRate: 1.5,
-      kml: 25.6,
-      length: 4.78,
-      width: 1.83,
-      mirrors: 2.05,
-      height: 1.49,
-      turn: 11.0,
-      trunk: 450,
-      trunkH: 1.82,
-      score: "9.2",
-      uber: "2024+",
-      tags: [],
-      desc: "Roda até 100km puramente elétrico na tomada, tecnologia de ponta e consumo de 25 km/L."
-    },
-    {
-      id: "niro",
-      brand: "Kia",
-      name: "Kia Niro HEV",
-      type: "1.6 Híbrido Pleno / DCT6",
-      cat: "hybrid",
-      photo: "fotos/niro.jpg",
-      fipe: 169000,
-      ipvaRate: 1.5,
-      kml: 19.8,
-      length: 4.42,
-      width: 1.82,
-      mirrors: 2.03,
-      height: 1.54,
-      turn: 10.6,
-      trunk: 425,
-      trunkH: 2.02,
-      score: "9.4",
-      uber: "2023+",
-      tags: [],
-      desc: "Quase 20 km/L na cidade do RJ, acabamento europeu e nota de satisfação de 9,4."
-    },
-    {
-      id: "haval_h6",
-      brand: "GWM",
-      name: "Haval H6 HEV",
-      type: "1.5 Turbo Híbrido / DHT",
-      cat: "hybrid",
-      photo: "fotos/haval_h6.jpg",
-      fipe: 195000,
-      ipvaRate: 1.5,
-      kml: 13.8,
-      length: 4.68,
-      width: 1.88,
-      mirrors: 2.11,
-      height: 1.73,
-      turn: 11.6,
-      trunk: 560,
-      trunkH: 2.15,
-      score: "9.3",
-      uber: "2023+",
-      tags: [],
-      desc: "243 cv combinados, porta-malas de 560L, luxo de alto padrão e IPVA reduzido de 1,5%."
-    }
-  ];
-
-  let selectedCar = cars.find(c => c.id === 'corolla_cross_hybrid');
-  let seguroType = 'particular';
-
-  // INICIALIZAÇÃO
-  window.addEventListener('DOMContentLoaded', () => {
-    // Detecta tamanho da tela e ajusta
-    if (window.innerWidth <= 768) {
-      setDeviceMode('mobile');
-    }
-    loadCustomCars();
-    updateTotalCount();
-    renderShowroom(cars);
-    populateComparatorSelects();
-    renderTable(cars);
-    selectCar('corolla_cross_hybrid');
-    init3dEngine();
-  });
-
-  // ALTERNADOR DE MODO CELULAR / DESKTOP
-  function setDeviceMode(mode) {
-    const body = document.body;
-    const btnDesktop = document.getElementById('btn-desktop-mode');
-    const btnMobile = document.getElementById('btn-mobile-mode');
-
-    if (mode === 'mobile') {
-      body.classList.add('mobile-simulation-mode');
-      btnMobile.classList.add('active');
-      btnDesktop.classList.remove('active');
-    } else {
-      body.classList.remove('mobile-simulation-mode');
-      btnDesktop.classList.add('active');
-      btnMobile.classList.remove('active');
-    }
+  {
+    "id": "corolla_20_flex",
+    "brand": "Toyota",
+    "name": "Corolla 2.0 Dynamic Force Flex",
+    "type": "2.0 Flex 177cv / Direct Shift CVT",
+    "cat": "flex",
+    "photo": "fotos/corolla_20_flex.jpg",
+    "fipe": 122000,
+    "ipvaRate": 4.0,
+    "kml": 11.6,
+    "length": 4.63,
+    "width": 1.78,
+    "mirrors": 2.0,
+    "height": 1.45,
+    "turn": 10.4,
+    "trunk": 470,
+    "trunkH": 1.8,
+    "score": "9.4",
+    "uber": "Até 2032+ (6 anos+)",
+    "uberStatus": "valid-long",
+    "fuelImmunity": "immune",
+    "tags": [
+      "garagem",
+      "tanque"
+    ],
+    "desc": "Tanque de guerra mecânico: 177cv aspirado, 1ª marcha por engrenagem física, imune ao E30/E35 e liquidez recorde no RJ."
+  },
+  {
+    "id": "taos",
+    "brand": "Volkswagen",
+    "name": "Taos 250 TSI 1.4T AT6",
+    "type": "1.4 TSI Flex 150cv / AT6 Aisin",
+    "cat": "flex",
+    "photo": "fotos/taos.jpg",
+    "fipe": 132000,
+    "ipvaRate": 4.0,
+    "kml": 10.9,
+    "length": 4.46,
+    "width": 1.84,
+    "mirrors": 2.08,
+    "height": 1.63,
+    "turn": 11.5,
+    "trunk": 498,
+    "trunkH": 2.09,
+    "score": "9.1",
+    "uber": "Até 2031+ (5 anos+)",
+    "uberStatus": "valid-long",
+    "fuelImmunity": "immune",
+    "tags": [
+      "espaco"
+    ],
+    "desc": "Porta-malas gigante de 498L em apenas 4,46m de comprimento (mesmo tamanho do Corolla Cross). Suspensão Multilink."
+  },
+  {
+    "id": "song_plus",
+    "brand": "BYD",
+    "name": "Song Plus DM-i PHEV",
+    "type": "Híbrido Plug-in PHEV / EHS",
+    "cat": "phev",
+    "photo": "fotos/song_plus.jpg",
+    "fipe": 185000,
+    "ipvaRate": 1.5,
+    "kml": 17.0,
+    "length": 4.71,
+    "width": 1.89,
+    "mirrors": 2.12,
+    "height": 1.68,
+    "turn": 11.1,
+    "trunk": 574,
+    "trunkH": 2.14,
+    "score": "9.3",
+    "uber": "Até 2033+ (7 anos+)",
+    "uberStatus": "valid-long",
+    "fuelImmunity": "hybrid",
+    "tags": [
+      "luxo"
+    ],
+    "desc": "SUV Plug-in mais vendido do Brasil. Economia de IPVA 1,5% no RJ (economiza R$ 4.600/ano), porta-malas de 574L e bancos ventilados."
+  },
+  {
+    "id": "corolla_altis_hybrid",
+    "brand": "Toyota",
+    "name": "Corolla Altis Hybrid",
+    "type": "1.8 Híbrido Flex / e-CVT",
+    "cat": "hybrid",
+    "photo": "fotos/corolla_altis_hybrid.jpg",
+    "fipe": 135000,
+    "ipvaRate": 1.5,
+    "kml": 17.9,
+    "length": 4.63,
+    "width": 1.78,
+    "mirrors": 2.0,
+    "height": 1.45,
+    "turn": 10.4,
+    "trunk": 470,
+    "trunkH": 1.8,
+    "score": "9.3",
+    "uber": "Até 2031+ (5 anos+)",
+    "uberStatus": "valid-long",
+    "fuelImmunity": "immune",
+    "tags": [
+      "garagem",
+      "economico"
+    ],
+    "desc": "17,9 km/L na cidade, IPVA 1,5% no RJ (economiza R$ 3.375/ano), compressor 100% elétrico e largura estreita de 1,78m."
+  },
+  {
+    "id": "corolla_cross_hybrid",
+    "brand": "Toyota",
+    "name": "Corolla Cross HEV",
+    "type": "1.8 Híbrido Flex / e-CVT",
+    "cat": "hybrid",
+    "photo": "fotos/corolla_cross_hybrid.jpg",
+    "fipe": 142000,
+    "ipvaRate": 1.5,
+    "kml": 17.0,
+    "length": 4.46,
+    "width": 1.82,
+    "mirrors": 2.04,
+    "height": 1.62,
+    "turn": 10.4,
+    "trunk": 440,
+    "trunkH": 2.08,
+    "score": "9.1",
+    "uber": "Até 2032+ (6 anos+)",
+    "uberStatus": "valid-long",
+    "fuelImmunity": "immune",
+    "tags": [
+      "suv",
+      "economico"
+    ],
+    "desc": "O SUV mais desejado no Uber Black RJ, IPVA 1,5%, ar-condicionado com compressor elétrico e valor de revenda imediato."
+  },
+  {
+    "id": "city_sedan",
+    "brand": "Honda",
+    "name": "City Sedã 1.5 CVT",
+    "type": "1.5 Flex / Câmbio CVT",
+    "cat": "flex",
+    "photo": "fotos/city_sedan.jpg",
+    "fipe": 102000,
+    "ipvaRate": 4.0,
+    "kml": 13.1,
+    "length": 4.54,
+    "width": 1.74,
+    "mirrors": 1.94,
+    "height": 1.47,
+    "turn": 10.6,
+    "trunk": 519,
+    "trunkH": 1.78,
+    "score": "9.1",
+    "uber": "Até 2032+ (Regra 2023+)",
+    "uberStatus": "valid-long",
+    "fuelImmunity": "immune",
+    "tags": [
+      "garagem"
+    ],
+    "desc": "O mais estreito da categoria (1,74m), porta-malas imenso de 519L e baixo para tetos de garagem."
+  },
+  {
+    "id": "tcross",
+    "brand": "Volkswagen",
+    "name": "T-Cross 200 TSI AT6",
+    "type": "1.0 Turbo / AT6",
+    "cat": "flex",
+    "photo": "fotos/tcross.jpg",
+    "fipe": 89000,
+    "ipvaRate": 4.0,
+    "kml": 12.0,
+    "length": 4.19,
+    "width": 1.76,
+    "mirrors": 1.98,
+    "height": 1.56,
+    "turn": 10.6,
+    "trunk": 373,
+    "trunkH": 2.04,
+    "score": "8.7",
+    "uber": "Até 2030 (4 anos)",
+    "uberStatus": "valid-med",
+    "fuelImmunity": "immune",
+    "tags": [
+      "garagem"
+    ],
+    "desc": "Entre-eixos de SUV médio (2,65m) em carroceria curta (4,19m). Excelente para garagens apertadas."
+  },
+  {
+    "id": "kicks",
+    "brand": "Nissan",
+    "name": "Kicks 1.6 CVT",
+    "type": "Flex / Câmbio CVT",
+    "cat": "flex",
+    "photo": "fotos/kicks.jpg",
+    "fipe": 78000,
+    "ipvaRate": 4.0,
+    "kml": 11.4,
+    "length": 4.31,
+    "width": 1.76,
+    "mirrors": 1.96,
+    "height": 1.59,
+    "turn": 10.2,
+    "trunk": 432,
+    "trunkH": 2.05,
+    "score": "8.6",
+    "uber": "Até 2029 (3 anos)",
+    "uberStatus": "valid-short",
+    "fuelImmunity": "immune",
+    "tags": [
+      "garagem",
+      "barato"
+    ],
+    "desc": "Manutenção barata, suspensão macia para asfalto do RJ, câmera 360°, porta-malas grande."
+  },
+  {
+    "id": "stonic",
+    "brand": "Kia",
+    "name": "Stonic 1.0T MHEV",
+    "type": "1.0 Turbo MHEV 48V / DCT7",
+    "cat": "hybrid",
+    "photo": "fotos/stonic.jpg",
+    "fipe": 105000,
+    "ipvaRate": 1.5,
+    "kml": 13.7,
+    "length": 4.14,
+    "width": 1.76,
+    "mirrors": 1.96,
+    "height": 1.52,
+    "turn": 10.2,
+    "trunk": 325,
+    "trunkH": 1.98,
+    "score": "8.7",
+    "uber": "Até 2031+ (5 anos+)",
+    "uberStatus": "valid-long",
+    "fuelImmunity": "hybrid",
+    "tags": [
+      "garagem"
+    ],
+    "desc": "O mais compacto e ágil de manobrar (4,14m), IPVA 1,5% de apenas R$ 1.575/ano."
+  },
+  {
+    "id": "city_hatch",
+    "brand": "Honda",
+    "name": "City Hatch 1.5 CVT",
+    "type": "1.5 Flex / Câmbio CVT",
+    "cat": "flex",
+    "photo": "fotos/city_hatch.jpg",
+    "fipe": 101000,
+    "ipvaRate": 4.0,
+    "kml": 13.3,
+    "length": 4.34,
+    "width": 1.74,
+    "mirrors": 1.94,
+    "height": 1.49,
+    "turn": 10.6,
+    "trunk": 268,
+    "trunkH": 1.98,
+    "score": "9.0",
+    "uber": "Até 2032+ (Regra 2023+)",
+    "uberStatus": "valid-long",
+    "fuelImmunity": "immune",
+    "tags": [
+      "garagem"
+    ],
+    "desc": "Extremamente estreito (1,74m) e modular com Magic Seat, ágil para o trânsito do RJ."
+  },
+  {
+    "id": "hrv_g1",
+    "brand": "Honda",
+    "name": "HR-V 1.8 CVT (G1)",
+    "type": "1.8 Flex / Câmbio CVT",
+    "cat": "flex",
+    "photo": "fotos/hrv_g1.jpg",
+    "fipe": 89000,
+    "ipvaRate": 4.0,
+    "kml": 11.0,
+    "length": 4.32,
+    "width": 1.77,
+    "mirrors": 1.99,
+    "height": 1.58,
+    "turn": 10.6,
+    "trunk": 437,
+    "trunkH": 2.06,
+    "score": "8.9",
+    "uber": "Até 2027/2028 (1-2 anos)",
+    "uberStatus": "valid-short",
+    "fuelImmunity": "immune",
+    "tags": [
+      "garagem",
+      "barato"
+    ],
+    "desc": "Liquidez máxima no RJ, robustez mecânica consagrada e ótimo porta-malas."
+  },
+  {
+    "id": "hrv_g2",
+    "brand": "Honda",
+    "name": "New HR-V 1.5 G2",
+    "type": "1.5 Flex DI / CVT",
+    "cat": "flex",
+    "photo": "fotos/hrv_g2.jpg",
+    "fipe": 132000,
+    "ipvaRate": 4.0,
+    "kml": 12.7,
+    "length": 4.33,
+    "width": 1.79,
+    "mirrors": 2.01,
+    "height": 1.59,
+    "turn": 10.6,
+    "trunk": 354,
+    "trunkH": 2.05,
+    "score": "9.2",
+    "uber": "Até 2032+ (6 anos+)",
+    "uberStatus": "valid-long",
+    "fuelImmunity": "immune",
+    "tags": [],
+    "desc": "Design moderno, pacote Honda Sensing completo e acabamento refinado."
+  },
+  {
+    "id": "renegade",
+    "brand": "Jeep",
+    "name": "Renegade 1.3T T270",
+    "type": "1.3 Turbo 185cv / AT6",
+    "cat": "flex",
+    "photo": "fotos/renegade.jpg",
+    "fipe": 99000,
+    "ipvaRate": 4.0,
+    "kml": 11.0,
+    "length": 4.26,
+    "width": 1.81,
+    "mirrors": 2.04,
+    "height": 1.7,
+    "turn": 10.8,
+    "trunk": 320,
+    "trunkH": 2.12,
+    "score": "8.3",
+    "uber": "Até 2031+ (5 anos)",
+    "uberStatus": "valid-med",
+    "fuelImmunity": "immune",
+    "tags": [],
+    "desc": "Motor forte de 185cv e suspensão independente nas 4 rodas para buracos do RJ."
+  },
+  {
+    "id": "peugeot_2008",
+    "brand": "Peugeot",
+    "name": "Novo 2008 1.0T T200",
+    "type": "1.0 Turbo 130cv / CVT",
+    "cat": "flex",
+    "photo": "fotos/peugeot_2008.jpg",
+    "fipe": 128000,
+    "ipvaRate": 4.0,
+    "kml": 12.3,
+    "length": 4.3,
+    "width": 1.77,
+    "mirrors": 1.98,
+    "height": 1.54,
+    "turn": 10.4,
+    "trunk": 419,
+    "trunkH": 2.03,
+    "score": "8.9",
+    "uber": "Até 2034+ (Regra 2025+)",
+    "uberStatus": "valid-long",
+    "fuelImmunity": "immune",
+    "tags": [
+      "garagem"
+    ],
+    "desc": "Corpo estreito (1,77m), raio de giro curto (10,4m) e mecânica Turbo 200 Fiat/Stellantis."
+  },
+  {
+    "id": "creta",
+    "brand": "Hyundai",
+    "name": "Creta 1.0 TGDI AT6",
+    "type": "1.0 Turbo / AT6",
+    "cat": "flex",
+    "photo": "fotos/creta.jpg",
+    "fipe": 114000,
+    "ipvaRate": 4.0,
+    "kml": 11.6,
+    "length": 4.3,
+    "width": 1.79,
+    "mirrors": 2.01,
+    "height": 1.62,
+    "turn": 10.6,
+    "trunk": 422,
+    "trunkH": 2.06,
+    "score": "8.7",
+    "uber": "Até 2031+ (5 anos)",
+    "uberStatus": "valid-med",
+    "fuelImmunity": "immune",
+    "tags": [],
+    "desc": "5 anos de garantia de fábrica, interior espaçoso e suspensão muito confortável."
+  },
+  {
+    "id": "sentra",
+    "brand": "Nissan",
+    "name": "Sentra 2.0 CVT",
+    "type": "2.0 Gasolina / CVT",
+    "cat": "flex",
+    "photo": "fotos/sentra.jpg",
+    "fipe": 134000,
+    "ipvaRate": 4.0,
+    "kml": 11.0,
+    "length": 4.64,
+    "width": 1.81,
+    "mirrors": 2.03,
+    "height": 1.45,
+    "turn": 10.8,
+    "trunk": 466,
+    "trunkH": 1.8,
+    "score": "9.2",
+    "uber": "Até 2032+ (6 anos+)",
+    "uberStatus": "valid-long",
+    "fuelImmunity": "gas-only",
+    "tags": [],
+    "desc": "Bancos Gravidade Zero ultra-confortáveis, silêncio a bordo e perfil baixo de 1,45m."
+  },
+  {
+    "id": "tiggo_5x",
+    "brand": "CAOA Chery",
+    "name": "Tiggo 5x Hybrid",
+    "type": "1.5 Turbo MHEV 48V / CVT",
+    "cat": "hybrid",
+    "photo": "fotos/tiggo_5x.jpg",
+    "fipe": 115000,
+    "ipvaRate": 1.5,
+    "kml": 11.5,
+    "length": 4.34,
+    "width": 1.83,
+    "mirrors": 2.05,
+    "height": 1.64,
+    "turn": 11.0,
+    "trunk": 340,
+    "trunkH": 2.06,
+    "score": "8.5",
+    "uber": "Até 2032+ (6 anos+)",
+    "uberStatus": "valid-long",
+    "fuelImmunity": "hybrid",
+    "tags": [],
+    "desc": "Teto panorâmico, câmeras 360°, interior refinado e benefício do IPVA de 1,5%."
+  },
+  {
+    "id": "tiggo_7",
+    "brand": "CAOA Chery",
+    "name": "Tiggo 7 Hybrid",
+    "type": "1.5 Turbo MHEV 48V / CVT",
+    "cat": "hybrid",
+    "photo": "fotos/tiggo_7.jpg",
+    "fipe": 139000,
+    "ipvaRate": 1.5,
+    "kml": 11.6,
+    "length": 4.5,
+    "width": 1.84,
+    "mirrors": 2.07,
+    "height": 1.67,
+    "turn": 11.2,
+    "trunk": 475,
+    "trunkH": 2.1,
+    "score": "8.8",
+    "uber": "Até 2032+ (6 anos+)",
+    "uberStatus": "valid-long",
+    "fuelImmunity": "hybrid",
+    "tags": [],
+    "desc": "Porte de SUV médio, compartimento refrigerado no apoio de braço, mala de 475L e IPVA 1,5%."
+  },
+  {
+    "id": "byd_king",
+    "brand": "BYD",
+    "name": "BYD King DM-i PHEV",
+    "type": "Plug-in Híbrido PHEV / EHS",
+    "cat": "phev",
+    "photo": "fotos/byd_king.jpg",
+    "fipe": 168000,
+    "ipvaRate": 1.5,
+    "kml": 25.6,
+    "length": 4.78,
+    "width": 1.83,
+    "mirrors": 2.05,
+    "height": 1.49,
+    "turn": 11.0,
+    "trunk": 450,
+    "trunkH": 1.82,
+    "score": "9.2",
+    "uber": "Até 2033+ (7 anos+)",
+    "uberStatus": "valid-long",
+    "fuelImmunity": "hybrid",
+    "tags": [],
+    "desc": "Roda até 100km puramente elétrico na tomada, tecnologia de ponta, tela giratória e consumo de 25 km/L."
+  },
+  {
+    "id": "niro",
+    "brand": "Kia",
+    "name": "Kia Niro HEV",
+    "type": "1.6 Híbrido Pleno / DCT6",
+    "cat": "hybrid",
+    "photo": "fotos/niro.jpg",
+    "fipe": 169000,
+    "ipvaRate": 1.5,
+    "kml": 19.8,
+    "length": 4.42,
+    "width": 1.82,
+    "mirrors": 2.03,
+    "height": 1.54,
+    "turn": 10.6,
+    "trunk": 425,
+    "trunkH": 2.02,
+    "score": "9.4",
+    "uber": "Até 2032+ (6 anos+)",
+    "uberStatus": "valid-long",
+    "fuelImmunity": "hybrid",
+    "tags": [],
+    "desc": "Quase 20 km/L na cidade do RJ, acabamento europeu, tela dupla integrada e IPVA 1,5%."
+  },
+  {
+    "id": "haval_h6",
+    "brand": "GWM",
+    "name": "Haval H6 HEV",
+    "type": "1.5 Turbo Híbrido / DHT",
+    "cat": "hybrid",
+    "photo": "fotos/haval_h6.jpg",
+    "fipe": 195000,
+    "ipvaRate": 1.5,
+    "kml": 13.8,
+    "length": 4.68,
+    "width": 1.88,
+    "mirrors": 2.11,
+    "height": 1.73,
+    "turn": 11.6,
+    "trunk": 560,
+    "trunkH": 2.15,
+    "score": "9.3",
+    "uber": "Até 2032+ (6 anos+)",
+    "uberStatus": "valid-long",
+    "fuelImmunity": "hybrid",
+    "tags": [],
+    "desc": "243 cv combinados, porta-malas de 560L, console climatizado, luxo de alto padrão e IPVA reduzido de 1,5%."
   }
+];
 
-  // RENDERIZA A VITRINE COM FOTOS
-  function renderShowroom(carList) {
-    const container = document.getElementById('showroom-container');
-    container.innerHTML = '';
-
-    carList.forEach(car => {
-      const card = document.createElement('div');
-      card.className = `car-showroom-card ${selectedCar.id === car.id ? 'active' : ''}`;
-      card.id = `card-${car.id}`;
-      card.onclick = () => selectCar(car.id);
-
-      let tagClass = 'tag-flex';
-      let tagText = 'Flex';
-      if (car.cat === 'hybrid') { tagClass = 'tag-hybrid'; tagText = 'Híbrido 1.5%'; }
-      if (car.cat === 'phev') { tagClass = 'tag-phev'; tagText = 'Plug-in 1.5%'; }
-
-      
-      let deleteBtnHtml = '';
-      if (car.isCustom) {
-        tagClass = 'tag-coringa';
-        tagText = '🃏 Coringa';
-        deleteBtnHtml = `<button class="btn-del-coringa" title="Remover este carro" onclick="deleteCoringaCar(event, '${car.id}')">&times;</button>`;
-      }
-
-      card.innerHTML = `
-        <div class="card-photo-wrapper">
-          ${deleteBtnHtml}
-          <img src="${car.photo}" alt="${car.brand} ${car.name}" loading="lazy" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1549399542-7e3f8b79c341?w=400';">
-          <span class="card-tag ${tagClass}">${tagText}</span>
-          <span class="card-brand-pill">${car.brand}</span>
-        </div>
-        <div class="card-info">
-          <div class="card-title-row">
-            <span class="car-card-name">${car.name}</span>
-            <span class="car-card-price">R$ ${(car.fipe/1000).toFixed(0)}k</span>
-          </div>
-
-          <div class="car-metric-pills">
-            <div class="metric-pill">
-              <span class="lbl">Dimensões</span>
-              <span class="val">${car.length.toFixed(2)} × ${car.width.toFixed(2)}m</span>
-            </div>
-            <div class="metric-pill">
-              <span class="lbl">Consumo RJ</span>
-              <span class="val">${car.kml.toFixed(1)} km/L</span>
-            </div>
-            <div class="metric-pill">
-              <span class="lbl">Black RJ</span>
-              <span class="val" style="color:${car.uber.includes('203') || car.uber.includes('ano') ? '#4ade80' : '#f59e0b'}; font-size:0.68rem;">${car.uber}</span>
-            </div>
-            <div class="metric-pill">
-              <span class="lbl">Porta-Malas</span>
-              <span class="val">${car.trunk} L</span>
-            </div>
-          </div>
-          <div style="font-size:0.68rem; margin-top:2px; display:flex; gap:4px; flex-wrap:wrap;">
-            ${car.id === 'sentra' ? '<span style="background:rgba(239,68,68,0.2); color:#fca5a5; padding:2px 5px; border-radius:4px; border:1px solid #ef4444;">⚠️ Gasolina Pura (E30/E35)</span>' : '<span style="background:rgba(34,197,94,0.15); color:#86efac; padding:2px 5px; border-radius:4px;">🛡️ Blindado ao E30/E35 (Flex)</span>'}
-          </div>
-
-          <div class="card-footer-action">
-            <span class="owner-stars">⭐ ${car.score}</span>
-            <span style="color: var(--accent); font-weight: 600;">Simular Custos →</span>
-          </div>
-        </div>
-      `;
-      container.appendChild(card);
-    });
-  }
-
-  // FILTROS DA VITRINE
-  function filterShowroom(filterType, btn) {
-    document.querySelectorAll('.filters-row .filter-chip').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-
-    if (filterType === 'all') {
-      loadCustomCars();
-    updateTotalCount();
-    renderShowroom(cars);
-    } else if (filterType === 'tight') {
-      renderShowroom(cars.filter(c => c.width <= 1.78));
-    } else if (filterType === 'hybrid') {
-      renderShowroom(cars.filter(c => c.cat === 'hybrid' || c.cat === 'phev'));
-    } else if (filterType === 'flex') {
-      renderShowroom(cars.filter(c => c.cat === 'flex'));
-    }
-  }
-
-  // SELEÇÃO DE UM CARRO
-  function selectCar(id) {
-    selectedCar = cars.find(c => c.id === id);
-    if (!selectedCar) return;
-
-    // Atualiza classes ativas
-    document.querySelectorAll('.car-showroom-card').forEach(c => c.classList.remove('active'));
-    const activeCard = document.getElementById(`card-${id}`);
-    if (activeCard) activeCard.classList.add('active');
-
-    // Atualiza banner
-    const bannerImg = document.getElementById('banner-img');
-    bannerImg.src = selectedCar.photo;
-    bannerImg.onerror = () => { bannerImg.src = 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?w=400'; };
-
-    document.getElementById('banner-title').innerText = `${selectedCar.brand} ${selectedCar.name}`;
-    document.getElementById('banner-type').innerText = selectedCar.type;
-    document.getElementById('banner-dims').innerText = `📐 ${selectedCar.length.toFixed(2)} × ${selectedCar.width.toFixed(2)} × ${selectedCar.height.toFixed(2)} m`;
-    document.getElementById('banner-turn').innerText = `🔄 Giro ${selectedCar.turn.toFixed(1)} m`;
-    document.getElementById('banner-trunk').innerText = `🧳 ${selectedCar.trunk} L`;
-    document.getElementById('banner-ipva-rate').innerText = selectedCar.ipvaRate === 1.5 ? '⚡ IPVA RJ 1,5%' : '⛽ IPVA RJ 4,0%';
-
-    // Atualiza inputs
-    document.getElementById('input-price').value = selectedCar.fipe;
-    document.getElementById('input-kml').value = selectedCar.kml;
-
-    // Recalcula custos e garagem
-    recalcAll();
-  }
-
-  // ATUALIZA VALORES DE SLIDER
-  function updateKmLabel(val) {
-    document.getElementById('lbl-km-month').innerText = `${parseInt(val).toLocaleString('pt-BR')} km`;
-    recalcAll();
-  }
-
-  function updateGarageW(val) {
-    document.getElementById('lbl-garage-w').innerText = `${parseFloat(val).toFixed(2).replace('.', ',')} m`;
-    calcGarage();
-      techDetailsData["corolla_20_flex"] = {
-    painel: "Painel digital TFT de 12,3\" configurável em alta definição com múltiplos modos de exibição.",
-    multimidia: "Central multimídia Toyota de 9\" com espelhamento sem fio Apple CarPlay e Android Auto.",
-    cameras: "Câmera de ré com guias de assistência dinâmica + sensores de estacionamento dianteiros e traseiros.",
-    mimos: "Câmbio Direct Shift com 1ª marcha real mecânica por engrenagem; bancos em couro premium; partida por botão e chave presencial Smart Entry.",
-    clima: "Ar-condicionado digital automático Dual Zone com dutos dedicados para os passageiros do banco traseiro.",
-    adas: "Toyota Safety Sense (TSS 3.0): Piloto automático adaptativo em todas as velocidades, frenagem de pré-colisão e alerta de desvio de faixa."
-  };
-  techDetailsData["taos"] = {
-    painel: "Painel 100% digital Active Info Display de 10,25\" com projeção do mapa e dados de bordo.",
-    multimidia: "Central multimídia VW Play de 10,1\" de resposta ultra rápida com loja de apps e conexão sem fio.",
-    cameras: "Câmera de ré com visão ampliada e sensores dianteiros/traseiros com frenagem automática de manobra.",
-    mimos: "Porta-luvas e console refrigerados para bebidas; iluminação ambiente em LED com 10 cores; porta-malas gigante de 498 litros com rede divisória e iluminação bilateral.",
-    clima: "Ar-condicionado digital Climatronic Touch de 2 zonas com saída traseira exclusiva.",
-    adas: "Piloto automático adaptativo (ACC Stop & Go), frenagem autônoma de emergência até 50 km/h e detector de fadiga."
-  };
-  techDetailsData["song_plus"] = {
-    painel: "Painel de instrumentos digital LCD colorido de 12,3\" com informações de fluxo de energia.",
-    multimidia: "Tela touchscreen rotativa elétrica gigante de 15,6\" com conectividade 4G, karaokê e comando de voz.",
-    cameras: "Câmeras panorâmicas HD 360° com função 3D e visualização transparente sob o assoalho.",
-    mimos: "Console central com compartimento refrigerado climatizado; bancos dianteiros elétricos com aquecimento e resfriamento/ventilação por ar; teto solar panorâmico elétrico de vidro duplo; abertura elétrica da tampa do porta-malas por sensor.",
-    clima: "Ar-condicionado automático bizona com filtro de partículas finas PM2.5 e ionizador.",
-    adas: "Sistema ADAS completo nível 2 com assistente de permanência em faixa, ACC inteligente e alerta de tráfego cruzado."
-  };
-    updateTechSection();
-    updateUberHours(currentUberHours);
-    if (typeof draw3dGarage === 'function') draw3dGarage();
-  }
-
-  function updateGarageL(val) {
-    document.getElementById('lbl-garage-l').innerText = `${parseFloat(val).toFixed(2).replace('.', ',')} m`;
-    calcGarage();
-      techDetailsData["corolla_20_flex"] = {
-    painel: "Painel digital TFT de 12,3\" configurável em alta definição com múltiplos modos de exibição.",
-    multimidia: "Central multimídia Toyota de 9\" com espelhamento sem fio Apple CarPlay e Android Auto.",
-    cameras: "Câmera de ré com guias de assistência dinâmica + sensores de estacionamento dianteiros e traseiros.",
-    mimos: "Câmbio Direct Shift com 1ª marcha real mecânica por engrenagem; bancos em couro premium; partida por botão e chave presencial Smart Entry.",
-    clima: "Ar-condicionado digital automático Dual Zone com dutos dedicados para os passageiros do banco traseiro.",
-    adas: "Toyota Safety Sense (TSS 3.0): Piloto automático adaptativo em todas as velocidades, frenagem de pré-colisão e alerta de desvio de faixa."
-  };
-  techDetailsData["taos"] = {
-    painel: "Painel 100% digital Active Info Display de 10,25\" com projeção do mapa e dados de bordo.",
-    multimidia: "Central multimídia VW Play de 10,1\" de resposta ultra rápida com loja de apps e conexão sem fio.",
-    cameras: "Câmera de ré com visão ampliada e sensores dianteiros/traseiros com frenagem automática de manobra.",
-    mimos: "Porta-luvas e console refrigerados para bebidas; iluminação ambiente em LED com 10 cores; porta-malas gigante de 498 litros com rede divisória e iluminação bilateral.",
-    clima: "Ar-condicionado digital Climatronic Touch de 2 zonas com saída traseira exclusiva.",
-    adas: "Piloto automático adaptativo (ACC Stop & Go), frenagem autônoma de emergência até 50 km/h e detector de fadiga."
-  };
-  techDetailsData["song_plus"] = {
-    painel: "Painel de instrumentos digital LCD colorido de 12,3\" com informações de fluxo de energia.",
-    multimidia: "Tela touchscreen rotativa elétrica gigante de 15,6\" com conectividade 4G, karaokê e comando de voz.",
-    cameras: "Câmeras panorâmicas HD 360° com função 3D e visualização transparente sob o assoalho.",
-    mimos: "Console central com compartimento refrigerado climatizado; bancos dianteiros elétricos com aquecimento e resfriamento/ventilação por ar; teto solar panorâmico elétrico de vidro duplo; abertura elétrica da tampa do porta-malas por sensor.",
-    clima: "Ar-condicionado automático bizona com filtro de partículas finas PM2.5 e ionizador.",
-    adas: "Sistema ADAS completo nível 2 com assistente de permanência em faixa, ACC inteligente e alerta de tráfego cruzado."
-  };
-    updateTechSection();
-    updateUberHours(currentUberHours);
-    if (typeof draw3dGarage === 'function') draw3dGarage();
-  }
-
-  function updateGarageH(val) {
-    document.getElementById('lbl-garage-h').innerText = `${parseFloat(val).toFixed(2).replace('.', ',')} m`;
-    calcGarage();
-      techDetailsData["corolla_20_flex"] = {
-    painel: "Painel digital TFT de 12,3\" configurável em alta definição com múltiplos modos de exibição.",
-    multimidia: "Central multimídia Toyota de 9\" com espelhamento sem fio Apple CarPlay e Android Auto.",
-    cameras: "Câmera de ré com guias de assistência dinâmica + sensores de estacionamento dianteiros e traseiros.",
-    mimos: "Câmbio Direct Shift com 1ª marcha real mecânica por engrenagem; bancos em couro premium; partida por botão e chave presencial Smart Entry.",
-    clima: "Ar-condicionado digital automático Dual Zone com dutos dedicados para os passageiros do banco traseiro.",
-    adas: "Toyota Safety Sense (TSS 3.0): Piloto automático adaptativo em todas as velocidades, frenagem de pré-colisão e alerta de desvio de faixa."
-  };
-  techDetailsData["taos"] = {
-    painel: "Painel 100% digital Active Info Display de 10,25\" com projeção do mapa e dados de bordo.",
-    multimidia: "Central multimídia VW Play de 10,1\" de resposta ultra rápida com loja de apps e conexão sem fio.",
-    cameras: "Câmera de ré com visão ampliada e sensores dianteiros/traseiros com frenagem automática de manobra.",
-    mimos: "Porta-luvas e console refrigerados para bebidas; iluminação ambiente em LED com 10 cores; porta-malas gigante de 498 litros com rede divisória e iluminação bilateral.",
-    clima: "Ar-condicionado digital Climatronic Touch de 2 zonas com saída traseira exclusiva.",
-    adas: "Piloto automático adaptativo (ACC Stop & Go), frenagem autônoma de emergência até 50 km/h e detector de fadiga."
-  };
-  techDetailsData["song_plus"] = {
-    painel: "Painel de instrumentos digital LCD colorido de 12,3\" com informações de fluxo de energia.",
-    multimidia: "Tela touchscreen rotativa elétrica gigante de 15,6\" com conectividade 4G, karaokê e comando de voz.",
-    cameras: "Câmeras panorâmicas HD 360° com função 3D e visualização transparente sob o assoalho.",
-    mimos: "Console central com compartimento refrigerado climatizado; bancos dianteiros elétricos com aquecimento e resfriamento/ventilação por ar; teto solar panorâmico elétrico de vidro duplo; abertura elétrica da tampa do porta-malas por sensor.",
-    clima: "Ar-condicionado automático bizona com filtro de partículas finas PM2.5 e ionizador.",
-    adas: "Sistema ADAS completo nível 2 com assistente de permanência em faixa, ACC inteligente e alerta de tráfego cruzado."
-  };
-    updateTechSection();
-    updateUberHours(currentUberHours);
-    if (typeof draw3dGarage === 'function') draw3dGarage();
-  }
-
-  function setSeguroType(type) {
-    seguroType = type;
-    document.getElementById('btn-seg-part').classList.toggle('active', type === 'particular');
-    document.getElementById('btn-seg-app').classList.toggle('active', type === 'app');
-    recalcAll();
-  }
-
-  // CÁLCULO GERAL DE CUSTOS NO RJ
-  function recalcAll() {
-    const price = parseFloat(document.getElementById('input-price').value) || selectedCar.fipe;
-    const kmMonth = parseFloat(document.getElementById('input-km-month').value) || 1000;
-    const kml = parseFloat(document.getElementById('input-kml').value) || selectedCar.kml;
-    const fuelPrice = parseFloat(document.getElementById('input-fuel-price').value) || 5.99;
-
-    // 1. IPVA SEFAZ-RJ mensalizado
-    const ipvaAnnual = price * (selectedCar.ipvaRate / 100);
-    const ipvaMonthly = ipvaAnnual / 12;
-
-    // 2. Combustível
-    const liters = kmMonth / kml;
-    const fuelMonthly = liters * fuelPrice;
-
-    // 3. Seguro + Taxa DETRAN-RJ (~R$ 300/ano)
-    let seguroAnnual = price * 0.035; // ~3,5% na média do RJ
-    if (seguroType === 'app') {
-      seguroAnnual *= 1.35; // Endosso APP acrescenta ~35%
-    }
-    const insMonthly = (seguroAnnual + 300) / 12;
-
-    // 4. Manutenção preventiva
-    const maintMonthly = (price * 0.02) / 12;
-
-    const totalMonthly = ipvaMonthly + fuelMonthly + insMonthly + maintMonthly;
-
-    document.getElementById('res-monthly-total').innerText = `R$ ${Math.round(totalMonthly).toLocaleString('pt-BR')}`;
-    document.getElementById('res-monthly-ipva').innerText = `R$ ${Math.round(ipvaMonthly).toLocaleString('pt-BR')}`;
-    document.getElementById('res-monthly-fuel').innerText = `R$ ${Math.round(fuelMonthly).toLocaleString('pt-BR')}`;
-    document.getElementById('res-monthly-ins').innerText = `R$ ${Math.round(insMonthly).toLocaleString('pt-BR')}`;
-    document.getElementById('res-monthly-maint').innerText = `R$ ${Math.round(maintMonthly).toLocaleString('pt-BR')}`;
-
-    calcGarage();
-      techDetailsData["corolla_20_flex"] = {
-    painel: "Painel digital TFT de 12,3\" configurável em alta definição com múltiplos modos de exibição.",
-    multimidia: "Central multimídia Toyota de 9\" com espelhamento sem fio Apple CarPlay e Android Auto.",
-    cameras: "Câmera de ré com guias de assistência dinâmica + sensores de estacionamento dianteiros e traseiros.",
-    mimos: "Câmbio Direct Shift com 1ª marcha real mecânica por engrenagem; bancos em couro premium; partida por botão e chave presencial Smart Entry.",
-    clima: "Ar-condicionado digital automático Dual Zone com dutos dedicados para os passageiros do banco traseiro.",
-    adas: "Toyota Safety Sense (TSS 3.0): Piloto automático adaptativo em todas as velocidades, frenagem de pré-colisão e alerta de desvio de faixa."
-  };
-  techDetailsData["taos"] = {
-    painel: "Painel 100% digital Active Info Display de 10,25\" com projeção do mapa e dados de bordo.",
-    multimidia: "Central multimídia VW Play de 10,1\" de resposta ultra rápida com loja de apps e conexão sem fio.",
-    cameras: "Câmera de ré com visão ampliada e sensores dianteiros/traseiros com frenagem automática de manobra.",
-    mimos: "Porta-luvas e console refrigerados para bebidas; iluminação ambiente em LED com 10 cores; porta-malas gigante de 498 litros com rede divisória e iluminação bilateral.",
-    clima: "Ar-condicionado digital Climatronic Touch de 2 zonas com saída traseira exclusiva.",
-    adas: "Piloto automático adaptativo (ACC Stop & Go), frenagem autônoma de emergência até 50 km/h e detector de fadiga."
-  };
-  techDetailsData["song_plus"] = {
-    painel: "Painel de instrumentos digital LCD colorido de 12,3\" com informações de fluxo de energia.",
-    multimidia: "Tela touchscreen rotativa elétrica gigante de 15,6\" com conectividade 4G, karaokê e comando de voz.",
-    cameras: "Câmeras panorâmicas HD 360° com função 3D e visualização transparente sob o assoalho.",
-    mimos: "Console central com compartimento refrigerado climatizado; bancos dianteiros elétricos com aquecimento e resfriamento/ventilação por ar; teto solar panorâmico elétrico de vidro duplo; abertura elétrica da tampa do porta-malas por sensor.",
-    clima: "Ar-condicionado automático bizona com filtro de partículas finas PM2.5 e ionizador.",
-    adas: "Sistema ADAS completo nível 2 com assistente de permanência em faixa, ACC inteligente e alerta de tráfego cruzado."
-  };
-    updateTechSection();
-    updateUberHours(currentUberHours);
-    if (typeof draw3dGarage === 'function') draw3dGarage();
-  }
-
-  // TESTE DE GARAGEM
-  function calcGarage() {
-    if (typeof draw3dGarage === 'function') draw3dGarage();
-    const gw = parseFloat(document.getElementById('input-garage-w').value);
-    const gl = parseFloat(document.getElementById('input-garage-l').value);
-    const gh = parseFloat(document.getElementById('input-garage-h').value);
-
-    document.getElementById('res-garage-car-name').innerText = `${selectedCar.brand} ${selectedCar.name}`;
-
-    // Sobra lateral para abrir a porta (descontando espelhos ou corpo)
-    const sideSpaceTotalCm = (gw - selectedCar.width) * 100;
-    const driverDoorSpaceCm = Math.round(sideSpaceTotalCm * 0.65); // Motorista estaciona mais perto do lado do carona
-    const lengthMarginCm = Math.round((gl - selectedCar.length) * 100);
-    const trunkMarginCm = Math.round((gh - selectedCar.trunkH) * 100);
-
-    document.getElementById('calc-door-space').innerText = `~${driverDoorSpaceCm} cm livres para a porta do motorista`;
-    document.getElementById('calc-len-space').innerText = `~${lengthMarginCm} cm de sobra no portão`;
-    document.getElementById('calc-trunk-space').innerText = trunkMarginCm >= 0 
-      ? `~${trunkMarginCm} cm livres do teto ao abrir porta-malas`
-      : `⚠️ Tampa ultrapassa o teto em ${Math.abs(trunkMarginCm)} cm!`;
-
-    const feedbackBox = document.getElementById('garage-feedback');
-    feedbackBox.className = 'garage-result-badge';
-
-    if (driverDoorSpaceCm >= 55 && lengthMarginCm >= 30 && trunkMarginCm >= 5) {
-      feedbackBox.classList.add('res-ok');
-      feedbackBox.innerHTML = `✅ <strong>Encaixe Perfeito!</strong> O carro entra com folga, permite abrir a porta com conforto (≥ 55 cm) e a tampa do porta-malas abre livremente.`;
-    } else if (driverDoorSpaceCm >= 40 && lengthMarginCm >= 15) {
-      feedbackBox.classList.add('res-warn');
-      feedbackBox.innerHTML = `⚠️ <strong>Vaga Justa:</strong> O carro cabe, mas você terá que abrir a porta com cuidado (~${driverDoorSpaceCm} cm). Dica: use protetor de espuma na parede.`;
-    } else {
-      feedbackBox.classList.add('res-danger');
-      feedbackBox.innerHTML = `❌ <strong>Atenção: Vaga Crítica!</strong> Pouco espaço lateral (< 40 cm) para descer do carro ou comprimento muito apertado para o portão fechar.`;
-    }
-  }
-
-  // COMPARADOR LADO A LADO
-  function populateComparatorSelects() {
-    const selA = document.getElementById('select-comp-a');
-    const selB = document.getElementById('select-comp-b');
-    selA.innerHTML = '';
-    selB.innerHTML = '';
-
-    cars.forEach(c => {
-      selA.add(new Option(`${c.brand} ${c.name} (R$ ${(c.fipe/1000).toFixed(0)}k)`, c.id));
-      selB.add(new Option(`${c.brand} ${c.name} (R$ ${(c.fipe/1000).toFixed(0)}k)`, c.id));
-    });
-
-    selA.value = 'kicks';
-    selB.value = 'corolla_cross_hybrid';
-    renderComparator();
-  }
-
-  function renderComparator() {
-    const idA = document.getElementById('select-comp-a').value;
-    const idB = document.getElementById('select-comp-b').value;
-    const carA = cars.find(c => c.id === idA);
-    const carB = cars.find(c => c.id === idB);
-    if (!carA || !carB) return;
-
-    const out = document.getElementById('comparator-output');
-    out.innerHTML = `
-      <div class="comp-side-box">
-        <img src="${carA.photo}" class="comp-img" alt="${carA.name}" onerror="this.src='https://images.unsplash.com/photo-1549399542-7e3f8b79c341?w=400'">
-        <h4 style="color:#fff; font-size:1.05rem;">${carA.brand} ${carA.name}</h4>
-        <div style="font-size:0.8rem; color:var(--text-muted); margin-bottom:8px;">${carA.type}</div>
-        <div style="font-size:0.82rem; line-height:1.6;">
-          <div>💰 <strong>Preço FIPE:</strong> R$ ${carA.fipe.toLocaleString('pt-BR')}</div>
-          <div>⚡ <strong>IPVA RJ (${carA.ipvaRate}%):</strong> R$ ${Math.round(carA.fipe * (carA.ipvaRate/100)).toLocaleString('pt-BR')}/ano</div>
-          <div>⛽ <strong>Consumo RJ:</strong> ${carA.kml.toFixed(1)} km/L</div>
-          <div>📐 <strong>Dimensões:</strong> ${carA.length.toFixed(2)} × ${carA.width.toFixed(2)} × ${carA.height.toFixed(2)} m</div>
-          <div>🔄 <strong>Giro:</strong> ${carA.turn.toFixed(1)} m | 🧳 <strong>Mala:</strong> ${carA.trunk} L</div>
-          <div>⭐ <strong>Nota Donos:</strong> ${carA.score}</div>
-        </div>
-      </div>
-
-      <div class="comp-side-box">
-        <img src="${carB.photo}" class="comp-img" alt="${carB.name}" onerror="this.src='https://images.unsplash.com/photo-1549399542-7e3f8b79c341?w=400'">
-        <h4 style="color:#fff; font-size:1.05rem;">${carB.brand} ${carB.name}</h4>
-        <div style="font-size:0.8rem; color:var(--text-muted); margin-bottom:8px;">${carB.type}</div>
-        <div style="font-size:0.82rem; line-height:1.6;">
-          <div>💰 <strong>Preço FIPE:</strong> R$ ${carB.fipe.toLocaleString('pt-BR')}</div>
-          <div>⚡ <strong>IPVA RJ (${carB.ipvaRate}%):</strong> R$ ${Math.round(carB.fipe * (carB.ipvaRate/100)).toLocaleString('pt-BR')}/ano</div>
-          <div>⛽ <strong>Consumo RJ:</strong> ${carB.kml.toFixed(1)} km/L</div>
-          <div>📐 <strong>Dimensões:</strong> ${carB.length.toFixed(2)} × ${carB.width.toFixed(2)} × ${carB.height.toFixed(2)} m</div>
-          <div>🔄 <strong>Giro:</strong> ${carB.turn.toFixed(1)} m | 🧳 <strong>Mala:</strong> ${carB.trunk} L</div>
-          <div>⭐ <strong>Nota Donos:</strong> ${carB.score}</div>
-        </div>
-      </div>
-    `;
-
-    // Custo de oportunidade CDI
-    const diffPrice = Math.abs(carA.fipe - carB.fipe);
-    const cheaperCar = carA.fipe <= carB.fipe ? carA : carB;
-    const expensiveCar = carA.fipe > carB.fipe ? carA : carB;
-
-    const cdiMonthly = diffPrice * 0.008; // 0,8% a.m. liquido
-
-    // Diferença anual de IPVA e Gasolina (rodando 1000 km/mês)
-    const ipvaDiffYear = Math.abs((carA.fipe * (carA.ipvaRate/100)) - (carB.fipe * (carB.ipvaRate/100)));
-    const fuelDiffYear = Math.abs(((12000 / carA.kml) * 5.99) - ((12000 / carB.kml) * 5.99));
-    const annualSavingsWithMoreExpensive = (ipvaDiffYear + fuelDiffYear);
-
-    document.getElementById('cdi-verdict').innerHTML = `
-      💡 <strong>Análise Financeira (Custo de Oportunidade CDI a 0,8% a.m.):</strong><br>
-      A diferença de preço entre eles é de <strong>R$ ${diffPrice.toLocaleString('pt-BR')}</strong>.<br>
-      • Deixar essa diferença investida em CDI rende cerca de <strong>R$ ${Math.round(cdiMonthly).toLocaleString('pt-BR')}/mês</strong> livres.<br>
-      • A economia de IPVA e combustível do modelo mais eficiente é de aproximadamente <strong>R$ ${Math.round(annualSavingsWithMoreExpensive/12).toLocaleString('pt-BR')}/mês</strong>.<br>
-      ${(expensiveCar.cat === 'hybrid' && (annualSavingsWithMoreExpensive/12) > cdiMonthly) 
-        ? '👉 <strong>Veredito:</strong> O Híbrido se paga no RJ, pois a economia tributária e de combustível supera o rendimento do CDI.' 
-        : '👉 <strong>Veredito:</strong> Se você roda menos de 1.200 km/mês, o carro mais barato aplicado no CDI preserva mais patrimônio no curto prazo.'}
-    `;
-  }
-
-  // TABELA GERAL
-  function renderTable(carList) {
-    const tbody = document.getElementById('table-body');
-    tbody.innerHTML = '';
-
-    carList.forEach(car => {
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td><strong>${car.brand} ${car.name}</strong></td>
-        <td><span class="card-tag ${car.cat === 'hybrid' ? 'tag-hybrid' : (car.cat === 'phev' ? 'tag-phev' : 'tag-flex')}">${car.cat.toUpperCase()}</span></td>
-        <td>R$ ${car.fipe.toLocaleString('pt-BR')}</td>
-        <td>${car.length.toFixed(2)} × ${car.width.toFixed(2)} × ${car.height.toFixed(2)} m</td>
-        <td>${car.turn.toFixed(1)} m</td>
-        <td>${car.trunk} L</td>
-        <td>${car.kml.toFixed(1)} km/L</td>
-        <td>${car.ipvaRate}% (R$ ${Math.round(car.fipe * (car.ipvaRate/100)).toLocaleString('pt-BR')})</td>
-        <td>⭐ ${car.score}</td>
-        <td><button class="btn-action" style="padding:4px 8px; font-size:0.7rem;" onclick="selectCar('${car.id}'); window.scrollTo({top: 400, behavior:'smooth'});">Simular</button></td>
-      `;
-      tbody.appendChild(tr);
-    });
-  }
-
-  // BAIXAR PLANILHA CSV COMPATÍVEL COM EXCEL
-  function downloadCsv() {
-    let csv = "\uFEFF"; // BOM para abrir acentos no Excel
-    csv += "Marca;Modelo;Categoria;Tipo;Preço FIPE (R$);IPVA Alíquota;IPVA Anual (R$);Consumo Cidade (km/L);Comprimento (m);Largura (m);Altura (m);Diâmetro Giro (m);Porta-Malas (L);Uber Black RJ;Nota Donos;Pontos Fortes\n";
-
-    cars.forEach(c => {
-      const ipva = Math.round(c.fipe * (c.ipvaRate / 100));
-      csv += `"${c.brand}";"${c.name}";"${c.cat}";"${c.type}";"${c.fipe}";"${c.ipvaRate}%";"${ipva}";"${c.kml.toFixed(1).replace('.', ',')}";"${c.length.toFixed(2).replace('.', ',')}";"${c.width.toFixed(2).replace('.', ',')}";"${c.height.toFixed(2).replace('.', ',')}";"${c.turn.toFixed(1).replace('.', ',')}";"${c.trunk}";"${c.uber}";"${c.score}";"${c.desc}"\n`;
-    });
-
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'carros_rj_uber_black_2027.csv';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-  }
-
-  // COPIAR RESUMO FORMATADO PARA WHATSAPP
-  function copyWhatsappSummary() {
-    const gw = document.getElementById('input-garage-w').value;
-    const gl = document.getElementById('input-garage-l').value;
-    const costTotal = document.getElementById('res-monthly-total').innerText;
-
-    const text = `🚗 *Análise de Carro no RJ (Uber Black 2027+)*\n\n` +
-      `*Modelo:* ${selectedCar.brand} ${selectedCar.name}\n` +
-      `*Preço Médio:* R$ ${selectedCar.fipe.toLocaleString('pt-BR')}\n` +
-      `*Dimensões:* ${selectedCar.length.toFixed(2)}m (Comp.) × ${selectedCar.width.toFixed(2)}m (Larg.) × ${selectedCar.height.toFixed(2)}m (Alt.)\n` +
-      `*Giro:* ${selectedCar.turn.toFixed(1)}m | *Porta-Malas:* ${selectedCar.trunk} L\n` +
-      `*IPVA RJ:* ${selectedCar.ipvaRate}% (R$ ${Math.round(selectedCar.fipe * (selectedCar.ipvaRate/100)).toLocaleString('pt-BR')}/ano)\n` +
-      `*Consumo RJ:* ~${selectedCar.kml.toFixed(1)} km/L\n` +
-      `*Custo Mensal Estimado:* ${costTotal}/mês\n\n` +
-      `📐 *Teste da Garagem (${gw}m × ${gl}m):*\n` +
-      `• Porta do motorista: ${document.getElementById('calc-door-space').innerText}\n` +
-      `• Folga comprimento: ${document.getElementById('calc-len-space').innerText}\n` +
-      `• Avaliação dos Donos: ⭐ ${selectedCar.score}\n\n` +
-      `Gerado pelo Simulador Automotivo RJ 2027`;
-
-    navigator.clipboard.writeText(text).then(() => {
-      alert("✅ Resumo copiado com sucesso! Agora é só colar no WhatsApp.");
-    }).catch(() => {
-      prompt("Copie o texto abaixo para enviar no WhatsApp:", text);
-    });
-  }
-
-  // DADOS DE TECNOLOGIA E MIMOS DOS 18 CARROS
+  // DADOS DE TECNOLOGIA E MIMOS
   const techDetailsData = {
   "kicks": {
     "painel": "Cluster digital TFT de 7\" personalizável com bússola e computador de bordo",
@@ -2686,21 +2172,377 @@
     "mimos": "Head-Up Display (projeta velocidade e GPS no para-brisa na linha dos olhos); console flutuante com compartimento refrigerado climatizado; assistente de estacionamento semiautônomo que manobra e estaciona sozinho; função Auto Reverse (refaz sozinho os últimos 50 metros em marcha a ré em garagens apertadas!); teto panorâmico gigante.",
     "clima": "Ar-condicionado digital bizona com saídas traseiras dedicadas.",
     "adas": "Nível 2+ de direção autônoma com ACC Stop&Go, frenagem automática para pedestres/ciclistas e alerta de tráfego cruzado."
+  },
+  "corolla_20_flex": {
+    "painel": "Painel 100% digital TFT de 12,3\" configurável em alta definição com múltiplos temas visuais.",
+    "multimidia": "Central multimídia Toyota de 9\" com espelhamento sem fio Apple CarPlay e Android Auto.",
+    "cameras": "Câmera de ré com guias dinâmicas + sensores dianteiros e traseiros de manobra.",
+    "mimos": "Câmbio Direct Shift com 1ª marcha real mecânica por engrenagem (arranque vigoroso e zero patinamento do CVT comum); bancos em couro; chave presencial Smart Entry.",
+    "clima": "Ar-condicionado digital automático Dual Zone com dutos dedicados para o banco de trás.",
+    "adas": "Toyota Safety Sense (TSS): Piloto automático adaptativo com Stop&Go em qualquer velocidade e frenagem de pré-colisão."
+  },
+  "taos": {
+    "painel": "Painel digital Active Info Display de 10,25\" com projeção do mapa e dados do veículo.",
+    "multimidia": "Central multimídia VW Play de 10,1\" de resposta ultra rápida com loja de apps e conexão wireless.",
+    "cameras": "Câmera de ré com linhas dinâmicas de guia e sensores dianteiros/traseiros com frenagem automática de manobra.",
+    "mimos": "Porta-luvas e console refrigerados para bebidas; iluminação ambiente em LED com 10 cores; porta-malas gigante de 498 litros com rede divisória e iluminação bilateral.",
+    "clima": "Ar-condicionado digital Climatronic Touch de 2 zonas com saída traseira exclusiva.",
+    "adas": "Piloto automático adaptativo (ACC Stop & Go), frenagem autônoma de emergência até 50 km/h e detector de fadiga."
+  },
+  "song_plus": {
+    "painel": "Painel de instrumentos digital LCD colorido de 12,3\" com fluxo de energia em tempo real.",
+    "multimidia": "Tela touchscreen rotativa elétrica gigante de 15,6\" com conectividade 4G, karaokê e comando de voz.",
+    "cameras": "Câmeras panorâmicas HD 360° com função 3D e visualização transparente sob o assoalho.",
+    "mimos": "Console central com compartimento refrigerado climatizado; bancos dianteiros elétricos com aquecimento e ventilação por ar; teto solar panorâmico elétrico de vidro duplo; abertura elétrica da tampa do porta-malas por sensor.",
+    "clima": "Ar-condicionado automático bizona com filtro de partículas finas PM2.5 e ionizador.",
+    "adas": "Sistema ADAS completo nível 2 com assistente de permanência em faixa, ACC inteligente e alerta de tráfego cruzado."
   }
 };
 
-  // ESTADO DO VISUALIZADOR 3D
+  let selectedCar = cars[0]; // Corolla 2.0 Flex default
+  let seguroType = 'particular';
+  let viewMode = 'cards';
+  let currentFilter = 'all';
+  let currentSort = 'default';
+  let searchQuery = '';
+  let currentUberHours = 6;
+
+  // ESTADO DO CANVAS 3D
   let rotX = 25 * Math.PI / 180;
   let rotY = -35 * Math.PI / 180;
   let isDragging3d = false;
-  let lastMouseX = 0;
-  let lastMouseY = 0;
+  let lastMouseX = 0, lastMouseY = 0;
   let canvas3d, ctx3d;
 
-  let currentPriceFilter = 210000;
-  let currentUberHours = 6;
+  window.addEventListener('DOMContentLoaded', () => {
+    loadCustomCars();
+    updateTotalCount();
+    renderShowroom();
+    populateComparatorSelects();
+    renderTable();
+    selectCar(cars[0].id);
+    init3dEngine();
+  });
 
-  // INICIALIZAÇÃO DO MOTOR 3D
+  function scrollToSection(id) {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  function toggleDeviceSimulation() {
+    const body = document.body;
+    const btn = document.getElementById('btn-toggle-device');
+    if (body.classList.contains('mobile-simulation-mode')) {
+      body.classList.remove('mobile-simulation-mode');
+      btn.innerText = '📱 Celular';
+    } else {
+      body.classList.add('mobile-simulation-mode');
+      btn.innerText = '🖥️ Computador';
+    }
+  }
+
+  // MOTOR DE BUSCA, FILTRO E ORDENAÇÃO
+  function getFilteredCars() {
+    let list = [...cars];
+
+    // 1. Filtro de categoria
+    if (currentFilter === 'tight') {
+      list = list.filter(c => c.width <= 1.78);
+    } else if (currentFilter === 'hybrid') {
+      list = list.filter(c => c.cat === 'hybrid' || c.cat === 'phev');
+    } else if (currentFilter === 'flex') {
+      list = list.filter(c => c.cat === 'flex');
+    }
+
+    // 2. Busca por texto
+    if (searchQuery.trim() !== '') {
+      const q = searchQuery.toLowerCase();
+      list = list.filter(c => 
+        c.brand.toLowerCase().includes(q) || 
+        c.name.toLowerCase().includes(q) || 
+        c.desc.toLowerCase().includes(q) ||
+        c.type.toLowerCase().includes(q)
+      );
+    }
+
+    // 3. Ordenação
+    if (currentSort === 'price-asc') {
+      list.sort((a, b) => a.fipe - b.fipe);
+    } else if (currentSort === 'width-asc') {
+      list.sort((a, b) => a.width - b.width);
+    } else if (currentSort === 'kml-desc') {
+      list.sort((a, b) => b.kml - a.kml);
+    } else if (currentSort === 'score-desc') {
+      list.sort((a, b) => parseFloat(b.score) - parseFloat(a.score));
+    }
+
+    return list;
+  }
+
+  function handleSearch(val) {
+    searchQuery = val;
+    renderShowroom();
+  }
+
+  function handleSort(val) {
+    currentSort = val;
+    renderShowroom();
+  }
+
+  function filterShowroom(type, btn) {
+    currentFilter = type;
+    document.querySelectorAll('.filters-group .filter-chip').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    renderShowroom();
+  }
+
+  function setViewMode(mode) {
+    viewMode = mode;
+    document.getElementById('btn-view-cards').classList.toggle('active', mode === 'cards');
+    document.getElementById('btn-view-list').classList.toggle('active', mode === 'list');
+    renderShowroom();
+  }
+
+  // RENDERIZAÇÃO DA VITRINE (CARDS OU LISTA SHOWROOM)
+  function renderShowroom() {
+    const container = document.getElementById('showroom-container');
+    const filtered = getFilteredCars();
+    container.innerHTML = '';
+
+    if (viewMode === 'list') {
+      container.className = 'showroom-list';
+      filtered.forEach(car => {
+        const item = document.createElement('div');
+        item.className = `list-row-item ${selectedCar.id === car.id ? 'active' : ''}`;
+        item.onclick = () => { selectCar(car.id); };
+
+        item.innerHTML = `
+          <div style="display:flex; align-items:center; gap:12px;">
+            <img src="${car.photo}" class="list-thumb" alt="${car.name}" onerror="this.src='https://images.unsplash.com/photo-1549399542-7e3f8b79c341?w=200';">
+            <div>
+              <div style="font-weight:800; color:#fff; font-size:0.92rem;">${car.brand} ${car.name}</div>
+              <div style="font-size:0.75rem; color:#94a3b8;">${car.type} • 📐 ${car.length.toFixed(2)} × ${car.width.toFixed(2)}m</div>
+            </div>
+          </div>
+          <div style="display:flex; align-items:center; gap:16px;">
+            <div style="text-align:right;">
+              <div style="font-weight:800; color:var(--accent); font-size:0.95rem;">R$ ${(car.fipe/1000).toFixed(0)}k</div>
+              <div style="font-size:0.72rem; color:${car.uber.includes('3') || car.uber.includes('ano') ? '#4ade80' : '#f59e0b'};">${car.uber}</div>
+            </div>
+            <button class="btn-action" style="padding:4px 10px; font-size:0.74rem;">Simular →</button>
+          </div>
+        `;
+        container.appendChild(item);
+      });
+      return;
+    }
+
+    // MODO CARDS
+    container.className = 'showroom-grid';
+    filtered.forEach(car => {
+      const card = document.createElement('div');
+      card.className = `car-card ${selectedCar.id === car.id ? 'active' : ''}`;
+      card.id = `card-${car.id}`;
+      card.onclick = () => selectCar(car.id);
+
+      let tagClass = 'tag-flex';
+      let tagText = 'Flex';
+      if (car.cat === 'hybrid') { tagClass = 'tag-hybrid'; tagText = 'Híbrido 1,5%'; }
+      if (car.cat === 'phev') { tagClass = 'tag-phev'; tagText = 'Plug-in 1,5%'; }
+
+      let deleteBtn = '';
+      if (car.isCustom) {
+        tagClass = 'tag-coringa';
+        tagText = '🃏 Coringa';
+        deleteBtn = `<button class="btn-del-coringa" title="Remover" onclick="deleteCoringaCar(event, '${car.id}')">&times;</button>`;
+      }
+
+      card.innerHTML = `
+        <div class="card-photo-wrapper">
+          ${deleteBtn}
+          <img src="${car.photo}" alt="${car.brand} ${car.name}" loading="lazy" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1549399542-7e3f8b79c341?w=400';">
+          <span class="card-tag ${tagClass}">${tagText}</span>
+          <span class="card-brand-pill">${car.brand}</span>
+        </div>
+        <div class="card-info">
+          <div class="card-title-row">
+            <span class="car-card-name">${car.name}</span>
+            <span class="car-card-price">R$ ${(car.fipe/1000).toFixed(0)}k</span>
+          </div>
+          <div class="car-metric-pills">
+            <div class="metric-pill">
+              <span class="lbl">Dimensões</span>
+              <span class="val">${car.length.toFixed(2)} × ${car.width.toFixed(2)}m</span>
+            </div>
+            <div class="metric-pill">
+              <span class="lbl">Consumo RJ</span>
+              <span class="val">${car.kml.toFixed(1)} km/L</span>
+            </div>
+            <div class="metric-pill">
+              <span class="lbl">Black RJ</span>
+              <span class="val" style="color:${car.uber.includes('203') || car.uber.includes('ano') ? '#4ade80' : '#f59e0b'}; font-size:0.68rem;">${car.uber}</span>
+            </div>
+            <div class="metric-pill">
+              <span class="lbl">Porta-Malas</span>
+              <span class="val">${car.trunk} L</span>
+            </div>
+          </div>
+          <div style="font-size:0.68rem; margin-top:2px;">
+            ${car.id === 'sentra' 
+              ? '<span style="background:rgba(239,68,68,0.2); color:#fca5a5; padding:2px 6px; border-radius:4px; border:1px solid #ef4444;">⚠️ Gasolina Pura (E30/E35)</span>' 
+              : '<span style="background:rgba(34,197,94,0.15); color:#86efac; padding:2px 6px; border-radius:4px;">🛡️ Blindado ao E30/E35 (Flex)</span>'}
+          </div>
+          <div class="card-footer-action">
+            <span style="color:#fbbf24; font-weight:700;">⭐ ${car.score}</span>
+            <span style="color:var(--accent); font-weight:700;">Simular Custos & 3D →</span>
+          </div>
+        </div>
+      `;
+      container.appendChild(card);
+    });
+  }
+
+  // SELEÇÃO DO CARRO
+  function selectCar(id) {
+    const found = cars.find(c => c.id === id);
+    if (!found) return;
+    selectedCar = found;
+
+    document.querySelectorAll('.car-card, .list-row-item').forEach(el => el.classList.remove('active'));
+    const activeCard = document.getElementById(`card-${id}`);
+    if (activeCard) activeCard.classList.add('active');
+
+    // Atualiza Hero
+    const heroImg = document.getElementById('hero-img');
+    heroImg.src = selectedCar.photo;
+    heroImg.onerror = () => { heroImg.src = 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?w=500'; };
+
+    document.getElementById('hero-title').innerText = `${selectedCar.brand} ${selectedCar.name}`;
+    document.getElementById('hero-price').innerText = `R$ ${selectedCar.fipe.toLocaleString('pt-BR')}`;
+    document.getElementById('hero-type').innerText = selectedCar.type;
+    document.getElementById('hero-dim').innerText = `📐 ${selectedCar.length.toFixed(2)} × ${selectedCar.width.toFixed(2)} × ${selectedCar.height.toFixed(2)} m`;
+    document.getElementById('hero-black').innerText = `⏳ ${selectedCar.uber}`;
+    document.getElementById('hero-e30').innerText = selectedCar.id === 'sentra' ? '⚠️ Gasolina Pura (Atenção ao E30/E35)' : '🛡️ Blindado ao E30/E35 (Flex)';
+
+    // Atualiza Inputs
+    document.getElementById('input-price').value = selectedCar.fipe;
+    document.getElementById('input-kml').value = selectedCar.kml;
+
+    // Atualiza Dock do Desktop
+    const dockImg = document.getElementById('dock-img');
+    dockImg.src = selectedCar.photo;
+    dockImg.onerror = () => { dockImg.src = 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?w=100'; };
+    document.getElementById('dock-title').innerText = `${selectedCar.brand} ${selectedCar.name}`;
+
+    recalcAll();
+    updateTechSection();
+  }
+
+  function updateKmLabel(val) {
+    document.getElementById('lbl-km-month').innerText = `${parseInt(val).toLocaleString('pt-BR')} km`;
+    recalcAll();
+  }
+
+  function updateGarageW(val) {
+    document.getElementById('lbl-garage-w').innerText = `${parseFloat(val).toFixed(2).replace('.', ',')} m`;
+    calcGarage();
+  }
+  function updateGarageL(val) {
+    document.getElementById('lbl-garage-l').innerText = `${parseFloat(val).toFixed(2).replace('.', ',')} m`;
+    calcGarage();
+  }
+  function updateGarageH(val) {
+    document.getElementById('lbl-garage-h').innerText = `${parseFloat(val).toFixed(2).replace('.', ',')} m`;
+    calcGarage();
+  }
+
+  function setSeguroType(type) {
+    seguroType = type;
+    document.getElementById('btn-seg-part').classList.toggle('active', type === 'particular');
+    document.getElementById('btn-seg-app').classList.toggle('active', type === 'app');
+    recalcAll();
+  }
+
+  // CÁLCULO GERAL
+  function recalcAll() {
+    const price = parseFloat(document.getElementById('input-price').value) || selectedCar.fipe;
+    const kmMonth = parseFloat(document.getElementById('input-km-month').value) || 1000;
+    const kml = parseFloat(document.getElementById('input-kml').value) || selectedCar.kml;
+    const fuelPrice = parseFloat(document.getElementById('input-fuel-price').value) || 5.99;
+
+    const ipvaMonthly = (price * (selectedCar.ipvaRate / 100)) / 12;
+    const fuelMonthly = (kmMonth / kml) * fuelPrice;
+
+    let seguroAnnual = price * 0.035;
+    if (seguroType === 'app') seguroAnnual *= 1.40;
+    const insMonthly = (seguroAnnual + 300) / 12;
+
+    const maintMonthly = (price * 0.02) / 12;
+    const totalMonthly = ipvaMonthly + fuelMonthly + insMonthly + maintMonthly;
+
+    document.getElementById('res-val-ipva').innerText = `R$ ${Math.round(ipvaMonthly).toLocaleString('pt-BR')}`;
+    document.getElementById('res-val-fuel').innerText = `R$ ${Math.round(fuelMonthly).toLocaleString('pt-BR')}`;
+    document.getElementById('res-val-ins').innerText = `R$ ${Math.round(insMonthly).toLocaleString('pt-BR')}`;
+    document.getElementById('res-val-maint').innerText = `R$ ${Math.round(maintMonthly).toLocaleString('pt-BR')}`;
+    document.getElementById('res-monthly-total').innerText = `R$ ${Math.round(totalMonthly).toLocaleString('pt-BR')}`;
+
+    document.getElementById('dock-sub').innerText = `R$ ${(price/1000).toFixed(0)}k • Custo RJ: R$ ${Math.round(totalMonthly).toLocaleString('pt-BR')}/mês • ${selectedCar.length.toFixed(2)} × ${selectedCar.width.toFixed(2)}m`;
+
+    calcGarage();
+    updateUberHours(currentUberHours);
+  }
+
+  function calcGarage() {
+    const gw = parseFloat(document.getElementById('input-garage-w').value);
+    const gl = parseFloat(document.getElementById('input-garage-l').value);
+    const gh = parseFloat(document.getElementById('input-garage-h').value);
+
+    document.getElementById('res-garage-car-name').innerText = `${selectedCar.brand} ${selectedCar.name}`;
+
+    const sideSpaceTotalCm = (gw - selectedCar.width) * 100;
+    const driverDoorSpaceCm = Math.round(sideSpaceTotalCm * 0.65);
+    const lengthMarginCm = Math.round((gl - selectedCar.length) * 100);
+    const trunkMarginCm = Math.round((gh - selectedCar.trunkH) * 100);
+
+    document.getElementById('calc-door-space').innerText = `~${driverDoorSpaceCm} cm livres para a porta do motorista`;
+    document.getElementById('calc-len-space').innerText = `~${lengthMarginCm} cm de sobra no portão`;
+    document.getElementById('calc-trunk-space').innerText = trunkMarginCm >= 0 
+      ? `~${trunkMarginCm} cm livres do teto ao abrir porta-malas`
+      : `⚠️ Tampa ultrapassa o teto em ${Math.abs(trunkMarginCm)} cm!`;
+
+    const feedbackBox = document.getElementById('garage-feedback');
+    feedbackBox.className = 'garage-result-badge';
+
+    if (driverDoorSpaceCm >= 55 && lengthMarginCm >= 25 && trunkMarginCm >= 5) {
+      feedbackBox.classList.add('res-ok');
+      feedbackBox.innerHTML = `✅ <strong>Encaixe Perfeito:</strong> O carro entra com folga, permite abrir a porta com conforto (≥ 55 cm) e a tampa do porta-malas abre livremente.`;
+    } else if (driverDoorSpaceCm >= 40 && lengthMarginCm >= 10) {
+      feedbackBox.classList.add('res-warn');
+      feedbackBox.innerHTML = `⚠️ <strong>Vaga Justa:</strong> O carro cabe, mas você terá que abrir a porta com cuidado (~${driverDoorSpaceCm} cm). Dica: use protetor de espuma na parede.`;
+    } else {
+      feedbackBox.classList.add('res-danger');
+      feedbackBox.innerHTML = `❌ <strong>Vaga Crítica:</strong> Pouco espaço lateral (< 40 cm) para descer do carro ou comprimento muito apertado para o portão fechar.`;
+    }
+
+    if (typeof draw3dGarage === 'function') draw3dGarage();
+  }
+
+  function applyGaragePreset(w, l, h, btn) {
+    document.querySelectorAll('.preset-pill').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+
+    document.getElementById('input-garage-w').value = w;
+    document.getElementById('input-garage-l').value = l;
+    document.getElementById('input-garage-h').value = h;
+
+    document.getElementById('lbl-garage-w').innerText = `${w.toFixed(2).replace('.', ',')} m`;
+    document.getElementById('lbl-garage-l').innerText = `${l.toFixed(2).replace('.', ',')} m`;
+    document.getElementById('lbl-garage-h').innerText = `${h.toFixed(2).replace('.', ',')} m`;
+
+    calcGarage();
+  }
+
+  // MOTOR 3D CANVAS
   function init3dEngine() {
     canvas3d = document.getElementById('garage-canvas-3d');
     if (!canvas3d) return;
@@ -2716,7 +2558,6 @@
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
 
-    // Eventos de Mouse para girar em 3D
     canvas3d.addEventListener('mousedown', (e) => {
       isDragging3d = true;
       lastMouseX = e.clientX;
@@ -2737,7 +2578,6 @@
       draw3dGarage();
     });
 
-    // Eventos Touch para Celular
     canvas3d.addEventListener('touchstart', (e) => {
       if (e.touches.length === 1) {
         isDragging3d = true;
@@ -2781,7 +2621,6 @@
     draw3dGarage();
   }
 
-  // MOTOR DE RENDERIZAÇÃO 3D DA GARAGEM E CARRO
   function draw3dGarage() {
     if (!ctx3d || !canvas3d) return;
     const w = canvas3d.width;
@@ -2796,7 +2635,6 @@
     const cl = selectedCar.length;
     const ch = selectedCar.height;
 
-    // Escala e projeção 3D
     const scale = Math.min(w, h) / 6.8;
     const cx = w / 2;
     const cy = h / 2 + 25;
@@ -2822,31 +2660,24 @@
       };
     }
 
-    // 1. PISO DA GARAGEM (GRID)
+    // Grid do piso
     ctx3d.lineWidth = 1;
-    ctx3d.strokeStyle = 'rgba(56, 189, 248, 0.15)';
-    const gridStep = 0.5;
-    for (let x = -gw/2; x <= gw/2; x += gridStep) {
+    ctx3d.strokeStyle = 'rgba(56, 189, 248, 0.18)';
+    for (let x = -gw/2; x <= gw/2; x += 0.5) {
       const p1 = project(x, 0, -gl/2);
       const p2 = project(x, 0, gl/2);
-      ctx3d.beginPath();
-      ctx3d.moveTo(p1.px, p1.py);
-      ctx3d.lineTo(p2.px, p2.py);
-      ctx3d.stroke();
+      ctx3d.beginPath(); ctx3d.moveTo(p1.px, p1.py); ctx3d.lineTo(p2.px, p2.py); ctx3d.stroke();
     }
-    for (let z = -gl/2; z <= gl/2; z += gridStep) {
+    for (let z = -gl/2; z <= gl/2; z += 0.5) {
       const p1 = project(-gw/2, 0, z);
       const p2 = project(gw/2, 0, z);
-      ctx3d.beginPath();
-      ctx3d.moveTo(p1.px, p1.py);
-      ctx3d.lineTo(p2.px, p2.py);
-      ctx3d.stroke();
+      ctx3d.beginPath(); ctx3d.moveTo(p1.px, p1.py); ctx3d.lineTo(p2.px, p2.py); ctx3d.stroke();
     }
 
-    // 2. CAIXA 3D DA GARAGEM (WIREFRAME)
-    ctx3d.strokeStyle = 'rgba(56, 189, 248, 0.45)';
+    // Caixa da garagem (aramado)
+    ctx3d.strokeStyle = 'rgba(56, 189, 248, 0.5)';
     ctx3d.lineWidth = 1.5;
-    const gPoints = [
+    const gP = [
       project(-gw/2, 0, -gl/2), project(gw/2, 0, -gl/2),
       project(gw/2, 0, gl/2), project(-gw/2, 0, gl/2),
       project(-gw/2, gh, -gl/2), project(gw/2, gh, -gl/2),
@@ -2854,34 +2685,25 @@
     ];
 
     ctx3d.beginPath();
-    ctx3d.moveTo(gPoints[0].px, gPoints[0].py);
-    ctx3d.lineTo(gPoints[1].px, gPoints[1].py);
-    ctx3d.lineTo(gPoints[2].px, gPoints[2].py);
-    ctx3d.lineTo(gPoints[3].px, gPoints[3].py);
-    ctx3d.closePath();
-    ctx3d.stroke();
+    ctx3d.moveTo(gP[0].px, gP[0].py); ctx3d.lineTo(gP[1].px, gP[1].py);
+    ctx3d.lineTo(gP[2].px, gP[2].py); ctx3d.lineTo(gP[3].px, gP[3].py);
+    ctx3d.closePath(); ctx3d.stroke();
 
     for (let i = 0; i < 4; i++) {
       ctx3d.beginPath();
-      ctx3d.moveTo(gPoints[i].px, gPoints[i].py);
-      ctx3d.lineTo(gPoints[i+4].px, gPoints[i+4].py);
-      ctx3d.stroke();
+      ctx3d.moveTo(gP[i].px, gP[i].py); ctx3d.lineTo(gP[i+4].px, gP[i+4].py); ctx3d.stroke();
     }
 
     ctx3d.setLineDash([4, 4]);
     ctx3d.strokeStyle = 'rgba(148, 163, 184, 0.35)';
     ctx3d.beginPath();
-    ctx3d.moveTo(gPoints[4].px, gPoints[4].py);
-    ctx3d.lineTo(gPoints[5].px, gPoints[5].py);
-    ctx3d.lineTo(gPoints[6].px, gPoints[6].py);
-    ctx3d.lineTo(gPoints[7].px, gPoints[7].py);
-    ctx3d.closePath();
-    ctx3d.stroke();
+    ctx3d.moveTo(gP[4].px, gP[4].py); ctx3d.lineTo(gP[5].px, gP[5].py);
+    ctx3d.lineTo(gP[6].px, gP[6].py); ctx3d.lineTo(gP[7].px, gP[7].py);
+    ctx3d.closePath(); ctx3d.stroke();
     ctx3d.setLineDash([]);
 
-    // 3. CARRO 3D
-    const carOffsetRight = Math.max(0, (gw - cw) * 0.15);
-    const carX = carOffsetRight;
+    // Bloco do Carro 3D
+    const carX = Math.max(0, (gw - cw) * 0.15);
     const carZ = 0;
 
     const cP = [
@@ -2893,42 +2715,27 @@
 
     let carColor = 'rgba(56, 189, 248, 0.45)';
     let carBorder = '#38bdf8';
-    if (selectedCar.cat === 'hybrid') {
-      carColor = 'rgba(34, 197, 94, 0.45)';
-      carBorder = '#22c55e';
-    } else if (selectedCar.cat === 'phev') {
-      carColor = 'rgba(168, 85, 247, 0.45)';
-      carBorder = '#a855f7';
-    }
+    if (selectedCar.cat === 'hybrid') { carColor = 'rgba(34, 197, 94, 0.45)'; carBorder = '#22c55e'; }
+    if (selectedCar.cat === 'phev') { carColor = 'rgba(168, 85, 247, 0.45)'; carBorder = '#a855f7'; }
 
     ctx3d.fillStyle = carColor;
     ctx3d.strokeStyle = carBorder;
     ctx3d.lineWidth = 2;
 
     ctx3d.beginPath();
-    ctx3d.moveTo(cP[4].px, cP[4].py);
-    ctx3d.lineTo(cP[5].px, cP[5].py);
-    ctx3d.lineTo(cP[6].px, cP[6].py);
-    ctx3d.lineTo(cP[7].px, cP[7].py);
-    ctx3d.closePath();
-    ctx3d.fill();
-    ctx3d.stroke();
+    ctx3d.moveTo(cP[4].px, cP[4].py); ctx3d.lineTo(cP[5].px, cP[5].py);
+    ctx3d.lineTo(cP[6].px, cP[6].py); ctx3d.lineTo(cP[7].px, cP[7].py);
+    ctx3d.closePath(); ctx3d.fill(); ctx3d.stroke();
 
-    const faces = [
-      [0, 1, 5, 4], [1, 2, 6, 5], [2, 3, 7, 6], [3, 0, 4, 7]
-    ];
+    const faces = [[0,1,5,4], [1,2,6,5], [2,3,7,6], [3,0,4,7]];
     faces.forEach(f => {
       ctx3d.beginPath();
-      ctx3d.moveTo(cP[f[0]].px, cP[f[0]].py);
-      ctx3d.lineTo(cP[f[1]].px, cP[f[1]].py);
-      ctx3d.lineTo(cP[f[2]].px, cP[f[2]].py);
-      ctx3d.lineTo(cP[f[3]].px, cP[f[3]].py);
-      ctx3d.closePath();
-      ctx3d.fill();
-      ctx3d.stroke();
+      ctx3d.moveTo(cP[f[0]].px, cP[f[0]].py); ctx3d.lineTo(cP[f[1]].px, cP[f[1]].py);
+      ctx3d.lineTo(cP[f[2]].px, cP[f[2]].py); ctx3d.lineTo(cP[f[3]].px, cP[f[3]].py);
+      ctx3d.closePath(); ctx3d.fill(); ctx3d.stroke();
     });
 
-    // 4. PORTA DO MOTORISTA SE ABRINDO EM ARCO
+    // Porta do motorista aberta
     const doorHingeX = carX - cw/2;
     const doorHingeZ = carZ - cl * 0.1;
     const doorLength = 0.82;
@@ -2936,10 +2743,10 @@
     const doorEndX = doorHingeX - Math.sin(doorAngle) * doorLength;
     const doorEndZ = doorHingeZ - Math.cos(doorAngle) * doorLength * 0.3;
 
-    const pDoor1 = project(doorHingeX, 0.25, doorHingeZ);
-    const pDoor2 = project(doorEndX, 0.25, doorEndZ);
-    const pDoor3 = project(doorEndX, ch * 0.7, doorEndZ);
-    const pDoor4 = project(doorHingeX, ch * 0.7, doorHingeZ);
+    const pD1 = project(doorHingeX, 0.25, doorHingeZ);
+    const pD2 = project(doorEndX, 0.25, doorEndZ);
+    const pD3 = project(doorEndX, ch * 0.7, doorEndZ);
+    const pD4 = project(doorHingeX, ch * 0.7, doorHingeZ);
 
     const leftMarginCm = Math.round((doorHingeX - (-gw/2)) * 100);
     let doorColor = '#22c55e';
@@ -2950,26 +2757,22 @@
     ctx3d.strokeStyle = doorColor;
     ctx3d.lineWidth = 2.5;
     ctx3d.beginPath();
-    ctx3d.moveTo(pDoor1.px, pDoor1.py);
-    ctx3d.lineTo(pDoor2.px, pDoor2.py);
-    ctx3d.lineTo(pDoor3.px, pDoor3.py);
-    ctx3d.lineTo(pDoor4.px, pDoor4.py);
-    ctx3d.closePath();
-    ctx3d.fill();
-    ctx3d.stroke();
+    ctx3d.moveTo(pD1.px, pD1.py); ctx3d.lineTo(pD2.px, pD2.py);
+    ctx3d.lineTo(pD3.px, pD3.py); ctx3d.lineTo(pD4.px, pD4.py);
+    ctx3d.closePath(); ctx3d.fill(); ctx3d.stroke();
 
     ctx3d.fillStyle = '#fff';
     ctx3d.font = 'bold 11px sans-serif';
-    ctx3d.fillText('Porta: ~' + leftMarginCm + ' cm', pDoor2.px - 35, pDoor2.py - 10);
+    ctx3d.fillText('Porta: ~' + leftMarginCm + ' cm', pD2.px - 35, pD2.py - 10);
   }
 
-  // ATUALIZAÇÃO DA SEÇÃO DE TECNOLOGIA E MIMOS
+  // ATUALIZAÇÃO DA SEÇÃO DE TECNOLOGIA
   function updateTechSection() {
     const nameEl = document.getElementById('tech-car-name');
     const container = document.getElementById('tech-details-container');
     if (!nameEl || !container) return;
 
-    nameEl.innerText = selectedCar.brand + ' ' + selectedCar.name;
+    nameEl.innerText = `${selectedCar.brand} ${selectedCar.name}`;
     const t = techDetailsData[selectedCar.id] || {
       painel: "Painel digital multifuncional com computador de bordo.",
       multimidia: "Central multimídia touchscreen com espelhamento Apple CarPlay e Android Auto.",
@@ -3007,22 +2810,100 @@
     `;
   }
 
-  // FILTRO POR FAIXA DE PREÇO (ORÇAMENTO ABERTO)
-  function updatePriceFilter(val) {
-    currentPriceFilter = parseFloat(val);
-    const lbl = document.getElementById('lbl-max-price');
-    if (currentPriceFilter >= 210000) {
-      lbl.innerText = "Orçamento Aberto (Todos)";
-    } else {
-      lbl.innerText = `Até R$ ${(currentPriceFilter/1000).toFixed(0)} mil`;
-    }
+  // COMPARADOR LADO A LADO
+  function populateComparatorSelects() {
+    const selA = document.getElementById('select-comp-a');
+    const selB = document.getElementById('select-comp-b');
+    selA.innerHTML = ''; selB.innerHTML = '';
 
-    const filtered = cars.filter(c => c.fipe <= currentPriceFilter);
-    renderShowroom(filtered);
-    renderTable(filtered);
+    cars.forEach(c => {
+      selA.add(new Option(`${c.brand} ${c.name} (R$ ${(c.fipe/1000).toFixed(0)}k)`, c.id));
+      selB.add(new Option(`${c.brand} ${c.name} (R$ ${(c.fipe/1000).toFixed(0)}k)`, c.id));
+    });
+
+    selA.value = 'corolla_20_flex';
+    selB.value = 'corolla_cross_hybrid';
+    renderComparator();
   }
 
-  // SLIDER DE HORAS UBER BLACK CASUAL
+  function renderComparator() {
+    const idA = document.getElementById('select-comp-a').value;
+    const idB = document.getElementById('select-comp-b').value;
+    const carA = cars.find(c => c.id === idA) || cars[0];
+    const carB = cars.find(c => c.id === idB) || cars[1];
+
+    const out = document.getElementById('comparator-output');
+    out.innerHTML = `
+      <div class="comp-side-box">
+        <img src="${carA.photo}" class="comp-img" alt="${carA.name}" onerror="this.src='https://images.unsplash.com/photo-1549399542-7e3f8b79c341?w=400'">
+        <h4 style="color:#fff; font-size:1.05rem;">${carA.brand} ${carA.name}</h4>
+        <div style="font-size:0.8rem; color:var(--text-muted); margin-bottom:8px;">${carA.type}</div>
+        <div style="font-size:0.82rem; line-height:1.65;">
+          <div>💰 <strong>Preço FIPE:</strong> R$ ${carA.fipe.toLocaleString('pt-BR')}</div>
+          <div>⚡ <strong>IPVA RJ (${carA.ipvaRate}%):</strong> R$ ${Math.round(carA.fipe * (carA.ipvaRate/100)).toLocaleString('pt-BR')}/ano</div>
+          <div>⛽ <strong>Consumo RJ:</strong> ${carA.kml.toFixed(1)} km/L</div>
+          <div>📐 <strong>Dimensões:</strong> ${carA.length.toFixed(2)} × ${carA.width.toFixed(2)} × ${carA.height.toFixed(2)} m</div>
+          <div>🔄 <strong>Giro:</strong> ${carA.turn.toFixed(1)} m | 🧳 <strong>Mala:</strong> ${carA.trunk} L</div>
+          <div>⏳ <strong>Longevidade Black:</strong> <span style="color:#86efac; font-weight:700;">${carA.uber}</span></div>
+        </div>
+      </div>
+
+      <div class="comp-side-box">
+        <img src="${carB.photo}" class="comp-img" alt="${carB.name}" onerror="this.src='https://images.unsplash.com/photo-1549399542-7e3f8b79c341?w=400'">
+        <h4 style="color:#fff; font-size:1.05rem;">${carB.brand} ${carB.name}</h4>
+        <div style="font-size:0.8rem; color:var(--text-muted); margin-bottom:8px;">${carB.type}</div>
+        <div style="font-size:0.82rem; line-height:1.65;">
+          <div>💰 <strong>Preço FIPE:</strong> R$ ${carB.fipe.toLocaleString('pt-BR')}</div>
+          <div>⚡ <strong>IPVA RJ (${carB.ipvaRate}%):</strong> R$ ${Math.round(carB.fipe * (carB.ipvaRate/100)).toLocaleString('pt-BR')}/ano</div>
+          <div>⛽ <strong>Consumo RJ:</strong> ${carB.kml.toFixed(1)} km/L</div>
+          <div>📐 <strong>Dimensões:</strong> ${carB.length.toFixed(2)} × ${carB.width.toFixed(2)} × ${carB.height.toFixed(2)} m</div>
+          <div>🔄 <strong>Giro:</strong> ${carB.turn.toFixed(1)} m | 🧳 <strong>Mala:</strong> ${carB.trunk} L</div>
+          <div>⏳ <strong>Longevidade Black:</strong> <span style="color:#86efac; font-weight:700;">${carB.uber}</span></div>
+        </div>
+      </div>
+    `;
+
+    const diffPrice = Math.abs(carA.fipe - carB.fipe);
+    const cdiMonthly = diffPrice * 0.008;
+    const ipvaDiffYear = Math.abs((carA.fipe * (carA.ipvaRate/100)) - (carB.fipe * (carB.ipvaRate/100)));
+    const fuelDiffYear = Math.abs(((12000 / carA.kml) * 5.99) - ((12000 / carB.kml) * 5.99));
+    const annualSavings = ipvaDiffYear + fuelDiffYear;
+
+    document.getElementById('cdi-verdict').innerHTML = `
+      💡 <strong>Análise de Custo de Oportunidade CDI (0,8% a.m. líquido):</strong><br>
+      A diferença de preço entre eles é de <strong>R$ ${diffPrice.toLocaleString('pt-BR')}</strong>.<br>
+      • Deixar essa diferença investida em CDI rende cerca de <strong>R$ ${Math.round(cdiMonthly).toLocaleString('pt-BR')}/mês</strong> livres de imposto.<br>
+      • A economia de IPVA e combustível do modelo mais eficiente é de aproximadamente <strong>R$ ${Math.round(annualSavings/12).toLocaleString('pt-BR')}/mês</strong>.<br>
+      ${(annualSavings/12) > cdiMonthly 
+        ? '👉 <strong>Veredito:</strong> O modelo mais caro (Híbrido) se paga no RJ, pois a economia tributária e de combustível supera o rendimento do CDI.' 
+        : '👉 <strong>Veredito:</strong> Se você roda menos de 1.200 km/mês, o modelo mais barato mantendo a diferença no CDI preserva mais caixa.'}
+    `;
+  }
+
+  // TABELA GERAL
+  function renderTable() {
+    const tbody = document.getElementById('table-body');
+    tbody.innerHTML = '';
+
+    cars.forEach(car => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td><strong>${car.brand} ${car.name}</strong></td>
+        <td><span class="card-tag ${car.cat === 'hybrid' ? 'tag-hybrid' : (car.cat === 'phev' ? 'tag-phev' : 'tag-flex')}">${car.cat.toUpperCase()}</span></td>
+        <td>R$ ${car.fipe.toLocaleString('pt-BR')}</td>
+        <td>${car.length.toFixed(2)} × ${car.width.toFixed(2)} × ${car.height.toFixed(2)} m</td>
+        <td>${car.turn.toFixed(1)} m</td>
+        <td>${car.trunk} L</td>
+        <td>${car.kml.toFixed(1)} km/L</td>
+        <td>${car.ipvaRate}% (R$ ${Math.round(car.fipe * (car.ipvaRate/100)).toLocaleString('pt-BR')})</td>
+        <td style="color:#86efac; font-weight:700;">${car.uber}</td>
+        <td>⭐ ${car.score}</td>
+        <td><button class="btn-action" style="padding:4px 8px; font-size:0.7rem;" onclick="selectCar('${car.id}'); scrollToSection('dashboard-section');">Simular</button></td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+
   function updateUberHours(hours) {
     currentUberHours = parseInt(hours);
     const lbl = document.getElementById('lbl-uber-hours');
@@ -3031,141 +2912,140 @@
     if (!lbl || !profitEl) return;
 
     if (currentUberHours === 0) {
-      lbl.innerText = "0 horas (Uso 100% Pessoal)";
+      lbl.innerText = "0 horas (Uso Pessoal)";
       profitEl.innerText = "R$ 0 / mês";
       impactEl.innerText = "Nenhuma renda extra simulada.";
       return;
     }
 
     lbl.innerText = `${currentUberHours} horas / mês`;
-
-    // Média de ganho líquido no Uber Black RJ: ~R$ 65/hora livre de combustível
     const netProfit = currentUberHours * 65;
     profitEl.innerText = `+ R$ ${Math.round(netProfit).toLocaleString('pt-BR')} / mês`;
 
     const totalCostStr = document.getElementById('res-monthly-total').innerText.replace(/[^0-9]/g, '');
-    const totalMonthlyCost = parseFloat(totalCostStr) || 1200;
+    const totalMonthlyCost = parseFloat(totalCostStr) || 1500;
     const pct = Math.min(100, Math.round((netProfit / totalMonthlyCost) * 100));
 
     impactEl.innerHTML = `💡 <strong>${currentUberHours}h</strong> no mês abatem <strong>${pct}%</strong> de todo o custo do carro!`;
   }
 
-  // PRESETS RÁPIDOS DE GARAGEM
-  function applyGaragePreset(w, l, h, btn) {
-    document.querySelectorAll('.preset-pill').forEach(b => b.classList.remove('active'));
-    if (btn) btn.classList.add('active');
-
-    document.getElementById('input-garage-w').value = w;
-    document.getElementById('input-garage-l').value = l;
-    document.getElementById('input-garage-h').value = h;
-
-    document.getElementById('lbl-garage-w').innerText = `${w.toFixed(2).replace('.', ',')} m`;
-    document.getElementById('lbl-garage-l').innerText = `${l.toFixed(2).replace('.', ',')} m`;
-    document.getElementById('lbl-garage-h').innerText = `${h.toFixed(2).replace('.', ',')} m`;
-
-    calcGarage();
-    draw3dGarage();
+  // CARRO CORINGA (localStorage)
+  function loadCustomCars() {
+    try {
+      const saved = localStorage.getItem('custom_cars_rj');
+      if (saved) {
+        const customList = JSON.parse(saved);
+        customList.forEach(c => {
+          if (!cars.some(existing => existing.id === c.id)) cars.unshift(c);
+        });
+      }
+    } catch (e) {}
   }
 
+  function openCoringaModal() { document.getElementById('modal-coringa').classList.add('active'); }
+  function closeCoringaModal() { document.getElementById('modal-coringa').classList.remove('active'); document.getElementById('form-coringa').reset(); }
+
+  function saveCoringaCar(e) {
+    e.preventDefault();
+    const brand = document.getElementById('coringa-brand').value.trim();
+    const name = document.getElementById('coringa-name').value.trim();
+    const cat = document.getElementById('coringa-cat').value;
+    const price = parseFloat(document.getElementById('coringa-price').value);
+    const length = parseFloat(document.getElementById('coringa-length').value);
+    const width = parseFloat(document.getElementById('coringa-width').value);
+    const height = parseFloat(document.getElementById('coringa-height').value) || 1.50;
+    const kml = parseFloat(document.getElementById('coringa-kml').value);
+    const turn = parseFloat(document.getElementById('coringa-turn').value) || 10.6;
+    const trunk = parseInt(document.getElementById('coringa-trunk').value) || 400;
+    let photo = document.getElementById('coringa-photo').value.trim() || 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?w=600';
+
+    const uniqueId = 'coringa_' + Date.now();
+    const newCar = {
+      id: uniqueId, isCustom: true, brand: brand, name: name, type: `${cat.toUpperCase()} / Personalizado`,
+      cat: cat, photo: photo, fipe: price, ipvaRate: (cat === 'hybrid' || cat === 'phev') ? 1.5 : 4.0,
+      kml: kml, length: length, width: width, mirrors: width + 0.22, height: height, turn: turn,
+      trunk: trunk, trunkH: height + 0.50, score: "Custom", uber: "Coringa", tags: ["coringa"],
+      desc: "Carro personalizado adicionado pelo usuário."
+    };
+
+    cars.unshift(newCar);
+    try {
+      const customCars = cars.filter(c => c.isCustom);
+      localStorage.setItem('custom_cars_rj', JSON.stringify(customCars));
+    } catch (err) {}
+
+    closeCoringaModal();
+    updateTotalCount();
+    renderShowroom();
+    populateComparatorSelects();
+    renderTable();
+    selectCar(uniqueId);
+    scrollToSection('dashboard-section');
+  }
+
+  function deleteCoringaCar(e, id) {
+    e.stopPropagation();
+    if (!confirm("Remover este carro coringa?")) return;
+    const idx = cars.findIndex(c => c.id === id);
+    if (idx !== -1) {
+      cars.splice(idx, 1);
+      try {
+        localStorage.setItem('custom_cars_rj', JSON.stringify(cars.filter(c => c.isCustom)));
+      } catch (err) {}
+      updateTotalCount();
+      renderShowroom();
+      populateComparatorSelects();
+      renderTable();
+      selectCar(cars[0].id);
+    }
+  }
+
+  function updateTotalCount() {
+    const el = document.getElementById('total-cars-count');
+    const elAll = document.getElementById('count-all');
+    if (el) el.innerText = cars.length;
+    if (elAll) elAll.innerText = cars.length;
+  }
+
+  function downloadCsv() {
+    let csv = "\uFEFF";
+    csv += "Marca;Modelo;Categoria;Tipo;Preço FIPE (R$);IPVA Alíquota;Consumo Cidade (km/L);Comprimento (m);Largura (m);Altura (m);Diâmetro Giro (m);Porta-Malas (L);Longevidade Uber Black;Nota Donos\n";
+    cars.forEach(c => {
+      csv += `"${c.brand}";"${c.name}";"${c.cat}";"${c.type}";"${c.fipe}";"${c.ipvaRate}%";"${c.kml.toFixed(1).replace('.', ',')}";"${c.length.toFixed(2).replace('.', ',')}";"${c.width.toFixed(2).replace('.', ',')}";"${c.height.toFixed(2).replace('.', ',')}";"${c.turn.toFixed(1).replace('.', ',')}";"${c.trunk}";"${c.uber}";"${c.score}"\n`;
+    });
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url; a.download = 'carros_rj_uber_black_2027.csv';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
+  }
+
+  function copyWhatsappSummary() {
+    const gw = document.getElementById('input-garage-w').value;
+    const gl = document.getElementById('input-garage-l').value;
+    const costTotal = document.getElementById('res-monthly-total').innerText;
+
+    const text = `🚗 *Análise de Carro no RJ (Uber Black 2027+)*\n\n` +
+      `*Modelo:* ${selectedCar.brand} ${selectedCar.name}\n` +
+      `*Preço FIPE:* R$ ${selectedCar.fipe.toLocaleString('pt-BR')}\n` +
+      `*Dimensões 3D:* ${selectedCar.length.toFixed(2)}m (C) × ${selectedCar.width.toFixed(2)}m (L) × ${selectedCar.height.toFixed(2)}m (A)\n` +
+      `*Giro:* ${selectedCar.turn.toFixed(1)}m | *Porta-Malas:* ${selectedCar.trunk} L\n` +
+      `*IPVA RJ:* ${selectedCar.ipvaRate}% (R$ ${Math.round(selectedCar.fipe * (selectedCar.ipvaRate/100)).toLocaleString('pt-BR')}/ano)\n` +
+      `*Consumo RJ:* ~${selectedCar.kml.toFixed(1)} km/L\n` +
+      `*Custo Mensal Estimado:* ${costTotal}/mês\n` +
+      `*Longevidade Black:* ${selectedCar.uber}\n\n` +
+      `📐 *Teste da Garagem (${gw}m × ${gl}m):*\n` +
+      `• Porta do motorista: ${document.getElementById('calc-door-space').innerText}\n` +
+      `• Folga no portão: ${document.getElementById('calc-len-space').innerText}\n` +
+      `• Avaliação dos Donos: ⭐ ${selectedCar.score}\n\n` +
+      `Acesse a ferramenta interativa completa: https://vpariz.github.io/carro/`;
+
+    navigator.clipboard.writeText(text).then(() => {
+      alert("✅ Resumo copiado para o WhatsApp!");
+    }).catch(() => {
+      prompt("Copie o texto para o WhatsApp:", text);
+    });
+  }
 </script>
-
-
-  <!-- MODAL PARA ADICIONAR CARRO CORINGA / PERSONALIZADO -->
-  <div class="modal-backdrop" id="modal-coringa">
-    <div class="modal-card">
-      <div class="modal-header">
-        <div class="modal-title">
-          🃏 Adicionar Carro Coringa para Comparar
-        </div>
-        <button class="btn-close-modal" onclick="closeCoringaModal()">&times;</button>
-      </div>
-
-      <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 14px;">
-        Viu algum carro interessante que não está na lista oficial? Preencha os dados abaixo. Ele será salvo no seu navegador (localStorage) e entrará na vitrine, no teste de garagem e no comparador!
-      </p>
-
-      <form id="form-coringa" onsubmit="saveCoringaCar(event)">
-        <div class="form-grid-2">
-          <div class="form-group">
-            <label>Marca:</label>
-            <input type="text" id="coringa-brand" placeholder="Ex: Toyota, VW, Honda..." required>
-          </div>
-          <div class="form-group">
-            <label>Modelo / Versão:</label>
-            <input type="text" id="coringa-name" placeholder="Ex: Yaris Sedã 1.5 CVT" required>
-          </div>
-        </div>
-
-        <div class="form-grid-2">
-          <div class="form-group">
-            <label>Categoria:</label>
-            <select id="coringa-cat" required>
-              <option value="flex">Flex Tradicional (IPVA RJ 4%)</option>
-              <option value="hybrid">Híbrido Pleno/Leve (IPVA RJ 1,5%)</option>
-              <option value="phev">Híbrido Plug-in (IPVA RJ 1,5%)</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Preço de Compra (R$):</label>
-            <input type="number" id="coringa-price" placeholder="Ex: 85000" step="1000" required>
-          </div>
-        </div>
-
-        <div class="form-grid-2">
-          <div class="form-group">
-            <label>Comprimento (m):</label>
-            <input type="number" id="coringa-length" placeholder="Ex: 4.42" step="0.01" required>
-          </div>
-          <div class="form-group">
-            <label>Largura (m):</label>
-            <input type="number" id="coringa-width" placeholder="Ex: 1.73" step="0.01" required>
-          </div>
-        </div>
-
-        <div class="form-grid-2">
-          <div class="form-group">
-            <label>Altura (m):</label>
-            <input type="number" id="coringa-height" placeholder="Ex: 1.49" step="0.01" value="1.50" required>
-          </div>
-          <div class="form-group">
-            <label>Consumo Cidade RJ (km/L):</label>
-            <input type="number" id="coringa-kml" placeholder="Ex: 12.2" step="0.1" required>
-          </div>
-        </div>
-
-        <div class="form-grid-2">
-          <div class="form-group">
-            <label>Diâmetro de Giro (m):</label>
-            <input type="number" id="coringa-turn" placeholder="Ex: 10.6" step="0.1" value="10.6">
-          </div>
-          <div class="form-group">
-            <label>Porta-Malas (Litros):</label>
-            <input type="number" id="coringa-trunk" placeholder="Ex: 473" value="400">
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label>URL de Foto na Web (Opcional):</label>
-          <input type="url" id="coringa-photo" placeholder="https://exemplo.com/foto-do-carro.jpg">
-          <small style="color: #64748b; font-size: 0.72rem;">Se deixar em branco, usaremos uma foto ilustrativa de alta qualidade.</small>
-        </div>
-
-        <div class="form-group">
-          <label>Observação / Ponto de Atenção:</label>
-          <input type="text" id="coringa-desc" placeholder="Ex: Carro que o meu tio recomendou para ver">
-        </div>
-
-        <div style="display: flex; gap: 10px; margin-top: 18px;">
-          <button type="submit" class="btn-action green" style="flex-grow: 1; justify-content: center; padding: 10px;">
-            💾 Salvar Carro Coringa
-          </button>
-          <button type="button" class="btn-action" onclick="closeCoringaModal()" style="padding: 10px;">
-            Cancelar
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
 
 </body>
 </html>

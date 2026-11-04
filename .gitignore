@@ -8,3 +8,4 @@ Desktop.ini
 __pycache__/
 *.py[cod]
 scratch/
+screenshot*.png
