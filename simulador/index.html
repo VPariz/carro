@@ -1258,12 +1258,29 @@
             <div class="range-wrap">
               <input type="range" id="input-uber-hours" min="0" max="30" step="2" value="6" oninput="updateUberHours(this.value)">
             </div>
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px; font-size: 0.78rem; padding-top: 6px; border-top: 1px solid rgba(255,255,255,0.08);">
-              <span>Lucro Líquido Estimado:</span>
-              <strong id="res-uber-profit" style="color: #4ade80; font-size: 0.95rem;">+ R$ 390 / mês</strong>
+
+            <!-- DETALHAMENTO EXPLICITO DA CONTA REAL -->
+            <div id="uber-math-box" style="background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 8px 10px; margin-top: 10px; font-size: 0.73rem; color: #cbd5e1; line-height: 1.6;">
+              <div style="display: flex; justify-content: space-between;">
+                <span>💰 Faturamento Bruto (~R$ 95/h • ~22 km/h):</span>
+                <span id="res-uber-gross" style="color: #fff; font-weight: 700;">R$ 570</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; color: #fca5a5;">
+                <span>⛽ (-) Gasolina Real (<span id="res-uber-kml-badge">11.6</span> km/L):</span>
+                <span id="res-uber-fuel" style="font-weight: 700;">- R$ 68</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; color: #fca5a5;">
+                <span>🔧 (-) Desgaste & Óleo (R$ 0,25/km):</span>
+                <span id="res-uber-wear" style="font-weight: 700;">- R$ 33</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; border-top: 1px solid rgba(255,255,255,0.12); margin-top: 5px; padding-top: 5px; font-weight: 800;">
+                <span style="color: #fff;">💵 (=) Lucro Líquido Real no Bolso:</span>
+                <strong id="res-uber-profit" style="color: #4ade80; font-size: 0.95rem;">+ R$ 469 / mês</strong>
+              </div>
             </div>
-            <div id="res-uber-impact" style="font-size: 0.72rem; color: #d8b4fe; margin-top: 4px;">
-              💡 6h pagam ~26% de todo o custo mensal do carro!
+
+            <div id="res-uber-impact" style="font-size: 0.72rem; color: #d8b4fe; margin-top: 6px;">
+              💡 6h no mês pagam ~31% de todo o custo do carro!
             </div>
           </div>
         </div>
@@ -2907,26 +2924,54 @@
   function updateUberHours(hours) {
     currentUberHours = parseInt(hours);
     const lbl = document.getElementById('lbl-uber-hours');
+    const mathBox = document.getElementById('uber-math-box');
+    const grossEl = document.getElementById('res-uber-gross');
+    const fuelEl = document.getElementById('res-uber-fuel');
+    const wearEl = document.getElementById('res-uber-wear');
+    const kmlBadge = document.getElementById('res-uber-kml-badge');
     const profitEl = document.getElementById('res-uber-profit');
     const impactEl = document.getElementById('res-uber-impact');
     if (!lbl || !profitEl) return;
 
     if (currentUberHours === 0) {
       lbl.innerText = "0 horas (Uso Pessoal)";
+      if (mathBox) mathBox.style.display = 'none';
       profitEl.innerText = "R$ 0 / mês";
-      impactEl.innerText = "Nenhuma renda extra simulada.";
+      impactEl.innerText = "Nenhuma hora de app simulada (apenas uso pessoal).";
       return;
     }
 
+    if (mathBox) mathBox.style.display = 'block';
     lbl.innerText = `${currentUberHours} horas / mês`;
-    const netProfit = currentUberHours * 65;
+
+    // Parâmetros econômicos do Uber Black / Comfort (Noites de Pico / Aeroportos)
+    const grossPerHour = 95.0; // Repasse bruto da plataforma por hora em alta demanda
+    const kmPerHour = 22.0;    // Velocidade média em percurso urbano (km rodados por hora)
+    const wearPerKm = 0.25;    // Desgaste de pneu, freio e troca proporcional de óleo sintético por km
+
+    const totalKm = currentUberHours * kmPerHour;
+    const grossTotal = currentUberHours * grossPerHour;
+
+    const carKml = parseFloat(document.getElementById('input-kml').value) || selectedCar.kml || 11.5;
+    const fuelPrice = parseFloat(document.getElementById('input-fuel-price').value) || 5.99;
+
+    const fuelLiters = totalKm / carKml;
+    const fuelTotal = fuelLiters * fuelPrice;
+    const wearTotal = totalKm * wearPerKm;
+
+    const netProfit = grossTotal - fuelTotal - wearTotal;
+
+    if (grossEl) grossEl.innerText = `R$ ${Math.round(grossTotal).toLocaleString('pt-BR')}`;
+    if (kmlBadge) kmlBadge.innerText = carKml.toFixed(1);
+    if (fuelEl) fuelEl.innerText = `- R$ ${Math.round(fuelTotal).toLocaleString('pt-BR')}`;
+    if (wearEl) wearEl.innerText = `- R$ ${Math.round(wearTotal).toLocaleString('pt-BR')}`;
     profitEl.innerText = `+ R$ ${Math.round(netProfit).toLocaleString('pt-BR')} / mês`;
 
     const totalCostStr = document.getElementById('res-monthly-total').innerText.replace(/[^0-9]/g, '');
     const totalMonthlyCost = parseFloat(totalCostStr) || 1500;
     const pct = Math.min(100, Math.round((netProfit / totalMonthlyCost) * 100));
 
-    impactEl.innerHTML = `💡 <strong>${currentUberHours}h</strong> no mês abatem <strong>${pct}%</strong> de todo o custo do carro!`;
+    impactEl.innerHTML = `💡 <strong>${currentUberHours}h</strong> (~${Math.round(totalKm)} km rodados) abatem <strong>${pct}%</strong> de todo o custo mensal do carro (R$ ${Math.round(totalMonthlyCost).toLocaleString('pt-BR')})!`;
   }
 
   // CARRO CORINGA (localStorage)
