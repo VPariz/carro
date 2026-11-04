@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Catálogo & Simulador Automotivo RJ 2027 | Garagem 3D, Híbridos & Uber Black</title>
+  <title>Catálogo & Simulador Automotivo 2027 | Garagem 3D, Híbridos & Uber Black</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220%22%3E<text y=%2226%22 font-size=%2224%22>🚗</text></svg>">
   <style>
     :root {
@@ -867,7 +867,7 @@
     .res-warn { background: rgba(245, 158, 11, 0.15); border: 1px solid #f59e0b; color: #fde68a; }
     .res-danger { background: rgba(239, 68, 68, 0.15); border: 1px solid #ef4444; color: #fca5a5; }
 
-    /* SEÇÃO DE TECNOLOGIA & MIMOS */
+    /* SEÇÃO DE EQUIPAMENTOS & CONFORTO */
     .tech-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
@@ -1067,15 +1067,15 @@
 <nav class="sticky-desktop-nav">
   <div class="nav-inner">
     <div class="nav-brand">
-      <span>🚗 CarHunter RJ</span>
-      <span class="badge-city">Uber Black 2027+</span>
+      <span>🚗 AutoHunter</span>
+      <span class="badge-city">Uber Black & Garagem 3D</span>
     </div>
 
     <div class="nav-links">
       <a href="#showroom-section" class="nav-tab-btn active">Vitrine (21)</a>
-      <a href="#dashboard-section" class="nav-tab-btn">Simulador RJ</a>
+      <a href="#dashboard-section" class="nav-tab-btn">Simulador de Custos</a>
       <a href="#dashboard-section" class="nav-tab-btn">Garagem 3D</a>
-      <a href="#tech-section" class="nav-tab-btn">Mimos & Tech</a>
+      <a href="#tech-section" class="nav-tab-btn">Equipamentos & Conforto</a>
       <a href="#comparator-section" class="nav-tab-btn">Comparador CDI</a>
       <a href="#table-section" class="nav-tab-btn">Planilha</a>
     </div>
@@ -1093,10 +1093,10 @@
   <!-- CABEÇALHO -->
   <header style="margin-bottom: 20px;">
     <h1 style="font-size: 1.6rem; font-weight: 800; color: #fff;">
-      Dossiê Automotivo Rio de Janeiro: Uso Pessoal & Uber Black 2027+
+      Dossiê Automotivo: Uso Pessoal & Uber Black 2027+
     </h1>
     <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 4px;">
-      21 Modelos Automáticos Analisados • Modelagem 3D para Garagem Apertada • IPVA SEFAZ-RJ (4% Flex vs 1,5% Híbrido) • Blindagem contra Gasolina E30/E35
+      21 Modelos Automáticos Analisados • Modelagem 3D para Garagem Apertada • IPVA (4% Flex vs 1,5% Híbrido) • Blindagem contra Gasolina E30/E35
     </p>
   </header>
 
@@ -1135,7 +1135,7 @@
             <option value="default">Ordenar: Recomendados</option>
             <option value="price-asc">Menor Preço ➔ Maior Preço</option>
             <option value="width-asc">Mais Estreito (Melhor Garagem)</option>
-            <option value="kml-desc">Mais Econômico no RJ</option>
+            <option value="kml-desc">Mais Econômico</option>
             <option value="score-desc">Maior Nota dos Donos</option>
           </select>
 
@@ -1151,12 +1151,12 @@
     <div class="showroom-grid" id="showroom-container"></div>
   </section>
 
-  <!-- SEÇÃO 2: DASHBOARD 2 COLUNAS (SIMULADOR DE CUSTOS RJ + GARAGEM 3D) -->
+  <!-- SEÇÃO 2: DASHBOARD 2 COLUNAS (SIMULADOR DE CUSTOS + GARAGEM 3D) -->
   <section id="dashboard-section">
     <div class="section-header">
       <div>
         <div class="section-title">
-          📊 2. Simulador de Custos Reais no RJ & Garagem 3D
+          📊 2. Simulador de Custos Reais & Garagem 3D
         </div>
         <div class="section-subtitle">
           Painel dinâmico atualizado em tempo real para o veículo selecionado:
@@ -1193,7 +1193,7 @@
               <input type="number" id="input-price" value="122000" step="1000" oninput="recalcAll()">
             </div>
             <div class="form-group">
-              <label>Consumo com Ar no RJ (km/L):</label>
+              <label>Consumo Urbano com Ar (km/L):</label>
               <input type="number" id="input-kml" value="11.6" step="0.1" oninput="recalcAll()">
             </div>
           </div>
@@ -1207,7 +1207,7 @@
               </div>
             </div>
             <div class="form-group">
-              <label>Gasolina RJ (R$/L):</label>
+              <label>Gasolina (R$/L):</label>
               <input type="number" id="input-fuel-price" value="5.99" step="0.05" oninput="recalcAll()">
             </div>
           </div>
@@ -1223,7 +1223,7 @@
           <!-- GRADE FINANCEIRA 2X2 -->
           <div class="cost-grid-2x2">
             <div class="cost-card-mini">
-              <div class="title">IPVA SEFAZ-RJ (Mês)</div>
+              <div class="title">IPVA Anual / Mês</div>
               <div class="value" id="res-val-ipva">R$ 407</div>
             </div>
             <div class="cost-card-mini">
@@ -1252,7 +1252,7 @@
           <!-- SLIDER EVENTUAL DE UBER BLACK -->
           <div style="background: rgba(168, 85, 247, 0.1); border: 1px solid rgba(168, 85, 247, 0.35); border-radius: 12px; padding: 12px; margin-top: 14px;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-              <span style="font-size: 0.82rem; font-weight: 700; color: #e9d5ff;">🚗 Renda Extra Opcional (Uber Black RJ)</span>
+              <span style="font-size: 0.82rem; font-weight: 700; color: #e9d5ff;">🚗 Renda Extra Opcional (Uber Black)</span>
               <span id="lbl-uber-hours" style="font-size: 0.85rem; font-weight: 800; color: #a855f7;">6 horas / mês</span>
             </div>
             <div class="range-wrap">
@@ -1279,9 +1279,9 @@
 
           <!-- PRESETS DE VAGA -->
           <div class="preset-pill-group">
-            <button class="preset-pill active" onclick="applyGaragePreset(2.35, 4.80, 2.20, this)">🏢 Padrão RJ (2,35 × 4,80m)</button>
-            <button class="preset-pill" onclick="applyGaragePreset(2.20, 4.50, 2.05, this)">⚠️ Muito Estreita (2,20 × 4,50m)</button>
-            <button class="preset-pill" onclick="applyGaragePreset(2.60, 5.20, 2.50, this)">🏰 Ampla / Casa (2,60 × 5,20m)</button>
+            <button class="preset-pill active" onclick="applyGaragePreset(2.35, 4.80, 2.20, this)">🏢 Vaga Padrão (2,35 × 4,80m)</button>
+            <button class="preset-pill" onclick="applyGaragePreset(2.20, 4.50, 2.05, this)">⚠️ Vaga Estreita (2,20 × 4,50m)</button>
+            <button class="preset-pill" onclick="applyGaragePreset(2.60, 5.20, 2.50, this)">🏰 Vaga Ampla (2,60 × 5,20m)</button>
           </div>
 
           <!-- SLIDERS DA GARAGEM -->
@@ -1337,12 +1337,12 @@
     </div>
   </section>
 
-  <!-- SEÇÃO 3: TECNOLOGIA & MIMOS -->
+  <!-- SEÇÃO 3: EQUIPAMENTOS & CONFORTO -->
   <section id="tech-section">
     <div class="section-header">
       <div>
         <div class="section-title">
-          ✨ 3. Tecnologia a Bordo, Câmeras & Mimos (<span id="tech-car-name">Toyota Corolla 2.0 Flex</span>)
+          ✨ 3. Equipamentos, Tecnologia & Conforto (<span id="tech-car-name">Toyota Corolla 2.0 Flex</span>)
         </div>
         <div class="section-subtitle">
           Recursos de conforto, painéis digitais, câmeras 360°, climatização (coolers) e auxílios de condução:
@@ -1408,8 +1408,8 @@
             <th>Dimensões (C × L × A)</th>
             <th>Giro</th>
             <th>Mala</th>
-            <th>Consumo RJ</th>
-            <th>IPVA RJ</th>
+            <th>Consumo Urbano</th>
+            <th>IPVA</th>
             <th>Longevidade Black</th>
             <th>Nota</th>
             <th>Ação</th>
@@ -1421,7 +1421,7 @@
   </section>
 
   <footer style="text-align: center; padding: 30px 0 10px; color: var(--text-dim); font-size: 0.78rem; border-top: 1px solid var(--border);">
-    <p>Projeto de Decisão Automotiva Rio de Janeiro • Dados baseados em FIPE, SEFAZ-RJ, PBEV INMETRO e Uber Black RJ Oficial.</p>
+    <p>Projeto de Decisão Automotiva • Parâmetros calibrados com FIPE, tabela de alíquotas (4% Flex / 1,5% Híbrido), PBEV INMETRO e Uber Black.</p>
   </footer>
 
 </div>
@@ -1432,12 +1432,12 @@
     <img id="dock-img" class="dock-thumb" src="fotos/corolla_20_flex.jpg" alt="Carro">
     <div class="dock-text">
       <span class="dock-title" id="dock-title">Toyota Corolla 2.0 Dynamic Force</span>
-      <span class="dock-sub" id="dock-sub">R$ 122.000 • Custo RJ: R$ 1.507/mês • 4,63 × 1,78m</span>
+      <span class="dock-sub" id="dock-sub">R$ 122.000 • Custo Mensal: R$ 1.507 • 4,63 × 1,78m</span>
     </div>
   </div>
   <div class="dock-actions">
     <button class="btn-action" style="padding: 4px 10px; font-size: 0.75rem;" onclick="scrollToSection('dashboard-section')">📐 Ver Garagem 3D</button>
-    <button class="btn-action" style="padding: 4px 10px; font-size: 0.75rem;" onclick="scrollToSection('tech-section')">✨ Ver Mimos</button>
+    <button class="btn-action" style="padding: 4px 10px; font-size: 0.75rem;" onclick="scrollToSection('tech-section')">✨ Equipamentos</button>
     <button class="btn-action green" style="padding: 4px 10px; font-size: 0.75rem;" onclick="copyWhatsappSummary()">📲 WhatsApp</button>
   </div>
 </div>
@@ -1458,9 +1458,9 @@
         <div class="form-group">
           <label>Categoria:</label>
           <select id="coringa-cat" required>
-            <option value="flex">Flex Tradicional (IPVA RJ 4%)</option>
-            <option value="hybrid">Híbrido Pleno (IPVA RJ 1,5%)</option>
-            <option value="phev">Híbrido Plug-in (IPVA RJ 1,5%)</option>
+            <option value="flex">Flex Tradicional (IPVA 4%)</option>
+            <option value="hybrid">Híbrido Pleno (IPVA 1,5%)</option>
+            <option value="phev">Híbrido Plug-in (IPVA 1,5%)</option>
           </select>
         </div>
         <div class="form-group"><label>Preço (R$):</label><input type="number" id="coringa-price" placeholder="Ex: 85000" step="1000" required></div>
@@ -1471,7 +1471,7 @@
       </div>
       <div class="form-grid-2">
         <div class="form-group"><label>Altura (m):</label><input type="number" id="coringa-height" placeholder="Ex: 1.49" step="0.01" value="1.50" required></div>
-        <div class="form-group"><label>Consumo RJ (km/L):</label><input type="number" id="coringa-kml" placeholder="Ex: 12.2" step="0.1" required></div>
+        <div class="form-group"><label>Consumo Urbano (km/L):</label><input type="number" id="coringa-kml" placeholder="Ex: 12.2" step="0.1" required></div>
       </div>
       <div class="form-grid-2">
         <div class="form-group"><label>Giro (m):</label><input type="number" id="coringa-turn" value="10.6" step="0.1"></div>
@@ -1517,7 +1517,7 @@
       "garagem",
       "tanque"
     ],
-    "desc": "Tanque de guerra mecânico: 177cv aspirado, 1ª marcha por engrenagem física, imune ao E30/E35 e liquidez recorde no RJ."
+    "desc": "Tanque de guerra mecânico: 177cv aspirado, 1ª marcha por engrenagem física, imune ao E30/E35 e liquidez recorde de revenda."
   },
   {
     "id": "taos",
@@ -1569,7 +1569,7 @@
     "tags": [
       "luxo"
     ],
-    "desc": "SUV Plug-in mais vendido do Brasil. Economia de IPVA 1,5% no RJ (economiza R$ 4.600/ano), porta-malas de 574L e bancos ventilados."
+    "desc": "SUV Plug-in mais vendido do Brasil. Economia de IPVA 1,5% (economiza R$ 4.600/ano), porta-malas de 574L e bancos ventilados."
   },
   {
     "id": "corolla_altis_hybrid",
@@ -1596,7 +1596,7 @@
       "garagem",
       "economico"
     ],
-    "desc": "17,9 km/L na cidade, IPVA 1,5% no RJ (economiza R$ 3.375/ano), compressor 100% elétrico e largura estreita de 1,78m."
+    "desc": "17,9 km/L na cidade, IPVA reduzido de 1,5% (economiza R$ 3.375/ano), compressor 100% elétrico e largura estreita de 1,78m."
   },
   {
     "id": "corolla_cross_hybrid",
@@ -1623,7 +1623,7 @@
       "suv",
       "economico"
     ],
-    "desc": "O SUV mais desejado no Uber Black RJ, IPVA 1,5%, ar-condicionado com compressor elétrico e valor de revenda imediato."
+    "desc": "O SUV mais desejado no Uber Black, IPVA 1,5%, ar-condicionado com compressor elétrico e valor de revenda imediato."
   },
   {
     "id": "city_sedan",
@@ -1702,7 +1702,7 @@
       "garagem",
       "barato"
     ],
-    "desc": "Manutenção barata, suspensão macia para asfalto do RJ, câmera 360°, porta-malas grande."
+    "desc": "Manutenção barata, suspensão macia para asfalto irregular, câmera 360°, porta-malas amplo."
   },
   {
     "id": "stonic",
@@ -1754,7 +1754,7 @@
     "tags": [
       "garagem"
     ],
-    "desc": "Extremamente estreito (1,74m) e modular com Magic Seat, ágil para o trânsito do RJ."
+    "desc": "Extremamente estreito (1,74m) e modular com Magic Seat, ágil no trânsito urbano."
   },
   {
     "id": "hrv_g1",
@@ -1781,7 +1781,7 @@
       "garagem",
       "barato"
     ],
-    "desc": "Liquidez máxima no RJ, robustez mecânica consagrada e ótimo porta-malas."
+    "desc": "Alta liquidez de mercado, robustez mecânica consagrada e ótimo porta-malas."
   },
   {
     "id": "hrv_g2",
@@ -1829,7 +1829,7 @@
     "uberStatus": "valid-med",
     "fuelImmunity": "immune",
     "tags": [],
-    "desc": "Motor forte de 185cv e suspensão independente nas 4 rodas para buracos do RJ."
+    "desc": "Motor forte de 185cv e suspensão independente nas 4 rodas para absorver valetas e desníveis."
   },
   {
     "id": "peugeot_2008",
@@ -1999,7 +1999,7 @@
     "uberStatus": "valid-long",
     "fuelImmunity": "hybrid",
     "tags": [],
-    "desc": "Quase 20 km/L na cidade do RJ, acabamento europeu, tela dupla integrada e IPVA 1,5%."
+    "desc": "Quase 20 km/L na cidade, acabamento europeu, tela dupla integrada e IPVA reduzido de 1,5%."
   },
   {
     "id": "haval_h6",
@@ -2097,7 +2097,7 @@
     "painel": "Cockpit digital colorido Supervision Cluster de 7\"",
     "multimidia": "Central multimídia widescreen de 10,25\" BlueNav com navegação GPS integrada",
     "cameras": "Smart Camera 360° com projeção de imagem do ponto cego diretamente no painel ao acionar a seta",
-    "mimos": "Bancos com ventilação/resfriamento no assento do motorista (mimo indispensável para os 40°C do verão carioca!); teto solar panorâmico elétrico de ponta a ponta; carregador por indução.",
+    "mimos": "Bancos com ventilação/resfriamento no assento do motorista (recurso essencial para o calor intenso do verão); teto solar panorâmico elétrico de ponta a ponta; carregador por indução.",
     "clima": "Ar-condicionado digital com saída traseira exclusiva.",
     "adas": "SmartSense com assistente de permanência e centralização em faixa, frenagem autônoma e farol alto adaptativo."
   },
@@ -2375,11 +2375,11 @@
               <span class="val">${car.length.toFixed(2)} × ${car.width.toFixed(2)}m</span>
             </div>
             <div class="metric-pill">
-              <span class="lbl">Consumo RJ</span>
+              <span class="lbl">Consumo Urbano</span>
               <span class="val">${car.kml.toFixed(1)} km/L</span>
             </div>
             <div class="metric-pill">
-              <span class="lbl">Black RJ</span>
+              <span class="lbl">Uber Black</span>
               <span class="val" style="color:${car.uber.includes('203') || car.uber.includes('ano') ? '#4ade80' : '#f59e0b'}; font-size:0.68rem;">${car.uber}</span>
             </div>
             <div class="metric-pill">
@@ -2486,7 +2486,7 @@
     document.getElementById('res-val-maint').innerText = `R$ ${Math.round(maintMonthly).toLocaleString('pt-BR')}`;
     document.getElementById('res-monthly-total').innerText = `R$ ${Math.round(totalMonthly).toLocaleString('pt-BR')}`;
 
-    document.getElementById('dock-sub').innerText = `R$ ${(price/1000).toFixed(0)}k • Custo RJ: R$ ${Math.round(totalMonthly).toLocaleString('pt-BR')}/mês • ${selectedCar.length.toFixed(2)} × ${selectedCar.width.toFixed(2)}m`;
+    document.getElementById('dock-sub').innerText = `R$ ${(price/1000).toFixed(0)}k • Custo Mensal: R$ ${Math.round(totalMonthly).toLocaleString('pt-BR')} • ${selectedCar.length.toFixed(2)} × ${selectedCar.width.toFixed(2)}m`;
 
     calcGarage();
     updateUberHours(currentUberHours);
@@ -2796,11 +2796,11 @@
         <span class="tech-item-desc">${t.cameras}</span>
       </div>
       <div class="tech-item">
-        <span class="tech-item-title">❄️ Mimos & Console Climatizado</span>
+        <span class="tech-item-title">❄️ Conforto de Bordo & Itens Especiais</span>
         <span class="tech-item-desc">${t.mimos}</span>
       </div>
       <div class="tech-item">
-        <span class="tech-item-title">🌡️ Ar-Condicionado p/ Calor do RJ</span>
+        <span class="tech-item-title">🌡️ Climatização & Eficiência Térmica</span>
         <span class="tech-item-desc">${t.clima}</span>
       </div>
       <div class="tech-item">
@@ -2840,8 +2840,8 @@
         <div style="font-size:0.8rem; color:var(--text-muted); margin-bottom:8px;">${carA.type}</div>
         <div style="font-size:0.82rem; line-height:1.65;">
           <div>💰 <strong>Preço FIPE:</strong> R$ ${carA.fipe.toLocaleString('pt-BR')}</div>
-          <div>⚡ <strong>IPVA RJ (${carA.ipvaRate}%):</strong> R$ ${Math.round(carA.fipe * (carA.ipvaRate/100)).toLocaleString('pt-BR')}/ano</div>
-          <div>⛽ <strong>Consumo RJ:</strong> ${carA.kml.toFixed(1)} km/L</div>
+          <div>⚡ <strong>IPVA (${carA.ipvaRate}%):</strong> R$ ${Math.round(carA.fipe * (carA.ipvaRate/100)).toLocaleString('pt-BR')}/ano</div>
+          <div>⛽ <strong>Consumo Urbano:</strong> ${carA.kml.toFixed(1)} km/L</div>
           <div>📐 <strong>Dimensões:</strong> ${carA.length.toFixed(2)} × ${carA.width.toFixed(2)} × ${carA.height.toFixed(2)} m</div>
           <div>🔄 <strong>Giro:</strong> ${carA.turn.toFixed(1)} m | 🧳 <strong>Mala:</strong> ${carA.trunk} L</div>
           <div>⏳ <strong>Longevidade Black:</strong> <span style="color:#86efac; font-weight:700;">${carA.uber}</span></div>
@@ -2854,8 +2854,8 @@
         <div style="font-size:0.8rem; color:var(--text-muted); margin-bottom:8px;">${carB.type}</div>
         <div style="font-size:0.82rem; line-height:1.65;">
           <div>💰 <strong>Preço FIPE:</strong> R$ ${carB.fipe.toLocaleString('pt-BR')}</div>
-          <div>⚡ <strong>IPVA RJ (${carB.ipvaRate}%):</strong> R$ ${Math.round(carB.fipe * (carB.ipvaRate/100)).toLocaleString('pt-BR')}/ano</div>
-          <div>⛽ <strong>Consumo RJ:</strong> ${carB.kml.toFixed(1)} km/L</div>
+          <div>⚡ <strong>IPVA (${carB.ipvaRate}%):</strong> R$ ${Math.round(carB.fipe * (carB.ipvaRate/100)).toLocaleString('pt-BR')}/ano</div>
+          <div>⛽ <strong>Consumo Urbano:</strong> ${carB.kml.toFixed(1)} km/L</div>
           <div>📐 <strong>Dimensões:</strong> ${carB.length.toFixed(2)} × ${carB.width.toFixed(2)} × ${carB.height.toFixed(2)} m</div>
           <div>🔄 <strong>Giro:</strong> ${carB.turn.toFixed(1)} m | 🧳 <strong>Mala:</strong> ${carB.trunk} L</div>
           <div>⏳ <strong>Longevidade Black:</strong> <span style="color:#86efac; font-weight:700;">${carB.uber}</span></div>
@@ -2875,7 +2875,7 @@
       • Deixar essa diferença investida em CDI rende cerca de <strong>R$ ${Math.round(cdiMonthly).toLocaleString('pt-BR')}/mês</strong> livres de imposto.<br>
       • A economia de IPVA e combustível do modelo mais eficiente é de aproximadamente <strong>R$ ${Math.round(annualSavings/12).toLocaleString('pt-BR')}/mês</strong>.<br>
       ${(annualSavings/12) > cdiMonthly 
-        ? '👉 <strong>Veredito:</strong> O modelo mais caro (Híbrido) se paga no RJ, pois a economia tributária e de combustível supera o rendimento do CDI.' 
+        ? '👉 <strong>Veredito:</strong> O modelo híbrido se paga ao longo do tempo, pois a economia tributária de IPVA (1,5%) e a redução de combustível superam o rendimento do CDI.' 
         : '👉 <strong>Veredito:</strong> Se você roda menos de 1.200 km/mês, o modelo mais barato mantendo a diferença no CDI preserva mais caixa.'}
     `;
   }
@@ -3015,7 +3015,7 @@
     });
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a'); a.href = url; a.download = 'carros_rj_uber_black_2027.csv';
+    const a = document.createElement('a'); a.href = url; a.download = 'carros_selecionados_2027.csv';
     document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
   }
 
@@ -3024,20 +3024,20 @@
     const gl = document.getElementById('input-garage-l').value;
     const costTotal = document.getElementById('res-monthly-total').innerText;
 
-    const text = `🚗 *Análise de Carro no RJ (Uber Black 2027+)*\n\n` +
+    const text = `🚗 *Análise de Compra de Veículo (Uber Black & Garagem 3D)*\n\n` +
       `*Modelo:* ${selectedCar.brand} ${selectedCar.name}\n` +
       `*Preço FIPE:* R$ ${selectedCar.fipe.toLocaleString('pt-BR')}\n` +
       `*Dimensões 3D:* ${selectedCar.length.toFixed(2)}m (C) × ${selectedCar.width.toFixed(2)}m (L) × ${selectedCar.height.toFixed(2)}m (A)\n` +
       `*Giro:* ${selectedCar.turn.toFixed(1)}m | *Porta-Malas:* ${selectedCar.trunk} L\n` +
-      `*IPVA RJ:* ${selectedCar.ipvaRate}% (R$ ${Math.round(selectedCar.fipe * (selectedCar.ipvaRate/100)).toLocaleString('pt-BR')}/ano)\n` +
-      `*Consumo RJ:* ~${selectedCar.kml.toFixed(1)} km/L\n` +
-      `*Custo Mensal Estimado:* ${costTotal}/mês\n` +
-      `*Longevidade Black:* ${selectedCar.uber}\n\n` +
-      `📐 *Teste da Garagem (${gw}m × ${gl}m):*\n` +
+      `*IPVA:* ${selectedCar.ipvaRate}% (R$ ${Math.round(selectedCar.fipe * (selectedCar.ipvaRate/100)).toLocaleString('pt-BR')}/ano)\n` +
+      `*Consumo Urbano:* ~${selectedCar.kml.toFixed(1)} km/L\n` +
+      `*Custo Mensal Estimado:* ${costTotal}\n` +
+      `*Longevidade Uber Black:* ${selectedCar.uber}\n\n` +
+      `📐 *Teste da Vaga (${gw}m × ${gl}m):*\n` +
       `• Porta do motorista: ${document.getElementById('calc-door-space').innerText}\n` +
       `• Folga no portão: ${document.getElementById('calc-len-space').innerText}\n` +
       `• Avaliação dos Donos: ⭐ ${selectedCar.score}\n\n` +
-      `Acesse a ferramenta interativa completa: https://vpariz.github.io/carro/`;
+      `🔗 Acesse a ferramenta interativa: https://vpariz.github.io/carro/`;
 
     navigator.clipboard.writeText(text).then(() => {
       alert("✅ Resumo copiado para o WhatsApp!");
